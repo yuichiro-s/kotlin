@@ -170,7 +170,7 @@ class DoubleColonExpressionResolver(
         }
     }
 
-    private fun resolveDoubleColonLHS(doubleColonExpression: KtDoubleColonExpression, c: ExpressionTypingContext): DoubleColonLHS? {
+    internal fun resolveDoubleColonLHS(doubleColonExpression: KtDoubleColonExpression, c: ExpressionTypingContext): DoubleColonLHS? {
         val resultForExpr = tryResolveLHS(doubleColonExpression, c, this::shouldTryResolveLHSAsExpression, this::resolveExpressionOnLHS)
         if (resultForExpr != null) {
             val lhs = resultForExpr.lhs as DoubleColonLHS.Expression?

@@ -57,6 +57,7 @@ import org.jetbrains.kotlin.psi.KtElement;
 import org.jetbrains.kotlin.psi.KtExpression;
 import org.jetbrains.kotlin.psi.KtFile;
 import org.jetbrains.kotlin.resolve.*;
+import org.jetbrains.kotlin.resolve.calls.CallContextKt;
 import org.jetbrains.kotlin.resolve.calls.model.MutableResolvedCall;
 import org.jetbrains.kotlin.resolve.calls.model.ResolvedCall;
 import org.jetbrains.kotlin.resolve.calls.smartcasts.DataFlowInfo;
@@ -492,8 +493,10 @@ public abstract class AbstractDiagnosticsTest extends BaseDiagnosticsTest {
             DiagnosticUtils.LineAndColumn lineAndColumn =
                     DiagnosticUtils.getLineAndColumnInPsiFile(element.getContainingFile(), element.getTextRange());
 
-            assertTrue("Resolved call for '" + element.getText() + "'" + lineAndColumn + " is not completed",
-                       ((MutableResolvedCall<?>) resolvedCall).isCompleted());
+            if (!CallContextKt.getUSE_NEW_INFERENCE()) {
+                assertTrue("Resolved call for '" + element.getText() + "'" + lineAndColumn + " is not completed",
+                           ((MutableResolvedCall<?>) resolvedCall).isCompleted());
+            }
         }
 
         checkResolvedCallsInDiagnostics(bindingContext);
@@ -528,9 +531,11 @@ public abstract class AbstractDiagnosticsTest extends BaseDiagnosticsTest {
             @NotNull Diagnostic diagnostic, @NotNull Collection<? extends ResolvedCall<?>> resolvedCalls
     ) {
         boolean allCallsAreCompleted = true;
-        for (ResolvedCall<?> resolvedCall : resolvedCalls) {
-            if (!((MutableResolvedCall<?>) resolvedCall).isCompleted()) {
-                allCallsAreCompleted = false;
+        if (!CallContextKt.getUSE_NEW_INFERENCE()) {
+            for (ResolvedCall<?> resolvedCall : resolvedCalls) {
+                if (!((MutableResolvedCall<?>) resolvedCall).isCompleted()) {
+                    allCallsAreCompleted = false;
+                }
             }
         }
 
