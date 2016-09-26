@@ -610,7 +610,7 @@ internal class TemporaryVariableElimination(private val function: JsFunction) {
         }
         is JsLiteral.JsValueLiteral -> expr.toString().length < 10
         is JsInvocation -> expr.sideEffects == SideEffectKind.PURE && isTrivial(expr.qualifier) && expr.arguments.all { isTrivial(it) }
-        is JsArrayAccess -> isTrivial(expr.arrayExpression) && isTrivial(expr.indexExpression)
+        is JsArrayAccess -> expr.sideEffects == SideEffectKind.PURE && isTrivial (expr.arrayExpression) && isTrivial(expr.indexExpression)
         else -> false
     }
 }
