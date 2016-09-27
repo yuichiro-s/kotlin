@@ -18,7 +18,6 @@ package org.jetbrains.kotlin.resolve.calls.tower
 
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.descriptors.CallableDescriptor
-import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.descriptors.ReceiverParameterDescriptor
 import org.jetbrains.kotlin.diagnostics.Errors
 import org.jetbrains.kotlin.incremental.components.LookupLocation
@@ -29,6 +28,7 @@ import org.jetbrains.kotlin.resolve.ModifierCheckerCore
 import org.jetbrains.kotlin.resolve.TemporaryBindingTrace
 import org.jetbrains.kotlin.resolve.TypeResolver
 import org.jetbrains.kotlin.resolve.calls.*
+import org.jetbrains.kotlin.resolve.calls.BaseResolvedCall.OnlyResolvedCall
 import org.jetbrains.kotlin.resolve.calls.callResolverUtil.ResolveArgumentsMode
 import org.jetbrains.kotlin.resolve.calls.callUtil.createLookupLocation
 import org.jetbrains.kotlin.resolve.calls.callUtil.isSafeCall
@@ -57,6 +57,7 @@ import org.jetbrains.kotlin.types.expressions.DoubleColonExpressionResolver
 import org.jetbrains.kotlin.types.expressions.DoubleColonLHS
 import org.jetbrains.kotlin.types.expressions.ExpressionTypingContext
 import org.jetbrains.kotlin.types.expressions.ExpressionTypingServices
+import org.jetbrains.kotlin.util.slicedMap.WritableSlice
 import java.util.*
 
 class PSICallResolver(
@@ -458,5 +459,5 @@ class PSICallResolver(
         }
     }
 
-
+    fun stub_function_workaround_for_kt14058(): WritableSlice<Call, OnlyResolvedCall>? = null
 }
