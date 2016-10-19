@@ -74,7 +74,7 @@ internal object CheckArguments : ResolutionPart {
         argument.parametersTypes?.map { it ?: createFreshType() } ?.let { return it }
 
         if (expectedType.isFunctionType) {
-            return getValueParameterTypesFromFunctionType(expectedType).map { createFreshType() }
+            return expectedType.getValueParameterTypesFromFunctionType().map { createFreshType() }
         }
 
         // if expected type is non-functional type and there is no declared parameters
@@ -110,7 +110,7 @@ internal object CheckArguments : ResolutionPart {
     ): CallDiagnostic? {
         // initial checks
         if (expectedType.isFunctionType) {
-            val expectedParameterCount = getValueParameterTypesFromFunctionType(expectedType).size
+            val expectedParameterCount = expectedType.getValueParameterTypesFromFunctionType().size
 
             argument.parametersTypes?.size?.let {
                 if (expectedParameterCount != it) return ExpectedLambdaParametersCountMismatch(argument, expectedParameterCount, it)

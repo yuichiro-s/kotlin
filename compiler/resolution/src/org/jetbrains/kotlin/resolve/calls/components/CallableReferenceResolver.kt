@@ -25,7 +25,9 @@ import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.descriptors.annotations.Annotations
 import org.jetbrains.kotlin.resolve.calls.model.*
 import org.jetbrains.kotlin.types.ErrorUtils
+import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.UnwrappedType
+import org.jetbrains.kotlin.types.typeUtil.builtIns
 import org.jetbrains.kotlin.types.typeUtil.immediateSupertypes
 import org.jetbrains.kotlin.types.typeUtil.isUnit
 import org.jetbrains.kotlin.types.upperIfFlexible
@@ -104,12 +106,12 @@ class CallableReferenceResolver(
         val (parameters, mapping) = createFakeArgumentsAndMapArguments(functionReference, argumentCount)
         parameterTypes.addAll(parameters)
 
-        val unitExpectedType = functionType?.let(::getReturnTypeFromFunctionType)?.check { it.upperIfFlexible().isUnit() }
+        val unitExpectedType = functionType?.let(KotlinType::getReturnTypeFromFunctionType)?.check { it.upperIfFlexible().isUnit() }
         // coercion to unit
         val returnType = unitExpectedType ?: functionReference.candidate.descriptor.returnType
                          ?: ErrorUtils.createErrorType("Error return type")
 
-        val kFunctionType = reflectionTypes.getKFunctionType(Annotations.EMPTY, null, parameterTypes, returnType)
+        val kFunctionType = reflectionTypes.getKFunctionType(Annotations.EMPTY, null, parameterTypes, null, returnType, expectedType.builtIns)
 
         return ResolvedFunctionReference(outerCall, functionReference, kFunctionType, mapping)
     }

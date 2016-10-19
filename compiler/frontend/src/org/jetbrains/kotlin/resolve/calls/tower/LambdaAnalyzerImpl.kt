@@ -56,7 +56,7 @@ class LambdaAnalyzerImpl(
 
         val builtIns = outerCallContext.scope.ownerDescriptor.builtIns
         val expectedType = createFunctionType(builtIns, Annotations.EMPTY, receiverType, parameters,
-                           expectedReturnType ?: TypeUtils.NO_EXPECTED_TYPE)
+                           null, expectedReturnType ?: TypeUtils.NO_EXPECTED_TYPE)
 
         val actualContext = outerCallContext.replaceBindingTrace(trace).
                 replaceContextDependency(ContextDependency.DEPENDENT).replaceExpectedType(expectedType)
@@ -64,7 +64,7 @@ class LambdaAnalyzerImpl(
 
         val functionTypeInfo = expressionTypingServices.getTypeInfo(expression, actualContext)
         val lastExpressionType = functionTypeInfo.type?.let {
-            if (it.isFunctionType) getReturnTypeFromFunctionType(it) else it
+            if (it.isFunctionType) it.getReturnTypeFromFunctionType() else it
         }
         val lastExpressionTypeInfo = KotlinTypeInfo(lastExpressionType, functionTypeInfo.dataFlowInfo)
 

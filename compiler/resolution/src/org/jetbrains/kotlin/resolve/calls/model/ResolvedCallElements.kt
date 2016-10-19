@@ -47,7 +47,7 @@ class ResolvedLambdaArgument(
         val parameters: List<UnwrappedType>,
         val returnType: UnwrappedType
 ) : ArgumentWithPostponeResolution() {
-    val type: SimpleType = createFunctionType(returnType.builtIns, Annotations.EMPTY, receiver, parameters, returnType) // todo support annotations
+    val type: SimpleType = createFunctionType(returnType.builtIns, Annotations.EMPTY, receiver, parameters, null, returnType) // todo support annotations
 
     override val inputType: Collection<UnwrappedType> get() = receiver?.let { parameters + it } ?: parameters
     override val outputType: UnwrappedType get() = returnType
