@@ -95,7 +95,7 @@ class NewConstraintSystemImpl(val callComponents: CallContextComponents):
         storage.lambdaArguments.add(resolvedLambdaArgument)
     }
 
-    override fun addIfIsCompatibleSubtypeConstraint(lowerType: UnwrappedType, upperType: UnwrappedType, position: ConstraintPosition): Boolean {
+    override fun addSubtypeConstraintIfCompatible(lowerType: UnwrappedType, upperType: UnwrappedType, position: ConstraintPosition): Boolean {
         checkState(State.BUILDING, State.COMPLETION)
 
         if (hasContradiction) return false

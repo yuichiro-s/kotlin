@@ -62,10 +62,12 @@ class ASTCallResolver(
             expectedType: UnwrappedType?,
             candidates: Collection<NewResolutionCandidate>
     ): Collection<BaseResolvedCall> {
-        val maximallySpecificCandidates = overloadingConflictResolver.chooseMaximallySpecificCandidates(candidates,
-                                                                                                        CheckArgumentTypesMode.CHECK_VALUE_ARGUMENTS,
-                                                                                                        discriminateGenerics = true, // todo
-                                                                                                        isDebuggerContext = callContext.scopeTower.isDebuggerContext)
+        val maximallySpecificCandidates = overloadingConflictResolver.chooseMaximallySpecificCandidates(
+                candidates,
+                CheckArgumentTypesMode.CHECK_VALUE_ARGUMENTS,
+                discriminateGenerics = true, // todo
+                isDebuggerContext = callContext.scopeTower.isDebuggerContext)
+
         val singleResult = maximallySpecificCandidates.singleOrNull()?.let {
             astCallCompleter.completeCallIfNecessary(it, expectedType, callContext.lambdaAnalyzer)
         }

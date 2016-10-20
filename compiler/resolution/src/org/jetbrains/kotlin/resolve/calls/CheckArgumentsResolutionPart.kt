@@ -202,7 +202,7 @@ internal fun checkExpressionArgument(
             unstableType: UnwrappedType?, expectedType: UnwrappedType, position: ArgumentConstraintPosition
     ): CallDiagnostic? {
         if (unstableType != null) {
-            if (csBuilder.addIfIsCompatibleSubtypeConstraint(unstableType, expectedType, position)) {
+            if (csBuilder.addSubtypeConstraintIfCompatible(unstableType, expectedType, position)) {
                 return UnstableSmartCast(expressionArgument, unstableType)
             }
         }
@@ -213,22 +213,22 @@ internal fun checkExpressionArgument(
     val expectedNullableType = expectedType.makeNullableAsSpecified(true)
     val position = ArgumentConstraintPosition(expressionArgument)
     if (expressionArgument.isSafeCall) {
-        if (!csBuilder.addIfIsCompatibleSubtypeConstraint(expressionArgument.type, expectedNullableType, position)) {
+        if (!csBuilder.addSubtypeConstraintIfCompatible(expressionArgument.type, expectedNullableType, position)) {
             return unstableSmartCastOrSubtypeError(expressionArgument.unstableType, expectedNullableType, position)?.let { return it }
         }
         return null
     }
 
-    if (!csBuilder.addIfIsCompatibleSubtypeConstraint(expressionArgument.type, expectedType, position)) {
+    if (!csBuilder.addSubtypeConstraintIfCompatible(expressionArgument.type, expectedType, position)) {
         if (!isReceiver) {
             return unstableSmartCastOrSubtypeError(expressionArgument.unstableType, expectedType, position)?.let { return it }
         }
 
         val unstableType = expressionArgument.unstableType
-        if (unstableType != null && csBuilder.addIfIsCompatibleSubtypeConstraint(unstableType, expectedType, position)) {
+        if (unstableType != null && csBuilder.addSubtypeConstraintIfCompatible(unstableType, expectedType, position)) {
             return UnstableSmartCast(expressionArgument, unstableType)
         }
-        else if (csBuilder.addIfIsCompatibleSubtypeConstraint(expressionArgument.type, expectedNullableType, position)) {
+        else if (csBuilder.addSubtypeConstraintIfCompatible(expressionArgument.type, expectedNullableType, position)) {
             return UnsafeCallError(expressionArgument)
         }
         else {
@@ -257,8 +257,8 @@ internal fun checkSubCallArgument(
         return null
     }
 
-    if (isReceiver && !csBuilder.addIfIsCompatibleSubtypeConstraint(resolvedCall.currentReturnType, expectedType, position) &&
-        csBuilder.addIfIsCompatibleSubtypeConstraint(resolvedCall.currentReturnType, expectedNullableType, position)
+    if (isReceiver && !csBuilder.addSubtypeConstraintIfCompatible(resolvedCall.currentReturnType, expectedType, position) &&
+        csBuilder.addSubtypeConstraintIfCompatible(resolvedCall.currentReturnType, expectedNullableType, position)
     ) {
         return UnsafeCallError(subCallArgument)
     }

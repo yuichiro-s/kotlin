@@ -35,7 +35,7 @@ interface ConstraintSystemBuilder {
     fun addInnerCall(innerCall: BaseResolvedCall.OnlyResolvedCall)
     fun addLambdaArgument(resolvedLambdaArgument: ResolvedLambdaArgument)
 
-    fun addIfIsCompatibleSubtypeConstraint(lowerType: UnwrappedType, upperType: UnwrappedType, position: ConstraintPosition): Boolean
+    fun addSubtypeConstraintIfCompatible(lowerType: UnwrappedType, upperType: UnwrappedType, position: ConstraintPosition): Boolean
 
     fun isProperType(type: UnwrappedType): Boolean
 
