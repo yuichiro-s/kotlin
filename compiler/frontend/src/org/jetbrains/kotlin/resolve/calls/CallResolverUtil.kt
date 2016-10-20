@@ -23,7 +23,6 @@ import org.jetbrains.kotlin.builtins.getReceiverTypeFromFunctionType
 import org.jetbrains.kotlin.builtins.isExtensionFunctionType
 import org.jetbrains.kotlin.coroutines.getExpectedTypeForCoroutineControllerHandleResult
 import org.jetbrains.kotlin.descriptors.*
-import org.jetbrains.kotlin.descriptors.impl.TypeAliasConstructorDescriptor
 import org.jetbrains.kotlin.descriptors.impl.TypeAliasConstructorDescriptorImpl
 import org.jetbrains.kotlin.incremental.KotlinLookupLocation
 import org.jetbrains.kotlin.psi.*
@@ -141,6 +140,9 @@ fun isInfixCall(call: Call): Boolean {
     val binaryExpression = operationRefExpression.parent as? KtBinaryExpression ?: return false
     return binaryExpression.operationReference === operationRefExpression && operationRefExpression.operationSignTokenType == null
 }
+
+fun isSupertypeConstructorCall(call: Call): Boolean =
+        call.calleeExpression is KtConstructorCalleeExpression
 
 fun isInvokeCallOnVariable(call: Call): Boolean {
     if (call.callType !== Call.CallType.INVOKE) return false
