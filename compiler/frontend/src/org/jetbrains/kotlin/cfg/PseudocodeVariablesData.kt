@@ -25,6 +25,8 @@ import org.jetbrains.kotlin.cfg.pseudocode.instructions.special.VariableDeclarat
 import org.jetbrains.kotlin.cfg.pseudocodeTraverser.Edges
 import org.jetbrains.kotlin.cfg.pseudocodeTraverser.TraversalOrder
 import org.jetbrains.kotlin.descriptors.VariableDescriptor
+import org.jetbrains.kotlin.psi.KtFunction
+import org.jetbrains.kotlin.psi.KtFunctionLiteral
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.BindingContextUtils.variableDescriptorForDeclaration
@@ -108,39 +110,52 @@ class PseudocodeVariablesData(val pseudocode: Pseudocode, private val bindingCon
                 val exitInstructionData = enterInstructionData.copy()
                 for ((key, value) in enterInstructionData) {
                     if (!value.definitelyInitialized()) {
-                        exitInstructionData.put(key, VariableControlFlowState.createInitializedExhaustively(value.isDeclared))
+                        exitInstructionData[key] = VariableControlFlowState.createInitializedExhaustively(value.isDeclared)
                     }
                 }
                 return exitInstructionData
             }
         }
+        var resultInstructionData = enterInstructionData
+        val owner = instruction.owner
+        if (owner.parent != null && owner.enterInstruction === instruction) {
+            val exitInstructionData = enterInstructionData.copy()
+            for ((key, value) in enterInstructionData) {
+                if (!value.mayBeInitialized()) {
+                    resultInstructionData = exitInstructionData
+                    exitInstructionData[key] = VariableControlFlowState.create(InitState.UNKNOWN, value.isDeclared)
+                }
+            }
+        }
         if (instruction !is WriteValueInstruction && instruction !is VariableDeclarationInstruction) {
-            return enterInstructionData
+            return resultInstructionData
+        }
+        if (resultInstructionData === enterInstructionData) {
+            resultInstructionData = enterInstructionData.copy()
         }
         val variable = PseudocodeUtil.extractVariableDescriptorIfAny(instruction, bindingContext) ?: return enterInstructionData
-        val exitInstructionData = enterInstructionData.copy()
         if (instruction is WriteValueInstruction) {
             // if writing to already initialized object
             if (!PseudocodeUtil.isThisOrNoDispatchReceiver(instruction, bindingContext)) {
                 return enterInstructionData
             }
 
-            val enterInitState = enterInstructionData[variable]
+            val enterInitState = resultInstructionData[variable]
             val initializationAtThisElement = VariableControlFlowState.create(instruction.element is KtProperty, enterInitState)
-            exitInstructionData.put(variable, initializationAtThisElement)
+            resultInstructionData[variable] = initializationAtThisElement
         }
         else {
-            // instruction instanceof VariableDeclarationInstruction
+            // instruction is VariableDeclarationInstruction
             var enterInitState: VariableControlFlowState? = enterInstructionData[variable]
             if (enterInitState == null) {
                 enterInitState = getDefaultValueForInitializers(variable, instruction, blockScopeVariableInfo)
             }
             if (!enterInitState.mayBeInitialized() || !enterInitState.isDeclared) {
                 val variableDeclarationInfo = VariableControlFlowState.create(enterInitState.initState, isDeclared = true)
-                exitInstructionData.put(variable, variableDeclarationInfo)
+                resultInstructionData[variable] = variableDeclarationInfo
             }
         }
-        return exitInstructionData
+        return resultInstructionData
     }
 
     // variable use
@@ -199,7 +214,8 @@ class PseudocodeVariablesData(val pseudocode: Pseudocode, private val bindingCon
             val declaredOutsideThisDeclaration =
                     declaredIn == null //declared outside this pseudocode
                     || declaredIn.blockScopeForContainingDeclaration != instruction.blockScope.blockScopeForContainingDeclaration
-            return VariableControlFlowState.create(isInitialized = declaredOutsideThisDeclaration)
+            return VariableControlFlowState.create(
+                    if (declaredOutsideThisDeclaration) InitState.UNKNOWN else InitState.NOT_INITIALIZED, isDeclared = false)
         }
 
         private fun mergeIncomingEdgesDataForInitializers(

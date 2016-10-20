@@ -94,6 +94,12 @@ public class DataFlowTestGenerated extends AbstractDataFlowTest {
             KotlinTestUtils.assertAllTestsPresentByMetadata(this.getClass(), new File("compiler/testData/cfg-variables/bugs"), Pattern.compile("^(.+)\\.kt$"), true);
         }
 
+        @TestMetadata("assignmentInLocalObjectInConstructor.kt")
+        public void testAssignmentInLocalObjectInConstructor() throws Exception {
+            String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/cfg-variables/bugs/assignmentInLocalObjectInConstructor.kt");
+            doTest(fileName);
+        }
+
         @TestMetadata("doWhileNotDefined.kt")
         public void testDoWhileNotDefined() throws Exception {
             String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/cfg-variables/bugs/doWhileNotDefined.kt");
