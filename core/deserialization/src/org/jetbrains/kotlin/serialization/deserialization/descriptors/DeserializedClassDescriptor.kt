@@ -279,6 +279,8 @@ class DeserializedClassDescriptor(
     private inner class EnumEntryClassDescriptors {
         private val enumEntryProtos = classProto.enumEntryList.associateBy { c.nameResolver.getName(it.name) }
 
+        private val enumMemberNames = c.storageManager.createLazyValue { computeEnumMemberNames() }
+
         private val enumEntryByName = c.storageManager.createMemoizedFunctionWithNullableValues<Name, ClassDescriptor> {
             name ->
 
@@ -292,8 +294,6 @@ class DeserializedClassDescriptor(
                 )
             }
         }
-
-        private val enumMemberNames = c.storageManager.createLazyValue { computeEnumMemberNames() }
 
         fun findEnumEntry(name: Name): ClassDescriptor? = enumEntryByName(name)
 
