@@ -1,5 +1,5 @@
 // TODO: muted automatically, investigate should it be ran for JS or not
-// IGNORE_BACKEND: JS
+// IGNORE_BACKEND_WITHOUT_CHECK: JS
 
 // WITH_RUNTIME
 // This is a big, ugly, semi-auto generated test.
