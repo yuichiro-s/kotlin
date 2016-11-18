@@ -172,7 +172,7 @@ private fun JsFunction.markInlineArguments(descriptor: CallableDescriptor) {
     val paramsJs = parameters
     val inlineFuns = IdentitySet<JsName>()
     val inlineExtensionFuns = IdentitySet<JsName>()
-    val offset = (if (descriptor.isExtension) 1 else 0) + (if (descriptor.typeParameters.any { it.isReified }) 2 else 0)
+    val offset = (if (descriptor.isExtension) 1 else 0) + (descriptor.typeParameters.count { it.isReified } * 2)
 
     for ((i, param) in params.withIndex()) {
         if (!CallExpressionTranslator.shouldBeInlined(descriptor)) continue
