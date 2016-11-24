@@ -20,7 +20,26 @@ import org.jetbrains.kotlin.descriptors.SupertypeLoopChecker
 import org.jetbrains.kotlin.storage.StorageManager
 
 abstract class AbstractTypeConstructor(storageManager: StorageManager) : TypeConstructor {
-    override fun getSupertypes() = supertypes().supertypesWithoutCycles
+    override fun getSupertypes(): List<KotlinType> {
+        val superTypesWithoutCycles = supertypes().supertypesWithoutCycles
+        var errorMessage = ""
+        superTypesWithoutCycles
+                .filter { it.isError }
+                .forEach {
+                    errorMessage += """Type constructor ($this) has error super type.
+Declaration descriptor: $declarationDescriptor
+This super type: $it
+Super types without cycles: ${superTypesWithoutCycles.joinToString(",")}
+
+"""
+                }
+
+        if (errorMessage.isNotBlank()) {
+            throw IllegalStateException(errorMessage)
+        }
+
+        return superTypesWithoutCycles
+    }
 
     // In current version diagnostic about loops in supertypes is reported on each vertex (supertype reference) that lies on the cycle.
     // To achieve that we store both versions of supertypes --- before and after loops disconnection.
