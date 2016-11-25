@@ -220,7 +220,7 @@ private fun getInlineArgumentsCallsIfAny(sourcePosition: SourcePosition, declara
         return candidateDescriptor in valueParameters
     }
 
-    return findCallsOnPosition(sourcePosition, ::isCallOfArgument)
+    return findCallsOnPosition(sourcePosition) { isCallOfArgument(it) }
 }
 
 private fun getInlineFunctionCallsIfAny(sourcePosition: SourcePosition): List<KtCallExpression> {
@@ -230,7 +230,7 @@ private fun getInlineFunctionCallsIfAny(sourcePosition: SourcePosition): List<Kt
         return InlineUtil.isInline(resolvedCall.resultingDescriptor)
     }
 
-    return findCallsOnPosition(sourcePosition, ::isInlineCall)
+    return findCallsOnPosition(sourcePosition) { isInlineCall(it) }
 }
 
 private fun findCallsOnPosition(sourcePosition: SourcePosition, filter: (KtCallExpression) -> Boolean): List<KtCallExpression> {
@@ -359,7 +359,7 @@ fun getStepOverAction(
         val previousSuitableLocation = methodLocations.reversed()
                 .dropWhile { it != location }
                 .drop(1)
-                .filter(::isLocationSuitable)
+                .filter { isLocationSuitable(it) }
                 .dropWhile { it.ktLineNumber() == location.ktLineNumber() }
                 .firstOrNull()
 
@@ -369,7 +369,7 @@ fun getStepOverAction(
     val patchedLocation = if (isBackEdgeLocation()) {
         // Pretend we had already done a backing step
         methodLocations
-                .filter(::isLocationSuitable)
+                .filter { isLocationSuitable(it) }
                 .firstOrNull { it.ktLineNumber() == location.ktLineNumber() } ?: location
     }
     else {

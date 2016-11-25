@@ -67,7 +67,7 @@ fun readDebugInfo(bytes: ByteArray): SmapData? {
             debugInfo = debug
         }
     }, ClassReader.SKIP_FRAMES and ClassReader.SKIP_CODE)
-    return debugInfo?.let(::SmapData)
+    return debugInfo?.let { SmapData(it) }
 }
 
 class SmapData(debugInfo: String) {
@@ -75,7 +75,7 @@ class SmapData(debugInfo: String) {
     var kotlinDebugStrata: SMAP?
 
     init {
-        val intervals = debugInfo.split(SMAP.END).filter(String::isNotBlank)
+        val intervals = debugInfo.split(SMAP.END).filter { it.isNotBlank() }
         when (intervals.count()) {
             1 -> {
                 kotlinStrata = SMAPParser.parse(intervals[0] + SMAP.END)

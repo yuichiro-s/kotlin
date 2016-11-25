@@ -50,7 +50,7 @@ class LetImplementInterfaceFix(
     private val validExpectedType = with (expectedType) {
         isInterface() &&
         !containsStarProjections() &&
-        constructor !in TypeUtils.getAllSupertypes(expressionType).map(KotlinType::constructor)
+        constructor !in TypeUtils.getAllSupertypes(expressionType).map { it.constructor }
     }
 
     init {

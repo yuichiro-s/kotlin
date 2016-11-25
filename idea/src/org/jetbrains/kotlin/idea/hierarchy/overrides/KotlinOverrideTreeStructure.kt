@@ -40,7 +40,7 @@ class KotlinOverrideTreeStructure(project: Project, val element: PsiElement) : H
 
         return javaTreeStructures
                 .asSequence()
-                .map (::buildChildrenByTreeStructure)
+                .map { buildChildrenByTreeStructure(it) }
                 .reduce { a, b -> ContainerUtil.union(a.toSet(), b.toSet()).toTypedArray() }
     }
 }

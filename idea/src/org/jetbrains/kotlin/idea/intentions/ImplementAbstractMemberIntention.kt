@@ -105,13 +105,13 @@ abstract class ImplementAbstractMemberIntentionBase :
             return baseClass.declarations
                     .asSequence()
                     .filterIsInstance<KtEnumEntry>()
-                    .filter(::acceptSubClass)
+                    .filter { acceptSubClass(it) }
         }
 
         return HierarchySearchRequest(baseClass, baseClass.useScope, false)
                 .searchInheritors()
                 .asSequence()
-                .filter(::acceptSubClass)
+                .filter { acceptSubClass(it) }
     }
 
     protected abstract fun computeText(element: KtNamedDeclaration): String?

@@ -117,7 +117,7 @@ fun createKotlinFile(fileName: String,
                      targetDir: PsiDirectory,
                      packageName: String? = targetDir.getPackage()?.qualifiedName): KtFile {
     targetDir.checkCreateFile(fileName)
-    val packageFqName = packageName?.let(::FqName) ?: FqName.ROOT
+    val packageFqName = packageName?.let { FqName(it) } ?: FqName.ROOT
     val file = PsiFileFactory.getInstance(targetDir.project).createFileFromText(
             fileName, KotlinFileType.INSTANCE, if (!packageFqName.isRoot) "package ${packageFqName.quoteSegmentsIfNeeded()} \n\n" else ""
     )

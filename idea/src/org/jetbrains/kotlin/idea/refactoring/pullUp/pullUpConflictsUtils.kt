@@ -202,7 +202,7 @@ private fun KotlinPullUpData.checkVisibility(
                         val context = resolutionFacade.analyze(expression)
                         expression.references
                                 .flatMap { (it as? KtReference)?.resolveToDescriptors(context) ?: emptyList() }
-                                .forEach(::reportConflictIfAny)
+                                .forEach { reportConflictIfAny(it) }
 
                     }
                 }

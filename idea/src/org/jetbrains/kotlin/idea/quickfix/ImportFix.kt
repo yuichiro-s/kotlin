@@ -173,7 +173,7 @@ internal abstract class ImportFixBase<T : KtExpression> protected constructor(
             return true
         }
 
-        val indicesHelper = KotlinIndicesHelper(resolutionFacade, searchScope, ::isVisible)
+        val indicesHelper = KotlinIndicesHelper(resolutionFacade, searchScope, { isVisible(it) })
 
         var result = fillCandidates(nameStr, callTypeAndReceiver, bindingContext, indicesHelper)
 
@@ -448,7 +448,7 @@ internal class ImportMemberFix(expression: KtSimpleNameExpression) : ImportFixBa
     }
 
     companion object MyFactory : Factory() {
-        override fun createAction(diagnostic: Diagnostic) = (diagnostic.psiElement as? KtSimpleNameExpression)?.let(::ImportMemberFix)
+        override fun createAction(diagnostic: Diagnostic) = (diagnostic.psiElement as? KtSimpleNameExpression)?.let { ImportMemberFix(it) }
     }
 }
 
@@ -514,12 +514,12 @@ internal class ImportForMismatchingArgumentsFix(
 
         indicesHelper
                 .getCallableTopLevelExtensions(callTypeAndReceiver, element, bindingContext) { it == name }
-                .forEach(::processDescriptor)
+                .forEach { processDescriptor(it) }
 
         if (!isSelectorInQualified(element)) {
             indicesHelper
                     .getTopLevelCallablesByName(name)
-                    .forEach(::processDescriptor)
+                    .forEach { processDescriptor(it) }
         }
 
         return result

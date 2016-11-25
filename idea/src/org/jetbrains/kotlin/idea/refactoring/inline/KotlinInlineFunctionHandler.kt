@@ -90,14 +90,14 @@ class KotlinInlineFunctionHandler: InlineActionHandler() {
             }
 
             if (lastReturn != null) {
-                replacementBuilder.prepareCodeToInline(lastReturn.returnedExpression, statements.dropLast(1), ::analyzeBodyCopy)
+                replacementBuilder.prepareCodeToInline(lastReturn.returnedExpression, statements.dropLast(1), { analyzeBodyCopy() })
             }
             else {
-                replacementBuilder.prepareCodeToInline(null, statements, ::analyzeBodyCopy)
+                replacementBuilder.prepareCodeToInline(null, statements, { analyzeBodyCopy() })
             }
         }
         else {
-            replacementBuilder.prepareCodeToInline(bodyCopy, emptyList(), ::analyzeBodyCopy)
+            replacementBuilder.prepareCodeToInline(bodyCopy, emptyList(), { analyzeBodyCopy() })
         }
 
         val commandName = RefactoringBundle.message("inline.command", element.name)

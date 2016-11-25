@@ -125,7 +125,7 @@ class KotlinVariableInplaceIntroducer(
                                        stringUsages: Collection<Pair<PsiElement, TextRange>>,
                                        scope: PsiElement,
                                        containingFile: PsiFile): Boolean {
-        myNameSuggestions = myNameSuggestions.mapTo(LinkedHashSet(), String::quoteIfNeeded)
+        myNameSuggestions = myNameSuggestions.mapTo(LinkedHashSet()) { it.quoteIfNeeded() }
 
         myEditor.caretModel.moveToOffset(nameIdentifier!!.startOffset)
 

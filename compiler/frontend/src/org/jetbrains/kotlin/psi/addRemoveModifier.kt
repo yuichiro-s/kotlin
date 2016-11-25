@@ -85,7 +85,7 @@ internal fun addModifier(modifierList: KtModifierList, modifier: KtModifierKeywo
         }
 
         val lastChild = modifierList.lastChild
-        val anchor = lastChild?.siblings(forward = false)?.firstOrNull(::placeAfter)
+        val anchor = lastChild?.siblings(forward = false)?.firstOrNull { placeAfter(it) }
         modifierList.addAfter(newModifier, anchor)
 
         if (anchor == lastChild) { // add line break if needed, otherwise visibility keyword may appear on previous line

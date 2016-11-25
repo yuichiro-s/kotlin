@@ -86,7 +86,7 @@ object SuperClassNotInitialized : KotlinIntentionActionsFactory() {
                         maxParams
                     }
                     else {
-                        (DISPLAY_MAX_PARAMS..maxParams-1).firstOrNull(::canRenderOnlyFirstParameters) ?: maxParams
+                        (DISPLAY_MAX_PARAMS..maxParams-1).firstOrNull { canRenderOnlyFirstParameters(it) } ?: maxParams
                     }
 
                     for ((constructor, types) in substitutedConstructors.zip(parameterTypes)) {

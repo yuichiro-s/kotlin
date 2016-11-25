@@ -372,7 +372,7 @@ abstract class KotlinParameterInfoWithCallHandlerBase<TArgumentList : KtElement,
         val argumentsBeforeCurrent = arguments.subList(0, currentArgumentIndex)
         if ((argumentsBeforeCurrent + currentArgument).any { argumentToParameter(it) == null }) {
             // some of arguments before the current one (or the current one) are not mapped to any of the parameters
-            return SignatureInfo(resultingDescriptor, ::argumentToParameter, highlightParameterIndex, isGrey = true)
+            return SignatureInfo(resultingDescriptor, { argumentToParameter(it) }, highlightParameterIndex, isGrey = true)
         }
 
         // grey out if not all arguments before the current are matched
@@ -380,7 +380,7 @@ abstract class KotlinParameterInfoWithCallHandlerBase<TArgumentList : KtElement,
             resolvedCall.getArgumentMapping(argument).isError() &&
             !argument.hasError(bindingContext) /* ignore arguments that have error type */
         }
-        return SignatureInfo(resultingDescriptor, ::argumentToParameter, highlightParameterIndex, isGrey)
+        return SignatureInfo(resultingDescriptor, { argumentToParameter(it) }, highlightParameterIndex, isGrey)
     }
 
     private fun ValueArgument.hasError(bindingContext: BindingContext)

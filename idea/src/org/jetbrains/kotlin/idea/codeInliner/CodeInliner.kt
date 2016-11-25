@@ -453,7 +453,7 @@ class CodeInliner<TCallElement : KtElement>(
         result.forEachDescendantOfType<KtCallExpression> { callExpression ->
             val resolvedCall = callExpression.getResolvedCall(newBindingContext) ?: return@forEachDescendantOfType
 
-            argumentsToDrop.addAll(OptionalParametersHelper.detectArgumentsToDropForDefaults(resolvedCall, project, ::canDropArgument))
+            argumentsToDrop.addAll(OptionalParametersHelper.detectArgumentsToDropForDefaults(resolvedCall, project) { canDropArgument(it) })
         }
 
         for (argument in argumentsToDrop) {

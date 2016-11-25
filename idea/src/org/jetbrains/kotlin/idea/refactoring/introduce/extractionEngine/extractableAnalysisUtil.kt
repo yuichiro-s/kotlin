@@ -119,7 +119,7 @@ private fun List<Instruction>.getVarDescriptorsAccessedAfterwards(bindingContext
         }
     }
 
-    forEach(::doTraversal)
+    forEach { doTraversal(it) }
     return accessedAfterwards
 }
 
@@ -157,7 +157,7 @@ private fun ExtractionData.getResultTypeAndExpressions(
                }
     }
 
-    val resultTypes = instructions.mapNotNull(::instructionToType)
+    val resultTypes = instructions.mapNotNull { instructionToType(it) }
     val commonSupertype = if (resultTypes.isNotEmpty()) CommonSupertypes.commonSupertype(resultTypes) else module.builtIns.defaultReturnType
     val resultType = if (options.allowSpecialClassNames) commonSupertype else commonSupertype.approximateWithResolvableType(targetScope, false)
 

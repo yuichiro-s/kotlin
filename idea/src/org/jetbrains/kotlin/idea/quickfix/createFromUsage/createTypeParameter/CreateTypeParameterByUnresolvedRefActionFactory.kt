@@ -100,7 +100,7 @@ fun createFakeTypeParameterDescriptor(containingDescriptor: DeclarationDescripto
 }
 
 fun getPossibleTypeParameterContainers(startFrom: PsiElement): List<KtTypeParameterListOwner> {
-    val stopAt = startFrom.parents.firstOrNull(::isObjectOrNonInnerClass)?.parent
+    val stopAt = startFrom.parents.firstOrNull { isObjectOrNonInnerClass(it) }?.parent
     return (if (stopAt != null) startFrom.parents.takeWhile { it != stopAt } else startFrom.parents)
             .filterIsInstance<KtTypeParameterListOwner>()
             .filter {

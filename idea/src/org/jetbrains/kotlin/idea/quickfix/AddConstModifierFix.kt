@@ -55,7 +55,7 @@ class AddConstModifierFix(val property: KtProperty) : AddModifierFix(property, K
         fun addConstModifier(property: KtProperty) {
             replaceReferencesToGetterByReferenceToField(property)
             property.addModifier(KtTokens.CONST_KEYWORD)
-            removeAnnotations.mapNotNull { property.findAnnotation(it) }.forEach(KtAnnotationEntry::delete)
+            removeAnnotations.mapNotNull { property.findAnnotation(it) }.forEach { it.delete() }
         }
     }
 }

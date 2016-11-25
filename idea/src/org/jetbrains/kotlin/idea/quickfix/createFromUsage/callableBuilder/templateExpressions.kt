@@ -42,7 +42,7 @@ internal class ParameterNameExpression(
         private val names: Array<String>,
         private val parameterTypeToNamesMap: Map<String, Array<String>>) : Expression() {
     init {
-        assert(names.all(String::isNotEmpty))
+        assert(names.all { it.isNotEmpty() })
     }
 
     override fun calculateResult(context: ExpressionContext?): Result? {

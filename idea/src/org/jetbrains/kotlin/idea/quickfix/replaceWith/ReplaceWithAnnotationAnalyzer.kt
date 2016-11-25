@@ -86,7 +86,7 @@ object ReplaceWithAnnotationAnalyzer {
         }
 
         return CodeToInlineBuilder(symbolDescriptor, resolutionFacade)
-                .prepareCodeToInline(expression, emptyList(), ::analyzeExpression, importFqNames = importFqNames(annotation))
+                .prepareCodeToInline(expression, emptyList(), { analyzeExpression() }, importFqNames = importFqNames(annotation))
     }
 
     fun analyzeClassReplacement(
@@ -153,9 +153,9 @@ object ReplaceWithAnnotationAnalyzer {
     private fun importFqNames(annotation: ReplaceWith): List<FqName> {
         return annotation.imports
                 .filter { FqNameUnsafe.isValid(it) }
-                .map(::FqNameUnsafe)
-                .filter(FqNameUnsafe::isSafe)
-                .map(FqNameUnsafe::toSafe)
+                .map { FqNameUnsafe(it) }
+                .filter { it.isSafe() }
+                .map { it.toSafe() }
     }
 
     private fun getResolutionScope(descriptor: DeclarationDescriptor, ownerDescriptor: DeclarationDescriptor, additionalScopes: Collection<ImportingScope>): LexicalScope? {

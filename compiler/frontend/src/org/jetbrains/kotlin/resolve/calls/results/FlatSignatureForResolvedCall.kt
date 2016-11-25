@@ -66,9 +66,9 @@ fun createOverloadingConflictResolver(
 ) = OverloadingConflictResolver(
         builtIns,
         specificityComparator,
-        MutableResolvedCall<*>::getResultingDescriptor,
+        { it: MutableResolvedCall<*> -> it.getResultingDescriptor() },
         ConstraintSystemBuilderImpl.Companion::forSpecificity,
-        MutableResolvedCall<*>::createFlatSignature,
+        { it.createFlatSignature() },
         { (it as? VariableAsFunctionResolvedCallImpl)?.variableCall },
         { DescriptorToSourceUtils.descriptorToDeclaration(it) != null}
 )

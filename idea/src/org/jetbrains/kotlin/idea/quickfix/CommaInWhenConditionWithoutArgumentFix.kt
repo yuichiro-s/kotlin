@@ -38,7 +38,7 @@ class CommaInWhenConditionWithoutArgumentFix(element: PsiElement) : KotlinQuickF
 
     companion object : KotlinSingleIntentionActionFactory() {
         override fun createAction(diagnostic: Diagnostic): IntentionAction? =
-                diagnostic.psiElement.parent?.parent?.let(::CommaInWhenConditionWithoutArgumentFix)
+                diagnostic.psiElement.parent?.parent?.let { CommaInWhenConditionWithoutArgumentFix(it) }
 
         private class WhenEntryConditionsData(
                 val conditions: Array<KtWhenCondition>,

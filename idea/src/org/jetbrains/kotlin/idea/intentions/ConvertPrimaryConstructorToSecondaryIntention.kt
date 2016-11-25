@@ -112,7 +112,7 @@ class ConvertPrimaryConstructorToSecondaryIntention : SelfTargetingIntention<KtP
                             } ?: ""
                         }
                     }
-                    val allInitializers = listOf(valueParameterInitializers, classBodyInitializers).filter(String::isNotEmpty)
+                    val allInitializers = listOf(valueParameterInitializers, classBodyInitializers).filter { it.isNotEmpty() }
                     if (allInitializers.isNotEmpty()) {
                         blockBody(allInitializers.joinToString(separator = "\n"))
                     }

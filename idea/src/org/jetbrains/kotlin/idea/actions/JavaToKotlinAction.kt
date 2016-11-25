@@ -107,7 +107,7 @@ class JavaToKotlinAction : AnAction() {
 
             if (!ProgressManager.getInstance().runProcessWithProgressSynchronously(
                     {
-                        runReadAction(::convert)
+                        runReadAction { convert() }
                     },
                     title,
                     true,

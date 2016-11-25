@@ -598,13 +598,12 @@ object KotlinIntroduceVariableHandler : RefactoringActionHandler {
                                     expressionType,
                                     noTypeInference,
                                     project,
-                                    editor,
-                                    ::postProcess
-                            ).startInplaceIntroduceTemplate()
+                                    editor
+                            ) { postProcess(it) }.startInplaceIntroduceTemplate()
                         }
 
                         is KtDestructuringDeclaration -> {
-                            executeMultiDeclarationTemplate(project, editor, property, suggestedNames, ::postProcess)
+                            executeMultiDeclarationTemplate(project, editor, property, suggestedNames) { postProcess(it) }
                         }
 
                         else -> throw AssertionError("Unexpected declaration: ${property.getElementTextWithContext()}")

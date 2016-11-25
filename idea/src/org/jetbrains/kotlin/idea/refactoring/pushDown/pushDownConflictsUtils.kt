@@ -213,7 +213,7 @@ private fun checkVisibility(
 
                     expression.references
                             .flatMap { (it as? KtReference)?.resolveToDescriptors(context.sourceClassContext) ?: emptyList() }
-                            .forEach(::reportConflictIfAny)
+                            .forEach { reportConflictIfAny(it) }
 
                 }
             }

@@ -45,7 +45,7 @@ object CreateFunctionFromCallableReferenceActionFactory : CreateCallableMemberFr
         val context = resolutionFacade.analyze(element, BodyResolveMode.PARTIAL)
         return element
                 .guessTypes(context, resolutionFacade.moduleDescriptor)
-                .filter(KotlinType::isFunctionType)
+                .filter { it.isFunctionType }
                 .mapNotNull {
                     val expectedReceiverType = it.getReceiverTypeFromFunctionType()
                     val receiverExpression = element.receiverExpression

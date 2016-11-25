@@ -33,7 +33,7 @@ class ScriptTemplatesFromCompilerSettingsProvider(project: Project): ScriptTempl
     override val templateClassNames: Iterable<String> get() = kotlinSettings.scriptTemplates.split(',', ' ')
     override val dependenciesClasspath: Iterable<String> get() = kotlinSettings.scriptTemplatesClasspath.split(File.pathSeparator)
     override val environment: Map<String, Any?>? by lazy { mapOf(
-            "projectRoot" to (project.basePath ?: project.baseDir.canonicalPath)?.let(::File))
+            "projectRoot" to (project.basePath ?: project.baseDir.canonicalPath)?.let { File(it) })
     }
 }
 

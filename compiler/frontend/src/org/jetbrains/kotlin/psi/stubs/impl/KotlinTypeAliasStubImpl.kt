@@ -35,7 +35,7 @@ class KotlinTypeAliasStubImpl(
             StringRef.toString(name)
 
     override fun getFqName(): FqName? =
-            StringRef.toString(qualifiedName)?.let(::FqName)
+            StringRef.toString(qualifiedName)?.let { FqName(it) }
 
     override fun isTopLevel(): Boolean = isTopLevel
 }

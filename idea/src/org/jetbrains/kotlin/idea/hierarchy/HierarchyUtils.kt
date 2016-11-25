@@ -50,4 +50,4 @@ fun getCurrentElement(dataContext: DataContext, project: Project): PsiElement? {
     return CommonDataKeys.PSI_ELEMENT.getData(dataContext)
 }
 
-fun getCallHierarchyElement(element: PsiElement) = element.parentsWithSelf.firstOrNull(::isCallHierarchyElement)
+fun getCallHierarchyElement(element: PsiElement) = element.parentsWithSelf.firstOrNull { isCallHierarchyElement(it) }

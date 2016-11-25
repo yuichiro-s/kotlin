@@ -85,7 +85,7 @@ class DebuggerClassNameProvider(val myDebugProcess: DebugProcess, val scopes: Li
     }
 
     private fun findLambdas(sourcePosition: SourcePosition): Collection<String> {
-        val lambdas = sourcePosition.readAction(::getLambdasAtLineIfAny)
+        val lambdas = sourcePosition.readAction { getLambdasAtLineIfAny(it) }
         return lambdas.flatMap { classNamesForPosition(it, true) }
     }
 
@@ -410,7 +410,7 @@ private fun String.substringIndex(): String {
     if (lastIndexOf("$") < 0) return this
 
     val suffix = substringAfterLast("$")
-    if (suffix.all(Char::isDigit)) {
+    if (suffix.all { it.isDigit() }) {
         return substringBeforeLast("$") + "$"
     }
     return this

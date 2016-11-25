@@ -68,7 +68,7 @@ abstract class AssignToVariableResultTransformation(
                        && resolutionScope.findClassifier(identifier, NoLookupLocation.FROM_IDE) == null
                        && resolutionScope.findPackage(identifier) == null
             }
-            val uniqueName = KotlinNameSuggester.suggestNameByName("test", ::isUniqueName)
+            val uniqueName = KotlinNameSuggester.suggestNameByName("test") { isUniqueName(it) }
 
             val copy = initializationStatement.copied()
             copy.initializer!!.replace(resultCallChain)

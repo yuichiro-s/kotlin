@@ -79,7 +79,7 @@ private fun ReceiverValue.extractDslMarkerFqNames(): Set<FqName> {
 }
 
 private fun Annotations.extractDslMarkerFqNames() =
-        filter(AnnotationDescriptor::isDslMarker).map { it.type.constructor.declarationDescriptor!!.fqNameSafe  }
+        filter { it.isDslMarker() }.map { it.type.constructor.declarationDescriptor!!.fqNameSafe  }
 
 private fun AnnotationDescriptor.isDslMarker(): Boolean {
     val classDescriptor = type.constructor.declarationDescriptor as? ClassDescriptor ?: return false

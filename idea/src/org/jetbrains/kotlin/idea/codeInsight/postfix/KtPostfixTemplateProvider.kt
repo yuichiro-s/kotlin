@@ -184,7 +184,7 @@ private class KtExpressionPostfixTemplateSelector(
         return !getExpressions(context, copyDocument, newOffset).isEmpty()
     }
 
-    override fun getRenderer() = Function(PsiElement::getText)
+    override fun getRenderer() = Function { it: PsiElement -> it.getText() }
 }
 
 private val KtExpression.isOperationReference: Boolean

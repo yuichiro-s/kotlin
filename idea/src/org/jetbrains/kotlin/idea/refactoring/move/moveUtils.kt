@@ -415,9 +415,8 @@ fun moveFilesOrDirectories(
                             enableSearchReferences,
                             false,
                             false,
-                            moveCallback,
-                            ::closeDialog
-                    ).run()
+                            moveCallback
+                    ) { closeDialog() }.run()
                 }
                 else {
                     closeDialog()
@@ -434,7 +433,7 @@ fun moveFilesOrDirectories(
         return
     }
 
-    with(KotlinAwareMoveFilesOrDirectoriesDialog(project, ::doRun)) {
+    with(KotlinAwareMoveFilesOrDirectoriesDialog(project) { doRun(it) }) {
         setData(elements, initialTargetDirectory, "refactoring.moveFile")
         show()
     }

@@ -36,7 +36,7 @@ object BranchedFoldingUtils {
 
             return true
         }
-        return (branch?.lastBlockStatementOrThis() as? KtBinaryExpression)?.check(::checkAssignment)
+        return (branch?.lastBlockStatementOrThis() as? KtBinaryExpression)?.check { checkAssignment(it) }
     }
 
     fun getFoldableBranchedReturn(branch: KtExpression?): KtReturnExpression? {

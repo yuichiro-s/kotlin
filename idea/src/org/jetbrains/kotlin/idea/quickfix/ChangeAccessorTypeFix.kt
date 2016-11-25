@@ -63,7 +63,7 @@ class ChangeAccessorTypeFix(element: KtPropertyAccessor) : KotlinQuickFixAction<
 
     companion object : KotlinSingleIntentionActionFactory() {
         public override fun createAction(diagnostic: Diagnostic): ChangeAccessorTypeFix? {
-            return diagnostic.psiElement.getNonStrictParentOfType<KtPropertyAccessor>()?.let(::ChangeAccessorTypeFix)
+            return diagnostic.psiElement.getNonStrictParentOfType<KtPropertyAccessor>()?.let { ChangeAccessorTypeFix(it) }
         }
     }
 }

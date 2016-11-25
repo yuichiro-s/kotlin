@@ -44,7 +44,7 @@ class KotlinGradleProjectDataService : AbstractProjectDataService<GradleSourceSe
             val ideModule = modelsProvider.findIdeModule(sourceSetData) ?: continue
 
             val moduleNode = ExternalSystemApiUtil.findParent(sourceSetNode, ProjectKeys.MODULE)
-            val compilerVersion = moduleNode?.findAll(BuildScriptClasspathData.KEY)?.firstOrNull()?.data?.let(::findKotlinPluginVersion)
+            val compilerVersion = moduleNode?.findAll(BuildScriptClasspathData.KEY)?.firstOrNull()?.data?.let { findKotlinPluginVersion(it) }
                                   ?: continue
 
             ideModule.getOrCreateFacet(modelsProvider).configureFacet(compilerVersion, modelsProvider)

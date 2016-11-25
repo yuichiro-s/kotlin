@@ -235,7 +235,7 @@ class ImportInsertHelperImpl(private val project: Project) : ImportInsertHelper(
 
             val classNamesToImport = scopeToImport
                     .getDescriptorsFiltered(DescriptorKindFilter.CLASSIFIERS, { true })
-                    .filter(::isVisible)
+                    .filter { isVisible(it) }
                     .map { it.name }
 
             val topLevelScope = resolutionFacade.getFileResolutionScope(file)

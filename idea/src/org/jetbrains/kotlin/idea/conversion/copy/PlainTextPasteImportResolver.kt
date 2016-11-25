@@ -104,7 +104,7 @@ class PlainTextPasteImportResolver(dataForConversion: DataForConversion, val tar
             }
         }
         runWriteAction {
-            targetFile.importDirectives.forEach(::tryConvertKotlinImport)
+            targetFile.importDirectives.forEach { tryConvertKotlinImport(it) }
         }
     }
 
