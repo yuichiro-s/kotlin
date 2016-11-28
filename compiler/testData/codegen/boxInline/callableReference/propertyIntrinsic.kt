@@ -1,4 +1,4 @@
-// Enable when callable references to builtin members and using callable references as extension functions is supported
+// Enable when callable references to builtin members and using lambdas as extension lambdas (KT-13312) is supported
 // IGNORE_BACKEND: JS
 // FILE: 1.kt
 

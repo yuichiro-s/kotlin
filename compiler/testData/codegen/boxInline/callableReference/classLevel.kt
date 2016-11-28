@@ -1,4 +1,4 @@
-// Enable when using callable references as extension functions is supported
+// Enable when using lambdas as extension lambdas is supported (KT-13312)
 // IGNORE_BACKEND: JS
 // FILE: 1.kt
 

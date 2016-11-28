@@ -66,12 +66,14 @@ object CallableReferenceTranslator {
         return JsLiteral.NULL
     }
 
-    private fun translateForFunction(descriptor: FunctionDescriptor,
-                                     context: TranslationContext,
-                                     expression: KtCallableReferenceExpression,
-                                     receiver: JsExpression?): JsExpression {
+    private fun translateForFunction(
+            descriptor: FunctionDescriptor,
+            context: TranslationContext,
+            expression: KtCallableReferenceExpression,
+            receiver: JsExpression?
+    ): JsExpression {
         return when {
-            // TODO Support for callable reference to builtin functions and members
+        // TODO Support for callable reference to builtin functions and members
             KotlinBuiltIns.isBuiltIn(descriptor) ->
                 reportNotSupported(context, expression)
             isConstructor(descriptor) ->
@@ -85,12 +87,14 @@ object CallableReferenceTranslator {
         }
     }
 
-    private fun translateForProperty(descriptor: PropertyDescriptor,
-                                     context: TranslationContext,
-                                     expression: KtCallableReferenceExpression,
-                                     receiver: JsExpression?): JsExpression {
+    private fun translateForProperty(
+            descriptor: PropertyDescriptor,
+            context: TranslationContext,
+            expression: KtCallableReferenceExpression,
+            receiver: JsExpression?
+    ): JsExpression {
         return when {
-            // TODO Support for callable reference to builtin properties
+        // TODO Support for callable reference to builtin properties
             KotlinBuiltIns.isBuiltIn(descriptor) ->
                 reportNotSupported(context, expression)
             isExtension(descriptor) ->
@@ -164,17 +168,27 @@ object CallableReferenceTranslator {
         return function
     }
 
-    private fun translateForMemberProperty(descriptor: PropertyDescriptor, context: TranslationContext, receiver: JsExpression?): JsExpression {
+    private fun translateForMemberProperty(
+            descriptor: PropertyDescriptor,
+            context: TranslationContext,
+            receiver: JsExpression?
+    ): JsExpression {
         val jsPropertyName = context.getNameForDescriptor(descriptor)
         val jsPropertyNameAsString = context.program().getStringLiteral(jsPropertyName.toString())
         if (receiver == null) {
             return JsInvocation(context.namer().callableRefForMemberPropertyReference(), jsPropertyNameAsString, isVar(descriptor))
-        } else {
-            return JsInvocation(context.namer().boundCallableRefForMemberPropertyReference(), receiver, jsPropertyNameAsString, isVar(descriptor))
+        }
+        else {
+            return JsInvocation(context.namer().boundCallableRefForMemberPropertyReference(), receiver, jsPropertyNameAsString,
+                                isVar(descriptor))
         }
     }
 
-    private fun translateForExtensionProperty(descriptor: PropertyDescriptor, context: TranslationContext, receiver: JsExpression?): JsExpression {
+    private fun translateForExtensionProperty(
+            descriptor: PropertyDescriptor,
+            context: TranslationContext,
+            receiver: JsExpression?
+    ): JsExpression {
         val jsGetterNameRef = ReferenceTranslator.translateAsValueReference(descriptor.getter!!, context)
         val propertyName = descriptor.name
         val jsPropertyNameAsString = context.program().getStringLiteral(propertyName.asString())
@@ -206,23 +220,25 @@ object CallableReferenceTranslator {
 
     private fun translateForExtensionFunction(descriptor: FunctionDescriptor,
                                               context: TranslationContext,
-                                              receiver: JsExpression?): JsExpression {
+                                              receiver: JsExpression?
+    ): JsExpression {
         val jsFunctionRef = ReferenceTranslator.translateAsValueReference(descriptor, context)
         if (descriptor.visibility == Visibilities.LOCAL) {
             if (receiver == null) {
                 return JsInvocation(context.namer().callableRefForLocalExtensionFunctionReference(), jsFunctionRef)
-            } else {
+            }
+            else {
                 return JsInvocation(context.namer().boundCallableRefForLocalExtensionFunctionReference(), receiver, jsFunctionRef)
             }
         }
-
         else if (AnnotationsUtils.isNativeObject(descriptor)) {
             return translateForMemberFunction(descriptor, context, receiver)
         }
         else {
             if (receiver == null) {
                 return JsInvocation(context.namer().callableRefForExtensionFunctionReference(), jsFunctionRef)
-            } else {
+            }
+            else {
                 return JsInvocation(context.namer().boundCallableRefForExtensionFunctionReference(), receiver, jsFunctionRef)
             }
         }
@@ -237,7 +253,8 @@ object CallableReferenceTranslator {
         val funNameAsString = context.program().getStringLiteral(funName.toString())
         if (receiver == null) {
             return JsInvocation(context.namer().callableRefForMemberFunctionReference(), funNameAsString)
-        } else {
+        }
+        else {
             return JsInvocation(context.namer().boundCallableRefForMemberFunctionReference(), receiver, funNameAsString)
         }
     }
