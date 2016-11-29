@@ -24,7 +24,7 @@ abstract class AbstractTypeConstructor(storageManager: StorageManager) : TypeCon
         val superTypesWithoutCycles = supertypes().supertypesWithoutCycles
         val withExtendedErrorTypes = mutableListOf<KotlinType>()
         for (type in superTypesWithoutCycles) {
-            if (type.isError) {
+            if (type.isError && type == ErrorUtils.ERROR_TYPE_FOR_LOOP_IN_SUPERTYPES) {
                 val stackTrace = Thread.currentThread().stackTrace
                 val errorMessage = """
 
