@@ -22,20 +22,29 @@ import org.jetbrains.kotlin.storage.StorageManager
 abstract class AbstractTypeConstructor(storageManager: StorageManager) : TypeConstructor {
     override fun getSupertypes(): List<KotlinType> {
         val superTypesWithoutCycles = supertypes().supertypesWithoutCycles
-        var errorMessage = ""
-        superTypesWithoutCycles
-                .filter { it.isError }
-                .forEach {
-                    errorMessage += """Type constructor ($this) has error super type.
+        val withExtendedErrorTypes = mutableListOf<KotlinType>()
+        for (type in superTypesWithoutCycles) {
+            if (type.isError) {
+                val stackTrace = Thread.currentThread().stackTrace
+                val errorMessage = """
+
+Type constructor ($this) has error super type.
 Declaration descriptor: $declarationDescriptor
-This super type: $it
+This super type: $type
 Super types without cycles: ${superTypesWithoutCycles.joinToString(",")}
 
-"""
-                }
+---- Stacktrace from the error type ----
 
-        if (errorMessage.isNotBlank()) {
-            throw IllegalStateException(errorMessage)
+${stackTrace.joinToString("\n")}
+
+---- End of stack trace ----
+
+"""
+                val errorType = ErrorUtils.createErrorType("Error Type (msg: $type) + $errorMessage")
+                withExtendedErrorTypes.add(errorType)
+            } else {
+                withExtendedErrorTypes.add(type)
+            }
         }
 
         return superTypesWithoutCycles
