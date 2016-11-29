@@ -972,6 +972,7 @@ public inline fun <T> Sequence<T>.none(predicate: (T) -> Boolean): Boolean {
 /**
  * Returns a sequence which performs the given [action] on each element of the original sequence as they pass though it.
  */
+@SinceKotlin("1.1")
 public fun <T> Sequence<T>.onEach(action: (T) -> Unit): Sequence<T> {
     return map {
         action(it)

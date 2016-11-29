@@ -1013,6 +1013,7 @@ public inline fun CharSequence.none(predicate: (Char) -> Boolean): Boolean {
 /**
  * Performs the given [action] on each character and returns the char sequence itself afterwards.
  */
+@SinceKotlin("1.1")
 public inline fun <S : CharSequence> S.onEach(action: (Char) -> Unit): S {
     return apply { for (element in this) action(element) }
 }

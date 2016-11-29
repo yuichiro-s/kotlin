@@ -1589,6 +1589,7 @@ public inline fun <T> Iterable<T>.none(predicate: (T) -> Boolean): Boolean {
 /**
  * Performs the given [action] on each element and returns the collection itself afterwards.
  */
+@SinceKotlin("1.1")
 public inline fun <T, C : Iterable<T>> C.onEach(action: (T) -> Unit): C {
     return apply { for (element in this) action(element) }
 }

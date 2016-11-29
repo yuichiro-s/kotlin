@@ -181,6 +181,7 @@ public inline fun <K, V> Map<out K, V>.none(predicate: (Map.Entry<K, V>) -> Bool
 /**
  * Performs the given [action] on each entry and returns the map itself afterwards.
  */
+@SinceKotlin("1.1")
 public inline fun <K, V, M : Map<out K, V>> M.onEach(action: (Map.Entry<K, V>) -> Unit): M {
     return apply { for (element in this) action(element) }
 }

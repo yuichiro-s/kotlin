@@ -722,6 +722,7 @@ fun aggregates(): List<GenericFunction> {
 
     templates addAll listOf(Iterables, Maps, CharSequences).map { f -> f("onEach(action: (T) -> Unit)") {
         only(f)
+        since("1.1")
         inline(true)
         doc { f -> "Performs the given [action] on each ${f.element} and returns the ${f.collection} itself afterwards." }
         val collectionType = when(f) {
@@ -742,6 +743,7 @@ fun aggregates(): List<GenericFunction> {
 
     templates add f("onEach(action: (T) -> Unit)") {
         only(Sequences)
+        since("1.1")
         returns("SELF")
         doc { f ->
             """
