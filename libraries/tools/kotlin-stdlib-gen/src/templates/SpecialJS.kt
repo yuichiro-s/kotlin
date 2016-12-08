@@ -258,7 +258,6 @@ fun specialJS(): List<GenericFunction> {
         external(true)
         returns("Unit")
         doc { "Sorts the array in-place according to the order specified by the given [comparison] function." }
-        body { "noImpl" }
     }
 
     templates add f("sortWith(comparator: Comparator<in T>)") {

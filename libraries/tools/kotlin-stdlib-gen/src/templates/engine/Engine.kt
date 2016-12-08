@@ -434,14 +434,23 @@ class GenericFunction(val signature: String, val keyword: String = "fun") {
 
         builder.append(receiverType)
         builder.append(".${(customSignature[f] ?: signature).renderType()}: ${returnType.renderType()}")
-        if (keyword == "fun") builder.append(" {")
 
         val body = (
                 primitive?.let { customPrimitiveBodies[f to primitive] } ?:
                 body[f] ?:
                 deprecate[f]?.replaceWith?.let { "return $it" } ?:
-                throw RuntimeException("No body specified for $signature for ${f to primitive}")
+                run {
+                    if (external[f] == true) {
+                        builder.append("\n\n")
+                        return
+                    }
+                    else
+                        throw RuntimeException("No body specified for $signature for ${f to primitive}")
+                }
         ).trim('\n')
+
+
+        if (keyword == "fun") builder.append(" {")
         val indent: Int = body.takeWhile { it == ' ' }.length
 
         builder.append('\n')
