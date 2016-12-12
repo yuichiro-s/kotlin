@@ -79,6 +79,10 @@ public abstract class CommonCompilerArguments {
     @Argument(value = "Xcoroutines=enable", description = "Do not produce errors or warning on coroutines")
     public boolean coroutinesEnable;
 
+    @Argument(value = "Xcoroutine-support", description = "Coroutines: produce error/warning/compile silently")
+    // Possible values: "enabled", "warning", "disabled"
+    public String coroutineSupport;
+
     @Argument(value = "P", description = "Pass an option to a plugin")
     @ValueDescription(PLUGIN_OPTION_FORMAT)
     public String[] pluginOptions;
