@@ -4264,6 +4264,18 @@ public class DiagnosticsTestGenerated extends AbstractDiagnosticsTest {
                 doTest(fileName);
             }
 
+            @TestMetadata("coroutinesDisabled.kt")
+            public void testCoroutinesDisabled() throws Exception {
+                String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/diagnostics/tests/coroutines/coroutinesDisabled.kt");
+                doTest(fileName);
+            }
+
+            @TestMetadata("coroutinesEnabledWithWarning.kt")
+            public void testCoroutinesEnabledWithWarning() throws Exception {
+                String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/diagnostics/tests/coroutines/coroutinesEnabledWithWarning.kt");
+                doTest(fileName);
+            }
+
             @TestMetadata("illegalSuspendCalls.kt")
             public void testIllegalSuspendCalls() throws Exception {
                 String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/diagnostics/tests/coroutines/illegalSuspendCalls.kt");

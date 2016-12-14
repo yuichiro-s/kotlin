@@ -45,7 +45,7 @@ object OperatorModifierChecker {
         if (checkResult.isSuccess) {
             when (functionDescriptor.name) {
                 in COROUTINE_OPERATOR_NAMES ->
-                    checkSupportsFeature(LanguageFeature.Coroutines, languageVersionSettings, diagnosticHolder, modifier)
+                    checkCoroutinesFeature(languageVersionSettings, diagnosticHolder, modifier)
                 in REM_TO_MOD_OPERATION_NAMES.keys ->
                     checkSupportsFeature(LanguageFeature.OperatorRem, languageVersionSettings, diagnosticHolder, modifier)
                 OperatorNameConventions.PROVIDE_DELEGATE ->
@@ -70,6 +70,18 @@ object OperatorModifierChecker {
         if (!languageVersionSettings.supportsFeature(feature)) {
             diagnosticHolder.report(Errors.UNSUPPORTED_FEATURE.on(modifier, feature))
         }
+    }
+}
+
+fun checkCoroutinesFeature(languageVersionSettings: LanguageVersionSettings, diagnosticHolder: DiagnosticSink, reportOn: PsiElement) {
+    if (!languageVersionSettings.supportsFeature(LanguageFeature.Coroutines)) {
+        diagnosticHolder.report(Errors.UNSUPPORTED_FEATURE.on(reportOn, LanguageFeature.Coroutines))
+    }
+    else if (languageVersionSettings.supportsFeature(LanguageFeature.ErrorOnCoroutines)) {
+        diagnosticHolder.report(Errors.EXPERIMENTAL_FEATURE_ERROR.on(reportOn, LanguageFeature.Coroutines))
+    }
+    else if (languageVersionSettings.supportsFeature(LanguageFeature.WarnOnCoroutines)) {
+        diagnosticHolder.report(Errors.EXPERIMENTAL_FEATURE_WARNING.on(reportOn, LanguageFeature.Coroutines))
     }
 }
 

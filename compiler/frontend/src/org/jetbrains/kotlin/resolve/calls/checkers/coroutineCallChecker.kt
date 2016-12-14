@@ -17,13 +17,13 @@
 package org.jetbrains.kotlin.resolve.calls.checkers
 
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.descriptors.SimpleFunctionDescriptor
 import org.jetbrains.kotlin.diagnostics.Errors
 import org.jetbrains.kotlin.psi.KtExpression
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.calls.model.ResolvedCall
+import org.jetbrains.kotlin.resolve.checkCoroutinesFeature
 import org.jetbrains.kotlin.resolve.coroutine.CoroutineReceiverValue
 import org.jetbrains.kotlin.resolve.inline.InlineUtil
 import org.jetbrains.kotlin.resolve.scopes.LexicalScope
@@ -70,9 +70,8 @@ object CoroutineSuspendCallChecker : CallChecker {
 object BuilderFunctionsCallChecker : CallChecker {
     override fun check(resolvedCall: ResolvedCall<*>, reportOn: PsiElement, context: CallCheckerContext) {
         val descriptor = resolvedCall.candidateDescriptor as? FunctionDescriptor ?: return
-        if (descriptor.valueParameters.any { it.isCoroutine } &&
-            !context.languageVersionSettings.supportsFeature(LanguageFeature.Coroutines)) {
-            context.trace.report(Errors.UNSUPPORTED_FEATURE.on(reportOn, LanguageFeature.Coroutines))
+        if (descriptor.valueParameters.any { it.isCoroutine }) {
+            checkCoroutinesFeature(context.languageVersionSettings, context.trace, reportOn)
         }
     }
 }
