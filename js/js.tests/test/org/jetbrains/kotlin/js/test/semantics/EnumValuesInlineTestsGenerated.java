@@ -42,6 +42,12 @@ public class EnumValuesInlineTestsGenerated extends AbstractEnumValuesInlineTest
         doTest(fileName);
     }
 
+    @TestMetadata("kt15328.kt")
+    public void testKt15328() throws Exception {
+        String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/codegen/boxInline/enum/kt15328.kt");
+        doTest(fileName);
+    }
+
     @TestMetadata("valueOf.kt")
     public void testValueOf() throws Exception {
         String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/codegen/boxInline/enum/valueOf.kt");
