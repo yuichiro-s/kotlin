@@ -82,8 +82,8 @@ class JavaKaptContextTest {
         ).doAnnotationProcessing(
                 listOf(javaSourceFile),
                 listOf(processor),
-                emptyList(), // compile classpath
-                emptyList(), // annotation processing classpath
+                emptySet(), // compile classpath
+                emptySet(), // annotation processing classpath
                 outputDir,
                 outputDir,
                 withJdk = true)

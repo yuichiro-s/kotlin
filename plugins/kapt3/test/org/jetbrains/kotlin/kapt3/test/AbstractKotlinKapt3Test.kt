@@ -100,7 +100,7 @@ abstract class AbstractKotlinKaptContextTest : AbstractKotlinKapt3Test() {
         val sourceOutputDir = Files.createTempDirectory("kaptRunner").toFile()
         try {
             kaptRunner.doAnnotationProcessing(emptyList(), listOf(JavaKaptContextTest.simpleProcessor()),
-                                              compileClasspath = emptyList(), annotationProcessingClasspath = emptyList(),
+                                              compileClasspath = emptySet(), annotationProcessingClasspath = emptySet(),
                                               sourcesOutputDir = sourceOutputDir, classesOutputDir = sourceOutputDir,
                                               additionalSources = compilationUnits, withJdk = true)
 
