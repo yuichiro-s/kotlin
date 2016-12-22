@@ -33,8 +33,8 @@ import com.sun.tools.javac.util.List as JavacList
 fun KaptContext.doAnnotationProcessing(
         javaSourceFiles: List<File>,
         processors: List<Processor>,
-        compileClasspath: List<File>,
-        annotationProcessingClasspath: List<File>,
+        compileClasspath: Set<File>,
+        annotationProcessingClasspath: Set<File>,
         sourcesOutputDir: File,
         classesOutputDir: File,
         additionalSources: JavacList<JCTree.JCCompilationUnit> = JavacList.nil(),
