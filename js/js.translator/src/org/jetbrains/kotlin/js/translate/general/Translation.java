@@ -154,7 +154,7 @@ public final class Translation {
             return context.program().getStringLiteral((String) value);
         }
         if (value instanceof Character) {
-            return context.program().getStringLiteral(value.toString());
+            return context.program().getNumberLiteral(((Character) value).charValue());
         }
 
         return null;

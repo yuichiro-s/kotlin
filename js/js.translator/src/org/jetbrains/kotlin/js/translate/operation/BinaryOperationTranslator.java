@@ -155,6 +155,11 @@ public final class BinaryOperationTranslator extends AbstractTranslator {
 
     @NotNull
     private JsExpression applyIntrinsic(@NotNull BinaryOperationIntrinsic intrinsic) {
+        KotlinType leftType = context().bindingContext().getType(leftKtExpression);
+        KotlinType rightType = context().bindingContext().getType(rightKtExpression);
+
+
+
         JsExpression leftExpression = Translation.translateAsExpression(leftKtExpression, context());
 
         JsBlock rightBlock = new JsBlock();

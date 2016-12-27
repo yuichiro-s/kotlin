@@ -181,6 +181,9 @@ public enum PrimitiveBinaryOperationFIF implements FunctionIntrinsicFactory {
         if (pattern("Char.minus(Char)").apply(descriptor)) {
             return new CharAndCharBinaryOperationFunctionIntrinsic(result);
         }
+        if (pattern("String.plus(Char)").apply(descriptor)) {
+            return new StringAndCharBinaryOperationFunctionIntrinsic(result);
+        }
         return result;
     }
 
@@ -282,7 +285,7 @@ public enum PrimitiveBinaryOperationFIF implements FunctionIntrinsicFactory {
         @NotNull
         @Override
         public JsExpression doApply(@NotNull JsExpression left, @NotNull JsExpression right, @NotNull TranslationContext context) {
-            return JsAstUtils.toChar(functionIntrinsic.doApply(JsAstUtils.charToInt(left), right, context));
+            return JsAstUtils.toChar(functionIntrinsic.doApply(left, right, context));
         }
     }
 
@@ -298,7 +301,22 @@ public enum PrimitiveBinaryOperationFIF implements FunctionIntrinsicFactory {
         @NotNull
         @Override
         public JsExpression doApply(@NotNull JsExpression left, @NotNull JsExpression right, @NotNull TranslationContext context) {
-            return functionIntrinsic.doApply(JsAstUtils.charToInt(left), JsAstUtils.charToInt(right), context);
+            return functionIntrinsic.doApply(left, right, context);
+        }
+    }
+    private static class StringAndCharBinaryOperationFunctionIntrinsic extends BinaryOperationIntrinsicBase {
+
+        @NotNull
+        private final BinaryOperationIntrinsicBase functionIntrinsic;
+
+        private StringAndCharBinaryOperationFunctionIntrinsic(@NotNull BinaryOperationIntrinsicBase functionIntrinsic) {
+            this.functionIntrinsic = functionIntrinsic;
+        }
+
+        @NotNull
+        @Override
+        public JsExpression doApply(@NotNull JsExpression left, @NotNull JsExpression right, @NotNull TranslationContext context) {
+            return functionIntrinsic.doApply(left, JsAstUtils.charToString(right), context);
         }
     }
 }

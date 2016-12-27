@@ -82,10 +82,15 @@ public final class PatternTranslator extends AbstractTranslator {
         KtExpression left = expression.getLeft();
         JsExpression expressionToCast = Translation.translateAsExpression(left, context());
 
-        TemporaryVariable temporary = context().declareTemporary(expressionToCast);
-
         KtTypeReference typeReference = expression.getRight();
         assert typeReference != null: "Cast expression must have type reference";
+
+        KotlinType leftType = context().bindingContext().getType(left);
+        if (leftType != null && KotlinBuiltIns.isChar(leftType)) {
+            expressionToCast = JsAstUtils.charToBoxedChar(expressionToCast);
+        }
+
+        TemporaryVariable temporary = context().declareTemporary(expressionToCast);
         JsExpression isCheck = translateIsCheck(temporary.assignmentExpression(), typeReference);
         if (isCheck == null) return expressionToCast;
 
@@ -104,10 +109,17 @@ public final class PatternTranslator extends AbstractTranslator {
 
     @NotNull
     public JsExpression translateIsExpression(@NotNull KtIsExpression expression) {
-        JsExpression left = Translation.translateAsExpression(expression.getLeftHandSide(), context());
+        KtExpression left = expression.getLeftHandSide();
+        JsExpression expressionToCheck = Translation.translateAsExpression(left, context());
+
+        KotlinType leftType = context().bindingContext().getType(left);
+        if (leftType != null && KotlinBuiltIns.isChar(leftType)) {
+            expressionToCheck = JsAstUtils.charToBoxedChar(expressionToCheck);
+        }
+
         KtTypeReference typeReference = expression.getTypeReference();
         assert typeReference != null;
-        JsExpression result = translateIsCheck(left, typeReference);
+        JsExpression result = translateIsCheck(expressionToCheck, typeReference);
         if (result == null) return JsLiteral.getBoolean(!expression.isNegated());
 
         if (expression.isNegated()) {

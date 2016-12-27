@@ -23,7 +23,7 @@ Kotlin.toByte = function (a) {
 };
 
 Kotlin.toChar = function (a) {
-    return String.fromCharCode((((a | 0) % 65536) & 0xFFFF) << 16 >>> 16);
+    return a & 0xFFFF;
 };
 
 Kotlin.numberToLong = function (a) {
@@ -48,4 +48,28 @@ Kotlin.numberToDouble = function (a) {
 
 Kotlin.numberToChar = function (a) {
     return Kotlin.toChar(Kotlin.numberToInt(a));
+};
+
+Kotlin.toBoxedChar = function (a) {
+    return new Kotlin.BoxedChar(a);
+};
+
+Kotlin.BoxedChar = function (a) {
+    this.value = a;
+};
+
+Kotlin.BoxedChar.prototype.valueOf = function() {
+    return this.value;
+};
+
+Kotlin.BoxedChar.prototype.toString = function() {
+    return String.fromCharCode(this.value);
+};
+
+Kotlin.BoxedChar.prototype.equals = function(o) {
+    return Kotlin.isChar(o) && this.value === o.value;
+};
+
+Kotlin.BoxedChar.prototype.hashCode = function() {
+    return this.value;
 };
