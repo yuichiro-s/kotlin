@@ -323,6 +323,11 @@ public class TranslationContext {
         expressionToTempConstVariableCache.put(expression, temporaryConstVariable);
     }
 
+    @Nullable
+    public ClassDescriptor getClassDescriptor() {
+        return classDescriptor;
+    }
+
     @NotNull
     public Namer namer() {
         return staticContext.getNamer();
