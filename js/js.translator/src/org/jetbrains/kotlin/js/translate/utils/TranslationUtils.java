@@ -44,6 +44,7 @@ import org.jetbrains.kotlin.types.KotlinType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.jetbrains.kotlin.js.backend.ast.JsBinaryOperator.*;
 import static org.jetbrains.kotlin.js.translate.utils.BindingUtils.getCallableDescriptorForOperationExpression;
 import static org.jetbrains.kotlin.js.translate.utils.JsAstUtils.assignment;
 import static org.jetbrains.kotlin.js.translate.utils.JsAstUtils.createDataDescriptor;
