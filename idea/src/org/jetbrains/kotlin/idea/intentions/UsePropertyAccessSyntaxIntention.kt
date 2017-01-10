@@ -21,10 +21,12 @@ import com.intellij.codeInspection.InspectionProfile
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Key
 import com.intellij.profile.Profile
 import com.intellij.profile.ProfileChangeAdapter
 import com.intellij.profile.codeInspection.InspectionProfileManager
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager
+import com.intellij.psi.PsiElement
 import com.intellij.util.xmlb.XmlSerializer
 import com.intellij.util.xmlb.XmlSerializerUtil
 import org.jdom.Element
@@ -39,6 +41,7 @@ import org.jetbrains.kotlin.idea.core.NotPropertiesService
 import org.jetbrains.kotlin.idea.core.copied
 import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.kotlin.idea.inspections.IntentionBasedInspection
+import org.jetbrains.kotlin.idea.inspections.IntentionBasedInspection.IntentionData
 import org.jetbrains.kotlin.idea.resolve.ResolutionFacade
 import org.jetbrains.kotlin.idea.resolve.frontendService
 import org.jetbrains.kotlin.idea.util.getResolutionScope
@@ -94,38 +97,22 @@ class UsePropertyAccessSyntaxInspection : IntentionBasedInspection<KtCallExpress
 }
 
 
-class NotPropertiesServiceImpl(private val project: Project) : NotPropertiesService, Disposable, ProfileChangeAdapter() {
-    override fun dispose() {
-    }
-
-    init {
-        InspectionProfileManager.getInstance().addProfileChangeListener(this, this)
-        InspectionProjectProfileManager.getInstance(project).addProfilesListener(this, this)
-    }
-
-    override fun profileChanged(profile: Profile?) {
-        notProperties = collectNotProperties()
-    }
-
-    override var notProperties: Set<FqNameUnsafe> = collectNotProperties()
-
-    private fun collectNotProperties(): Set<FqNameUnsafe> {
-        @Suppress("UNCHECKED_CAST")
+class NotPropertiesServiceImpl(private val project: Project) : NotPropertiesService {
+    override fun getNotProperties(element: PsiElement): Set<FqNameUnsafe> {
         val profile = InspectionProjectProfileManager.getInstance(project).inspectionProfile
-        val intention = profile.getAllEnabledInspectionTools(project)
-                .map { it.tool.tool }
-                .firstIsInstanceOrNull<UsePropertyAccessSyntaxInspection>()
-        return intention?.fqNameList?.toSet() ?: emptySet()
+        val tool = profile.getUnwrappedTool(USE_PROPERTY_ACCESS_INSPECTION, element)
+        return (tool?.fqNameList ?: default.map(::FqNameUnsafe)).toSet()
     }
 
     companion object {
-        val default by lazy {
-            this::class.java.getResourceAsStream("/defaultNotProperties.txt")
-                    .bufferedReader()
-                    .readLines()
-                    .filter(String::isNotBlank)
-                    .toMutableList()
-        }
+
+        val default = listOf(
+                "java.net.Socket.getInputStream",
+                "java.net.Socket.getOutputStream"
+        )
+
+
+        val USE_PROPERTY_ACCESS_INSPECTION: Key<UsePropertyAccessSyntaxInspection> = Key.create("UsePropertyAccessSyntax")
     }
 }
 
@@ -159,7 +146,9 @@ class UsePropertyAccessSyntaxIntention : SelfTargetingOffsetIndependentIntention
 
         val function = resolvedCall.resultingDescriptor as? FunctionDescriptor ?: return null
 
-        if (function.shouldNotConvertToProperty(NotPropertiesService.getInstance(callExpression.project).notProperties)) return null
+        val notProperties = (inspection as? UsePropertyAccessSyntaxInspection)?.fqNameList?.toSet() ?:
+                            NotPropertiesService.getNotProperties(callExpression)
+        if (function.shouldNotConvertToProperty(notProperties)) return null
 
         val resolutionScope = callExpression.getResolutionScope(bindingContext, resolutionFacade)
         val property = findSyntheticProperty(function, resolutionFacade.getFrontendService(SyntheticScopes::class.java)) ?: return null

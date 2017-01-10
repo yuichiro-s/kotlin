@@ -127,7 +127,7 @@ abstract class CompletionSession(
                                                                     resolutionFacade,
                                                                     moduleDescriptor,
                                                                     isVisibleFilter,
-                                                                    NotPropertiesService.getInstance(project).notProperties)
+                                                                    NotPropertiesService.getNotProperties(position))
 
     protected val callTypeAndReceiver: CallTypeAndReceiver<*, *>
     protected val receiverTypes: Collection<ReceiverType>?

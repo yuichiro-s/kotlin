@@ -1609,6 +1609,7 @@
 
     <localInspection implementationClass="org.jetbrains.kotlin.idea.intentions.UsePropertyAccessSyntaxInspection"
                      displayName="Accessor call that can be replaced with property access syntax"
+                     shortName="UsePropertyAccessSyntax"
                      groupName="Kotlin"
                      cleanupTool="true"
                      enabledByDefault="true"

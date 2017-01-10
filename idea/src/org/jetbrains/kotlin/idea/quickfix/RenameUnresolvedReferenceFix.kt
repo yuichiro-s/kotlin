@@ -104,7 +104,7 @@ class RenameUnresolvedReferenceFix(element: KtNameReferenceExpression): KotlinQu
         val moduleDescriptor = resolutionFacade.moduleDescriptor
         val variantsHelper = ReferenceVariantsHelper(context, resolutionFacade, moduleDescriptor, {
             it !is DeclarationDescriptorWithVisibility || it.isVisible(element, null, context, resolutionFacade)
-        }, NotPropertiesService.getInstance(project).notProperties)
+        }, NotPropertiesService.getNotProperties(element))
         val expectedTypes = patternExpression
                 .guessTypes(context, moduleDescriptor)
                 .ifEmpty { arrayOf(moduleDescriptor.builtIns.nullableAnyType) }
