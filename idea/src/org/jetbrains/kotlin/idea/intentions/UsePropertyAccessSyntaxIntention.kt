@@ -17,20 +17,11 @@
 package org.jetbrains.kotlin.idea.intentions
 
 import com.intellij.codeInspection.CleanupLocalInspectionTool
-import com.intellij.codeInspection.InspectionProfile
-import com.intellij.openapi.Disposable
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
-import com.intellij.profile.Profile
-import com.intellij.profile.ProfileChangeAdapter
-import com.intellij.profile.codeInspection.InspectionProfileManager
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager
 import com.intellij.psi.PsiElement
-import com.intellij.util.xmlb.XmlSerializer
-import com.intellij.util.xmlb.XmlSerializerUtil
-import org.jdom.Element
-import org.jdom.input.SAXBuilder
 import org.jetbrains.kotlin.descriptors.CallableDescriptor
 import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.diagnostics.Severity
@@ -41,7 +32,6 @@ import org.jetbrains.kotlin.idea.core.NotPropertiesService
 import org.jetbrains.kotlin.idea.core.copied
 import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.kotlin.idea.inspections.IntentionBasedInspection
-import org.jetbrains.kotlin.idea.inspections.IntentionBasedInspection.IntentionData
 import org.jetbrains.kotlin.idea.resolve.ResolutionFacade
 import org.jetbrains.kotlin.idea.resolve.frontendService
 import org.jetbrains.kotlin.idea.util.getResolutionScope
@@ -72,8 +62,6 @@ import org.jetbrains.kotlin.synthetic.SyntheticJavaPropertyDescriptor
 import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.TypeUtils
 import org.jetbrains.kotlin.types.typeUtil.isUnit
-import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
-import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
 import javax.swing.JComponent
 
 class UsePropertyAccessSyntaxInspection : IntentionBasedInspection<KtCallExpression>(UsePropertyAccessSyntaxIntention::class), CleanupLocalInspectionTool {
@@ -108,7 +96,13 @@ class NotPropertiesServiceImpl(private val project: Project) : NotPropertiesServ
 
         val default = listOf(
                 "java.net.Socket.getInputStream",
-                "java.net.Socket.getOutputStream"
+                "java.net.Socket.getOutputStream",
+                "java.net.URLConnection.getInputStream",
+                "java.net.URLConnection.getOutputStream",
+                "java.util.concurrent.atomic.AtomicInteger.getAndIncrement",
+                "java.util.concurrent.atomic.AtomicInteger.getAndDecrement",
+                "java.util.concurrent.atomic.AtomicLong.getAndIncrement",
+                "java.util.concurrent.atomic.AtomicLong.getAndDecrement"
         )
 
 
