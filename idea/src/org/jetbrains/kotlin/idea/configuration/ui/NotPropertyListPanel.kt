@@ -21,17 +21,16 @@ import com.intellij.openapi.ui.NonEmptyInputValidator
 import com.intellij.ui.AddEditRemovePanel
 import org.jetbrains.kotlin.name.FqNameUnsafe
 
-class NotPropertyListPanel(data: List<FqNameUnsafe>) :
-        AddEditRemovePanel<FqNameUnsafe>(MyTableModel(), data, "Excluded methods") {
+class NotPropertyListPanel(data: List<FqNameUnsafe>) : AddEditRemovePanel<FqNameUnsafe>(MyTableModel(), data) {
 
     var modified = false
 
-    public override fun removeItem(fqName: FqNameUnsafe): Boolean {
+    override fun removeItem(fqName: FqNameUnsafe): Boolean {
+        modified = true
         return true
     }
 
-    public override fun editItem(fqName: FqNameUnsafe): FqNameUnsafe? {
-
+    override fun editItem(fqName: FqNameUnsafe): FqNameUnsafe? {
         val result = Messages.showInputDialog(this, "Enter fully-qualified method name:",
                                               "Edit exclusion",
                                               Messages.getQuestionIcon(),
@@ -40,14 +39,15 @@ class NotPropertyListPanel(data: List<FqNameUnsafe>) :
         ) ?: return null
 
         val created = FqNameUnsafe(result)
-        if (data.contains(created)) {
+
+        if (created in data)
             return null
-        }
+
         modified = true
         return created
     }
 
-    public override fun addItem(): FqNameUnsafe? {
+    override fun addItem(): FqNameUnsafe? {
         val result = Messages.showInputDialog(this, "Enter fully-qualified method name:",
                                               "Add exclusion",
                                               Messages.getQuestionIcon(),
@@ -56,25 +56,18 @@ class NotPropertyListPanel(data: List<FqNameUnsafe>) :
         ) ?: return null
 
         val created = FqNameUnsafe(result)
-        if (data.contains(created)) {
+
+        if (created in data)
             return null
-        }
+
         modified = true
         return created
     }
 
-    private class MyTableModel : AddEditRemovePanel.TableModel<FqNameUnsafe>() {
-        override fun getField(o: FqNameUnsafe, columnIndex: Int): Any {
-            return o.asString()
-        }
-
-        override fun getColumnName(columnIndex: Int): String? {
-            return "Method"
-        }
-
-        override fun getColumnCount(): Int {
-            return 1
-        }
+    class MyTableModel : AddEditRemovePanel.TableModel<FqNameUnsafe>() {
+        override fun getField(o: FqNameUnsafe, columnIndex: Int) = o.asString()
+        override fun getColumnName(columnIndex: Int) = "Method"
+        override fun getColumnCount() = 1
     }
 }
 

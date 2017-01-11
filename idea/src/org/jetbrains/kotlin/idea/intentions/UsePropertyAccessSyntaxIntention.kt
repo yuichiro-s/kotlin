@@ -19,6 +19,7 @@ package org.jetbrains.kotlin.idea.intentions
 import com.intellij.codeInspection.CleanupLocalInspectionTool
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.LabeledComponent
 import com.intellij.openapi.util.Key
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager
 import com.intellij.psi.PsiElement
@@ -80,7 +81,8 @@ class UsePropertyAccessSyntaxInspection : IntentionBasedInspection<KtCallExpress
     }
 
     override fun createOptionsPanel(): JComponent? {
-        return NotPropertyListPanel(fqNameList)
+        val list = NotPropertyListPanel(fqNameList)
+        return LabeledComponent.create(list, "Excluded methods")
     }
 }
 
