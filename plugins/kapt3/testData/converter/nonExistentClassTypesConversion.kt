@@ -14,4 +14,8 @@ class Test {
     lateinit var i: (ABC, List<BCD>) -> CDE
     lateinit var j: () -> CDE
     lateinit var k: ABC.(List<BCD>) -> CDE
+
+    fun f1(a: ABC): BCD? {
+        return null
+    }
 }

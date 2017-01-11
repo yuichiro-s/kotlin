@@ -28,9 +28,7 @@ import org.jetbrains.kotlin.kapt3.*
 import org.jetbrains.kotlin.kapt3.javac.KaptTreeMaker
 import org.jetbrains.kotlin.kapt3.javac.KaptJavaFileObject
 import org.jetbrains.kotlin.kapt3.util.*
-import org.jetbrains.kotlin.psi.KtFile
-import org.jetbrains.kotlin.psi.KtTypeReference
-import org.jetbrains.kotlin.psi.KtVariableDeclaration
+import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.DescriptorUtils
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperClassNotAny
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperClassOrAny
@@ -295,8 +293,32 @@ class ClassFileToSourceStubConverter(
 
         val exceptionTypes = mapJList(method.exceptions) { treeMaker.FqName(it) }
 
-        val genericSignature = signatureParser.parseMethodSignature(method.signature, parameters, exceptionTypes, jcReturnType)
-        val returnType = getNotAnonymousType(descriptor) { genericSignature.returnType }
+        val valueParametersFromDescriptor = descriptor.valueParameters
+        val genericSignature = signatureParser.parseMethodSignature(
+                method.signature, parameters, exceptionTypes, jcReturnType,
+                nonErrorTypeProvider = { index, lazyType ->
+                    if (descriptor is PropertyDescriptor && method.name.startsWith("set")
+                            && valueParametersFromDescriptor.size == 1 && index == 0) {
+                        getNonErrorType(descriptor.returnType,
+                                        ktTypeProvider = { (kaptContext.origins[method]?.element as? KtVariableDeclaration)?.typeReference },
+                                        ifNonError = { lazyType() })
+                    } else {
+                        lazyType()
+                    }
+                })
+
+        val returnType = getNotAnonymousType(descriptor) {
+            getNonErrorType(descriptor.returnType,
+                            ktTypeProvider = {
+                                val element = kaptContext.origins[method]?.element
+                                when (element) {
+                                    is KtFunction -> element.typeReference
+                                    is KtProperty -> if (method.name.startsWith("get")) element.typeReference else null
+                                    else -> null
+                                }
+                            },
+                            ifNonError = { genericSignature.returnType })
+        }
 
         val defaultValue = method.annotationDefault?.let { convertLiteralExpression(it) }
 
@@ -336,15 +358,16 @@ class ClassFileToSourceStubConverter(
                 body, defaultValue)
     }
 
-    private inline fun getNonErrorType(
+    private inline fun <T : JCExpression?> getNonErrorType(
             type: KotlinType?,
             ktTypeProvider: () -> KtTypeReference?,
-            ifNonError: () -> JCExpression
-    ): JCExpression {
+            ifNonError: () -> T
+    ): T {
         if (type?.containsErrorTypes() ?: false) {
             val ktType = ktTypeProvider()
             if (ktType != null) {
-                return convertKtType(ktType, this)
+                @Suppress("UNCHECKED_CAST")
+                return convertKtType(ktType, this) as T
             }
         }
 
