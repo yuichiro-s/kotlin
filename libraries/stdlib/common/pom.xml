@@ -56,7 +56,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    <execution>
+<!--                    <execution>
                         <id>serialize-declarations</id>
                         <phase>compile</phase>
                         <configuration>
@@ -88,9 +88,9 @@
                                     <assertions>
                                         <enable/>
                                     </assertions>
-                                    <!--
+                                    &lt;!&ndash;
                                                 <jvmarg value="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"/>
-                                    -->
+                                    &ndash;&gt;
                                     <arg value="-cp"/>
                                     <arg value="${kotlin-home}/lib/kotlin-compiler.jar"/>
                                     <arg value="org.jetbrains.kotlin.cli.metadata.K2MetadataCompiler"/>
@@ -103,6 +103,32 @@
                         </configuration>
                         <goals>
                             <goal>run</goal>
+                        </goals>
+                    </execution>-->
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <version>${project.version}</version>
+
+                <configuration>
+                    <args>
+                        <arg>-Xallow-kotlin-package</arg>
+                    </args>
+                    <sourceDirs>
+                        <sourceDir>${basedir}/src</sourceDir>
+                        <sourceDir>${basedir}/target/common-sources</sourceDir>
+                    </sourceDirs>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>metadata</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>metadata</goal>
                         </goals>
                     </execution>
                 </executions>
