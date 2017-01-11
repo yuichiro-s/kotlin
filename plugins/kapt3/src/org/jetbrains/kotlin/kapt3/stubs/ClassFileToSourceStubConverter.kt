@@ -29,9 +29,12 @@ import org.jetbrains.kotlin.kapt3.javac.KaptTreeMaker
 import org.jetbrains.kotlin.kapt3.javac.KaptJavaFileObject
 import org.jetbrains.kotlin.kapt3.util.*
 import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.psi.KtTypeReference
+import org.jetbrains.kotlin.psi.KtVariableDeclaration
 import org.jetbrains.kotlin.resolve.DescriptorUtils
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperClassNotAny
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperClassOrAny
+import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.kotlin.types.typeUtil.isAnyOrNullableAny
 import org.jetbrains.org.objectweb.asm.Opcodes
 import org.jetbrains.org.objectweb.asm.Type
@@ -76,7 +79,7 @@ class ClassFileToSourceStubConverter(
         get() = _bindings
 
     private val fileManager = kaptContext.context.get(JavaFileManager::class.java) as JavacFileManager
-    private val treeMaker = TreeMaker.instance(kaptContext.context) as KaptTreeMaker
+    val treeMaker = TreeMaker.instance(kaptContext.context) as KaptTreeMaker
     private val signatureParser = SignatureParser(treeMaker)
 
     private var done = false
@@ -228,7 +231,11 @@ class ClassFileToSourceStubConverter(
         val typeExpression = if (isEnum(field.access))
             treeMaker.SimpleName(type.className.substringAfterLast('.'))
         else
-            getNotAnonymousType(descriptor) { signatureParser.parseFieldSignature(field.signature, treeMaker.Type(type)) }
+            getNotAnonymousType(descriptor) {
+                getNonErrorType((descriptor as? CallableDescriptor)?.returnType,
+                                ktTypeProvider = { (kaptContext.origins[field]?.element as? KtVariableDeclaration)?.typeReference },
+                                ifNonError = { signatureParser.parseFieldSignature(field.signature, treeMaker.Type(type)) })
+            }
 
         val value = field.value
 
@@ -327,6 +334,21 @@ class ClassFileToSourceStubConverter(
                 modifiers, name, returnType, genericSignature.typeParameters,
                 genericSignature.parameterTypes, genericSignature.exceptionTypes,
                 body, defaultValue)
+    }
+
+    private inline fun getNonErrorType(
+            type: KotlinType?,
+            ktTypeProvider: () -> KtTypeReference?,
+            ifNonError: () -> JCExpression
+    ): JCExpression {
+        if (type?.containsErrorTypes() ?: false) {
+            val ktType = ktTypeProvider()
+            if (ktType != null) {
+                return convertKtType(ktType, this)
+            }
+        }
+
+        return ifNonError()
     }
 
     private inline fun <T : JCExpression?> getNotAnonymousType(descriptor: DeclarationDescriptor?, f: () -> T): T {
