@@ -381,16 +381,16 @@
         <move file="${js.stdlib.output.dir}/tmp/kotlin" todir="${js.stdlib.output.dir}" />
         <move file="${js.stdlib.output.dir}/tmp/${compiled.stdlib.meta.js}" tofile="${js.stdlib.output.dir}/${compiled.stdlib.meta.js}" />
 
-        <condition property="jdk17" value="${env.JDK_17}" else="${env.JAVA_HOME}">
-            <isset property="env.JDK_17" />
+        <condition property="jdk18" value="${env.JDK_18}" else="${env.JAVA_HOME}">
+            <isset property="env.JDK_18" />
         </condition>
         <java classname="org.apache.tools.ant.launch.Launcher"
               fork="true"
               failonerror="true"
               timeout="4000000"
               taskname="startAnt"
-              jvm="${jdk17}/bin/java">
-            <env key="JAVA_HOME" value="${jdk17}"/>
+              jvm="${jdk18}/bin/java">
+            <env key="JAVA_HOME" value="${jdk18}"/>
             <classpath>
                 <pathelement location="${ant.home}/lib/ant-launcher.jar"/>
             </classpath>
