@@ -9,6 +9,6 @@ val ok3 = O::class
 
 
 val fail1 = <!UNSUPPORTED_FEATURE!>""<!>::class
-val fail2 = <!CLASS_LITERAL_LHS_NOT_A_CLASS!>String?::class<!>
+val <!SPECIFY_TYPE_EXPLICITLY!>fail2<!> = <!CLASS_LITERAL_LHS_NOT_A_CLASS!>String?::class<!>
 val fail3 = <!UNSUPPORTED_FEATURE!>(C)<!>::class
 val fail4 = <!UNSUPPORTED_FEATURE!>(C.Companion)<!>::class

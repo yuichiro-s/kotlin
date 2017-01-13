@@ -858,6 +858,7 @@ public class DefaultErrorMessages {
         MAP.put(DATA_CLASS_NOT_PROPERTY_PARAMETER, "Data class primary constructor must have only property (val / var) parameters");
 
         MAP.put(AMBIGUOUS_ANONYMOUS_TYPE_INFERRED, "Right-hand side has anonymous type. Please specify type explicitly", TO_STRING);
+        MAP.put(SPECIFY_TYPE_EXPLICITLY, "Please specify type explicitly");
 
         MAP.put(EXTENSION_IN_CLASS_REFERENCE_NOT_ALLOWED,
                 "''{0}'' is a member and an extension at the same time. References to such elements are not allowed", NAME);

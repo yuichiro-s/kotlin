@@ -413,6 +413,8 @@ public interface Errors {
     DiagnosticFactory1<KtDeclaration, Collection<KotlinType>> AMBIGUOUS_ANONYMOUS_TYPE_INFERRED =
             DiagnosticFactory1.create(ERROR, DECLARATION_SIGNATURE);
 
+    DiagnosticFactory0<KtNamedDeclaration> SPECIFY_TYPE_EXPLICITLY = DiagnosticFactory0.create(ERROR, PositioningStrategies.DECLARATION_NAME);
+
     // Property-specific
 
     DiagnosticFactory2<KtNamedDeclaration, PropertyDescriptor, PropertyDescriptor> VAR_OVERRIDDEN_BY_VAL =

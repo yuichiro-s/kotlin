@@ -119,6 +119,8 @@ class ReflectionTypes(module: ModuleDescriptor) {
             return containingPackage != null && containingPackage.fqName == KOTLIN_REFLECT_FQ_NAME
         }
 
+        fun isKClass(descriptor: ClassDescriptor): Boolean = isReflectionClass(descriptor) && descriptor.name.asString() == "KClass"
+
         fun isCallableType(type: KotlinType): Boolean =
                 type.isFunctionTypeOrSubtype || isKCallableType(type)
 

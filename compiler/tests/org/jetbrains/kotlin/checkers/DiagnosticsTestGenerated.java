@@ -5410,6 +5410,12 @@ public class DiagnosticsTestGenerated extends AbstractDiagnosticsTest {
                 doTest(fileName);
             }
 
+            @TestMetadata("kClassInSignature.kt")
+            public void testKClassInSignature() throws Exception {
+                String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/diagnostics/tests/declarationChecks/kClassInSignature.kt");
+                doTest(fileName);
+            }
+
             @TestMetadata("kt1141.kt")
             public void testKt1141() throws Exception {
                 String fileName = KotlinTestUtils.navigationMetadata("compiler/testData/diagnostics/tests/declarationChecks/kt1141.kt");
