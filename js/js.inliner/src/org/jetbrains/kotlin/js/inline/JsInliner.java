@@ -20,7 +20,7 @@ import com.intellij.psi.PsiElement;
 import kotlin.jvm.functions.Function1;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.kotlin.descriptors.CallableDescriptor;
+import org.jetbrains.kotlin.descriptors.*;
 import org.jetbrains.kotlin.diagnostics.DiagnosticSink;
 import org.jetbrains.kotlin.diagnostics.Errors;
 import org.jetbrains.kotlin.js.backend.ast.*;
@@ -35,6 +35,8 @@ import org.jetbrains.kotlin.js.inline.util.CollectUtilsKt;
 import org.jetbrains.kotlin.js.inline.util.CollectionUtilsKt;
 import org.jetbrains.kotlin.js.inline.util.NamingUtilsKt;
 import org.jetbrains.kotlin.js.translate.context.TranslationContext;
+import org.jetbrains.kotlin.name.FqNameUnsafe;
+import org.jetbrains.kotlin.resolve.DescriptorUtils;
 import org.jetbrains.kotlin.resolve.inline.InlineStrategy;
 
 import java.util.*;
@@ -180,6 +182,12 @@ public class JsInliner extends JsVisitorWithContextImpl {
     }
 
     private void inline(@NotNull JsInvocation call, @NotNull JsContext context) {
+        DeclarationDescriptor callDescriptor = MetadataProperties.getDescriptor(call);
+        if (isSuspendWithCurrentContinuation(callDescriptor)) {
+            inlineSuspendWithCurrentContinuation(call, context);
+            return;
+        }
+
         JsInliningContext inliningContext = getInliningContext();
         InlineableResult inlineableResult = getInlineableCallReplacement(call, inliningContext);
 
@@ -203,6 +211,23 @@ public class JsInliner extends JsVisitorWithContextImpl {
         resultExpression = accept(resultExpression);
         MetadataProperties.setSynthetic(resultExpression, true);
         context.replaceMe(resultExpression);
+    }
+
+    private static boolean isSuspendWithCurrentContinuation(@Nullable DeclarationDescriptor descriptor) {
+        if (!(descriptor instanceof FunctionDescriptor)) return false;
+        return new FqNameUnsafe("kotlin.coroutines.CoroutineIntrinsics.suspendCoroutineOrReturn")
+                .equals(DescriptorUtils.getFqName(descriptor));
+    }
+
+    private void inlineSuspendWithCurrentContinuation(@NotNull JsInvocation call, @NotNull JsContext context) {
+        JsInliningContext inliningContext = getInliningContext();
+        JsFunction containingFunction = inliningContext.function;
+        JsExpression lambda = call.getArguments().get(0);
+        JsParameter continuationParam = containingFunction.getParameters().get(containingFunction.getParameters().size() - 1);
+
+        JsInvocation invocation = new JsInvocation(lambda, continuationParam.getName().makeRef());
+        MetadataProperties.setSuspend(invocation, true);
+        context.replaceMe(accept(invocation));
     }
 
     @NotNull
@@ -250,7 +275,11 @@ public class JsInliner extends JsVisitorWithContextImpl {
     private class JsInliningContext implements InliningContext {
         private final FunctionContext functionContext;
 
-        JsInliningContext(JsFunction function) {
+        @NotNull
+        public final JsFunction function;
+
+        JsInliningContext(@NotNull JsFunction function) {
+            this.function = function;
             functionContext = new FunctionContext(function, functionReader) {
                 @Nullable
                 @Override

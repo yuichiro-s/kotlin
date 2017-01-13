@@ -16,29 +16,25 @@
 
 package org.jetbrains.kotlin.js.translate.callTranslator
 
-import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.builtins.isFunctionTypeOrSubtype
 import org.jetbrains.kotlin.descriptors.CallableDescriptor
-import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.descriptors.VariableDescriptor
-import org.jetbrains.kotlin.js.backend.ast.*
+import org.jetbrains.kotlin.js.backend.ast.JsExpression
+import org.jetbrains.kotlin.js.backend.ast.JsInvocation
+import org.jetbrains.kotlin.js.backend.ast.JsNameRef
 import org.jetbrains.kotlin.js.backend.ast.metadata.*
 import org.jetbrains.kotlin.js.translate.context.TranslationContext
 import org.jetbrains.kotlin.js.translate.general.Translation
 import org.jetbrains.kotlin.js.translate.reference.CallArgumentTranslator
 import org.jetbrains.kotlin.js.translate.reference.CallExpressionTranslator
-import org.jetbrains.kotlin.js.translate.reference.ReferenceTranslator
 import org.jetbrains.kotlin.js.translate.utils.*
-import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.psi.Call.CallType
 import org.jetbrains.kotlin.psi.KtExpression
 import org.jetbrains.kotlin.resolve.calls.callResolverUtil.isInvokeCallOnVariable
 import org.jetbrains.kotlin.resolve.calls.model.ResolvedCall
 import org.jetbrains.kotlin.resolve.calls.model.VariableAsFunctionResolvedCall
 import org.jetbrains.kotlin.resolve.calls.tasks.ExplicitReceiverKind.*
-import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
-import org.jetbrains.kotlin.resolve.inline.InlineStrategy
 import org.jetbrains.kotlin.resolve.scopes.receivers.ExpressionReceiver
 import org.jetbrains.kotlin.resolve.scopes.receivers.ReceiverValue
 
@@ -131,11 +127,6 @@ private fun translateFunctionCall(
         inlineResolvedCall: ResolvedCall<out CallableDescriptor>,
         explicitReceivers: ExplicitReceivers
 ): JsExpression {
-    val descriptorToCall = resolvedCall.resultingDescriptor
-    if (descriptorToCall is FunctionDescriptor && descriptorToCall.isSuspendCoroutineOrReturn()) {
-        return translateCallWithContinuation(context, resolvedCall)
-    }
-
     val callExpression = context.getCallInfo(resolvedCall, explicitReceivers).translateFunctionCall()
 
     if (CallExpressionTranslator.shouldBeInlined(inlineResolvedCall.resultingDescriptor, context)) {
@@ -144,10 +135,7 @@ private fun translateFunctionCall(
     }
 
     if (resolvedCall.resultingDescriptor.isSuspend && context.isInStateMachine) {
-        context.currentBlock.statements += JsAstUtils.asSyntheticStatement((callExpression as JsInvocation).apply {
-            isSuspend = true
-            isPreSuspend = true
-        })
+        context.currentBlock.statements += JsAstUtils.asSyntheticStatement((callExpression as JsInvocation).apply { isSuspend = true })
         val coroutineRef = TranslationUtils.translateContinuationArgument(context, resolvedCall)
         return context.defineTemporary(JsNameRef("\$\$coroutineResult\$\$", coroutineRef).apply {
             sideEffects = SideEffectKind.DEPENDS_ON_STATE
@@ -160,22 +148,6 @@ private fun translateFunctionCall(
 private val TranslationContext.isInStateMachine
     get() = (declarationDescriptor as? FunctionDescriptor)?.requiresStateMachineTransformation(this) == true
 
-private val SUSPEND_COROUTINE_OR_RETURN = Name.identifier("suspendCoroutineOrReturn")
-private val COROUTINE_INTRINSICS = KotlinBuiltIns.COROUTINES_PACKAGE_FQ_NAME.child(Name.identifier("CoroutineIntrinsics"))
-
-private fun FunctionDescriptor.isSuspendCoroutineOrReturn(): Boolean {
-    val containingClass = containingDeclaration as? ClassDescriptor ?: return false
-    return containingClass.fqNameSafe == COROUTINE_INTRINSICS && name == SUSPEND_COROUTINE_OR_RETURN
-}
-
-private fun translateCallWithContinuation(context: TranslationContext, resolvedCall: ResolvedCall<out FunctionDescriptor>): JsExpression {
-    val arguments = CallArgumentTranslator.translate(resolvedCall, null, context)
-    val coroutineArgument = TranslationUtils.getEnclosingContinuationParameter(context)
-    val invocation = JsInvocation(arguments.valueArguments[0], ReferenceTranslator.translateAsValueReference(coroutineArgument, context))
-    invocation.inlineStrategy = InlineStrategy.IN_PLACE
-    context.currentBlock.statements += JsReturn(invocation)
-    return JsLiteral.NULL
-}
 
 fun computeExplicitReceiversForInvoke(
         context: TranslationContext,
