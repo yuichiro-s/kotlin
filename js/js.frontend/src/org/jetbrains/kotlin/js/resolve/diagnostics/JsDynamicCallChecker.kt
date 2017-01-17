@@ -29,7 +29,9 @@ import org.jetbrains.kotlin.types.isDynamic
 object JsDynamicCallChecker : CallChecker {
     override fun check(resolvedCall: ResolvedCall<*>, reportOn: PsiElement, context: CallCheckerContext) {
         val callee = resolvedCall.resultingDescriptor
-        if (!callee.isDynamic()) return
+        if (!callee.isDynamic()) {
+            return checkSpreadOperator(resolvedCall, context)
+        }
 
         val element = resolvedCall.call.callElement
         when (element) {
@@ -65,6 +67,15 @@ object JsDynamicCallChecker : CallChecker {
         for (argument in resolvedCall.call.valueArguments) {
             argument.getSpreadElement()?.let {
                 context.trace.report(ErrorsJs.SPREAD_OPERATOR_IN_DYNAMIC_CALL.on(it))
+            }
+        }
+    }
+
+    private fun checkSpreadOperator(resolvedCall: ResolvedCall<*>, context: CallCheckerContext) {
+        for (arg in resolvedCall.call.valueArguments) {
+            val argExpression = arg.getArgumentExpression() ?: continue
+            if (context.trace.bindingContext.getType(argExpression)?.isDynamic() == true && arg.getSpreadElement() != null) {
+                context.trace.report(ErrorsJs.WRONG_OPERATION_WITH_DYNAMIC.on(arg.asElement(), "spread operator"))
             }
         }
     }
