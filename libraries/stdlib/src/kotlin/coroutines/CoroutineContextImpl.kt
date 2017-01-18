@@ -27,7 +27,7 @@ public abstract class AbstractCoroutineContextElement(public override val key: K
     public override operator fun <E : Element> get(key: Key<E>): E? =
             if (this.key == key) this as E else null
 
-    public override fun <R> fold(initial: R, operation: (R, Element) -> R): R =
+    public override fun <R> fold(initial: R, operation: (acc: R, Element) -> R): R =
             operation(initial, this)
 
     public override operator fun plus(context: CoroutineContext): CoroutineContext =
@@ -43,7 +43,7 @@ public abstract class AbstractCoroutineContextElement(public override val key: K
 @SinceKotlin("1.1")
 public object EmptyCoroutineContext : CoroutineContext {
     public override fun <E : Element> get(key: Key<E>): E? = null
-    public override fun <R> fold(initial: R, operation: (R, Element) -> R): R = initial
+    public override fun <R> fold(initial: R, operation: (acc: R, Element) -> R): R = initial
     public override fun plus(context: CoroutineContext): CoroutineContext = context
     public override fun minusKey(key: Key<*>): CoroutineContext = this
     public override fun hashCode(): Int = 0
@@ -68,7 +68,7 @@ private class CombinedContext(val left: CoroutineContext, val element: Element) 
         }
     }
 
-    public override fun <R> fold(initial: R, operation: (R, Element) -> R): R =
+    public override fun <R> fold(initial: R, operation: (acc: R, Element) -> R): R =
             operation(left.fold(initial, operation), element)
 
     public override operator fun plus(context: CoroutineContext): CoroutineContext =
