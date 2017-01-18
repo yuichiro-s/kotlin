@@ -18,7 +18,6 @@ package org.jetbrains.kotlin.js.naming
 
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.descriptors.impl.TypeAliasConstructorDescriptor
-import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.js.translate.utils.AnnotationsUtils.getNameForAnnotatedObject
 import org.jetbrains.kotlin.js.translate.utils.AnnotationsUtils.isNativeObject
 import org.jetbrains.kotlin.resolve.DescriptorUtils
@@ -171,10 +170,9 @@ class NameSuggestion {
 
         do {
             parts += getSuggestedName(current)
-            var last = current
+            val last = current
             current = current.containingDeclaration!!
             if (last is ConstructorDescriptor && !last.isPrimary) {
-                last = current
                 parts[parts.lastIndex] = getSuggestedName(current) + "_init"
                 current = current.containingDeclaration!!
             }
@@ -254,7 +252,7 @@ class NameSuggestion {
                 return regularAndUnstable()
             }
 
-            fun mangledAndStable() = NameAndStability(getStableMangledName(baseName, getArgumentTypesAsString(descriptor)), true)
+            fun mangledAndStable() = NameAndStability(getStableMangledName(baseName, encodeSignature(descriptor)), true)
             fun mangledPrivate() = NameAndStability(getPrivateMangledName(baseName, descriptor), false)
 
             val effectiveVisibility = descriptor.ownEffectiveVisibility
@@ -302,20 +300,7 @@ class NameSuggestion {
 
         @JvmStatic fun getPrivateMangledName(baseName: String, descriptor: CallableDescriptor): String {
             val ownerName = descriptor.containingDeclaration.fqNameUnsafe.asString()
-            return getStableMangledName(baseName, ownerName + ":" + getArgumentTypesAsString(descriptor))
-        }
-
-        private fun getArgumentTypesAsString(descriptor: CallableDescriptor): String {
-            val argTypes = StringBuilder()
-
-            val receiverParameter = descriptor.extensionReceiverParameter
-            if (receiverParameter != null) {
-                argTypes.append(receiverParameter.type.getJetTypeFqName(true)).append(".")
-            }
-
-            argTypes.append(descriptor.valueParameters.joinToString(",") { it.type.getJetTypeFqName(true) })
-
-            return argTypes.toString()
+            return getStableMangledName(baseName, ownerName + ":" + encodeSignature(descriptor))
         }
 
         @JvmStatic fun getStableMangledName(suggestedName: String, forCalculateId: String): String {
