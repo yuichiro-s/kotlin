@@ -32,7 +32,7 @@ public interface CoroutineContext {
      * Accumulates entries of this context starting with [initial] value and applying [operation]
      * from left to right to current accumulator value and each element of this context.
      */
-    public fun <R> fold(initial: R, operation: (acc: R, Element) -> R): R
+    public fun <R> fold(initial: R, operation: (R, Element) -> R): R
 
     /**
      * Returns a context containing elements from this context and elements from  other [context].
