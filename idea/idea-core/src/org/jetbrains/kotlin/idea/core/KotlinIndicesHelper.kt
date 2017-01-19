@@ -51,7 +51,6 @@ import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.isHiddenInResolution
 import org.jetbrains.kotlin.resolve.scopes.DescriptorKindFilter
 import org.jetbrains.kotlin.types.KotlinType
-import org.jetbrains.kotlin.utils.addIfNotNull
 import org.jetbrains.kotlin.utils.addToStdlib.singletonOrEmptyList
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
@@ -177,9 +176,27 @@ class KotlinIndicesHelper(
             suitableExtensions
     }
 
+
+    private fun resolveTypeAliasesUsingIndex(type: KotlinType, originalTypeName: String, out: MutableCollection<String>) {
+        val index = KotlinTypeAliasByExpansionShortNameIndex.INSTANCE
+
+        fun searchRecursively(typeName: String): Unit =
+                index[typeName, project, scope].asSequence()
+                        .map { it.resolveToDescriptor() as TypeAliasDescriptor }
+                        .filter { it.expandedType == type }
+                        .map { it.name.asString() }
+                        .onEach(::searchRecursively)
+                        .forEach { out.add(it) }
+
+        searchRecursively(originalTypeName)
+    }
+
     private fun MutableCollection<String>.addTypeNames(type: KotlinType) {
         val constructor = type.constructor
-        addIfNotNull(constructor.declarationDescriptor?.name?.asString())
+        constructor.declarationDescriptor?.name?.asString()?.let { typeName ->
+            add(typeName)
+            resolveTypeAliasesUsingIndex(type, typeName, this)
+        }
         constructor.supertypes.forEach { addTypeNames(it) }
     }
 
