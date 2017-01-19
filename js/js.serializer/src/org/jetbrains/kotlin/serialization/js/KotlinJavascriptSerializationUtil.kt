@@ -144,8 +144,10 @@ object KotlinJavascriptSerializationUtil {
             }
         }, skip)
 
-        writeFun(KotlinJavascriptSerializedResourcePaths.getFileListFilePath(fqName),
-                 serializeFiles(fileRegistry, bindingContext, AnnotationSerializer(serializer.stringTable)))
+        val fileTableBytes = serializeFiles(fileRegistry, bindingContext, AnnotationSerializer(serializer.stringTable))
+        if (fileTableBytes.isNotEmpty()) {
+            writeFun(KotlinJavascriptSerializedResourcePaths.getFileListFilePath(fqName), fileTableBytes)
+        }
 
         val packageStream = ByteArrayOutputStream()
         val fragments = packageView.fragments
