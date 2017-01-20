@@ -42,7 +42,7 @@ class GenericReplTest : TestCase() {
         val disposable = Disposer.newDisposable()
 
         val repl = TestRepl(disposable,
-                            listOf(File(KotlinIntegrationTestBase.getCompilerLib(), "kotlin-runtime.jar")),
+                            listOf(File(KotlinIntegrationTestBase.getCompilerLib(), "kotlin-stdlib.jar")),
                             "kotlin.script.templates.standard.ScriptTemplateWithArgs")
 
         val res1 = repl.replCompiler?.check(ReplCodeLine(0, "val x ="), emptyList())
@@ -89,7 +89,7 @@ class GenericReplTest : TestCase() {
         val disposable = Disposer.newDisposable()
 
         val repl = TestRepl(disposable,
-                            listOf(File(KotlinIntegrationTestBase.getCompilerLib(), "kotlin-runtime.jar")),
+                            listOf(File(KotlinIntegrationTestBase.getCompilerLib(), "kotlin-stdlib.jar")),
                             "kotlin.script.templates.standard.ScriptTemplateWithArgs")
 
         val codeLine1 = ReplCodeLine(0, "package mypackage\n\nval x = 1\nx+2")

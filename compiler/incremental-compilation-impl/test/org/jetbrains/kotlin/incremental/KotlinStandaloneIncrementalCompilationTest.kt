@@ -114,8 +114,7 @@ class KotlinStandaloneIncrementalCompilationTest : TestWithWorkingDir() {
     private fun compileClasspath(): String {
         val currentClasspath = System.getProperty("java.class.path").split(File.pathSeparator)
         val stdlib = currentClasspath.find { it.contains("kotlin-stdlib") }
-        val runtime = currentClasspath.find { it.contains("kotlin-runtime") }
-        return listOf(stdlib, runtime).joinToString(File.pathSeparator)
+        return stdlib!! // listOf(stdlib, runtime).joinToString(File.pathSeparator)
     }
 
     data class CompilationResult(val exitCode: ExitCode, val compiledSources: Iterable<File>, val compileErrors: Collection<String>)

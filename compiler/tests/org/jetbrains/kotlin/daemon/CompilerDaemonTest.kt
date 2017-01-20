@@ -546,7 +546,7 @@ class CompilerDaemonTest : KotlinIntegrationTestBase() {
                 val evalIn = ByteArrayInputStream("42\n".toByteArray())
 
                 val repl = KotlinRemoteReplEvaluator(disposable, daemon!!, null, CompileService.TargetPlatform.JVM,
-                                                     listOf(File(KotlinIntegrationTestBase.getCompilerLib(), "kotlin-runtime.jar")),
+                                                     listOf(File(KotlinIntegrationTestBase.getCompilerLib(), "kotlin-stdlib.jar")),
                                                      "kotlin.script.templates.standard.ScriptTemplateWithArgs",
                                                      arrayOf(emptyArray<String>()), null,
                                                      System.err, evalOut, evalErr, evalIn)

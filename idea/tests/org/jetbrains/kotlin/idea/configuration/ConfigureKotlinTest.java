@@ -123,8 +123,8 @@ public class ConfigureKotlinTest extends PlatformTestCase {
 
         // Move fake runtime jar to default library path to pretend library is already configured
         FileUtil.copy(
-                new File(getProject().getBasePath() + "/lib/kotlin-runtime.jar"),
-                new File(JAVA_CONFIGURATOR.getDefaultPathToJarFile(getProject()) + "/kotlin-runtime.jar"));
+                new File(getProject().getBasePath() + "/lib/kotlin-stdlib.jar"),
+                new File(JAVA_CONFIGURATOR.getDefaultPathToJarFile(getProject()) + "/kotlin-stdlib.jar"));
 
         assertNotConfigured(module, JAVA_CONFIGURATOR);
         JAVA_CONFIGURATOR.configure(myProject, Collections.<Module>emptyList());

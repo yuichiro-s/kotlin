@@ -98,7 +98,7 @@ public abstract class AbstractKotlinJpsBuildTestCase extends BaseKotlinJpsBuildT
     }
 
     protected static JpsLibrary addKotlinRuntimeDependency(JpsJavaDependencyScope type, Collection<JpsModule> modules, boolean exported) {
-        return addDependency(type, modules, exported, "kotlin-runtime", PathUtil.getKotlinPathsForDistDirectory().getRuntimePath());
+        return addDependency(type, modules, exported, "kotlin-stdlib", PathUtil.getKotlinPathsForDistDirectory().getRuntimePath());
     }
 
     protected static JpsLibrary addKotlinJavaScriptStdlibDependency(JpsJavaDependencyScope type, Collection<JpsModule> modules, boolean exported) {
