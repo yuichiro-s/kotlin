@@ -1170,7 +1170,7 @@
 
         <jar destfile="${output}/kotlin-reflect-before-jarjar.jar" update="true">
             <manifest>
-                <attribute name="Class-Path" value="kotlin-stdlib.jar"/>
+                <attribute name="Class-Path" value="kotlin-runtime.jar"/>
             </manifest>
         </jar>
 
