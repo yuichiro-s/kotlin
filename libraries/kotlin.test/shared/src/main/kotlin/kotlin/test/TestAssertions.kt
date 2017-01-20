@@ -16,6 +16,7 @@
 
 @file:kotlin.jvm.JvmMultifileClass
 @file:kotlin.jvm.JvmName("AssertionsKt")
+@file:Suppress("INVISIBLE_REFERENCE", "INVISIBLE_MEMBER")
 
 /**
  * A number of helper methods for writing unit tests.

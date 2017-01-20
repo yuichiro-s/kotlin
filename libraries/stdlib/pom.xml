@@ -20,9 +20,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${project.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -65,6 +65,13 @@
                         <goals>
                             <goal>test-compile</goal>
                         </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <dir>${project.basedir}/../kotlin.test/shared/src/main/kotlin</dir>
+                                <dir>${project.basedir}/../kotlin.test/shared/src/main/kotlin.jvm</dir>
+                                <dir>${project.basedir}/../kotlin.test/junit/src/main/kotlin</dir>
+                            </sourceDirs>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
