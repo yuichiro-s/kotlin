@@ -1071,6 +1071,8 @@
                 <pathelement path="${output}/classes/builtins"/>
                 <pathelement path="libraries/lib/junit-4.11.jar"/>
                 <pathelement path="${output}/builtins"/>
+                <pathelement path="${output}/classes/builtins"/>
+                <pathelement path="${output}/classes/stdlib"/>
             </class-path>
         </new-kotlinc>
 
@@ -1143,7 +1145,7 @@
     </macrodef>
 
     <target name="pack-runtime">
-        <pack-runtime-jar jar-name="kotlin-runtime.jar" implementation-title="${manifest.impl.title.kotlin.jvm.runtime}">
+        <pack-runtime-jar jar-name="kotlin-stdlib.jar" implementation-title="${manifest.impl.title.kotlin.jvm.runtime}">
             <jar-content>
                 <fileset dir="${output}/classes/builtins"/>
                 <fileset dir="${output}/classes/stdlib"/>
@@ -1154,6 +1156,7 @@
                 </zipfileset>
             </jar-content>
         </pack-runtime-jar>
+        <copy file="${kotlin-home}/lib/kotlin-stdlib.jar" tofile="${kotlin-home}/lib/kotlin-runtime.jar"/>
 
         <pack-runtime-jar jar-dir="${output}" jar-name="kotlin-reflect-before-jarjar.jar" implementation-title="${manifest.impl.title.kotlin.jvm.reflect}">
             <jar-content>
@@ -1167,7 +1170,7 @@
 
         <jar destfile="${output}/kotlin-reflect-before-jarjar.jar" update="true">
             <manifest>
-                <attribute name="Class-Path" value="kotlin-runtime.jar"/>
+                <attribute name="Class-Path" value="kotlin-stdlib.jar"/>
             </manifest>
         </jar>
 
@@ -1229,7 +1232,7 @@
             </replaceregexp>
         </sequential>
 
-        <pack-runtime-jar jar-name="kotlin-runtime-sources.jar" implementation-title="${manifest.impl.title.kotlin.jvm.runtime.sources}">
+        <pack-runtime-jar jar-name="kotlin-stdlib-sources.jar" implementation-title="${manifest.impl.title.kotlin.jvm.runtime.sources}">
             <jar-content>
                 <fileset dir="${basedir}/core/builtins/native" includes="**/*"/>
                 <fileset dir="${basedir}/core/builtins/src" includes="**/*"/>
