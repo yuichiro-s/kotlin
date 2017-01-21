@@ -1,3 +1,13 @@
+public final class MyType<T extends java.lang.Object> {
+
+    public MyType() {
+        super();
+    }
+}
+
+////////////////////
+
+
 @kotlin.Suppress(names = {"UNRESOLVED_REFERENCE"})
 public final class Test {
     public ABC a;
@@ -110,6 +120,10 @@ public final class Test {
     }
 
     public final error.NonExistentClass f4() {
+        return null;
+    }
+
+    public final <T extends java.lang.Object>java.lang.Class<java.lang.Enum<?>> f5(MyType<T> $receiver) {
         return null;
     }
 
