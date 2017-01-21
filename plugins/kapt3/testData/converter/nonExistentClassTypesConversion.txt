@@ -12,18 +12,21 @@ public final class MyType<T extends java.lang.Object> {
 public final class Test {
     public ABC a;
     private final ABC b = null;
-    private final List<ABC> c = null;
-    private final List<Map<BCD, ABC<List<BCD>>>> d = null;
-    public List<? extends Map<? extends ABC, ? extends BCD>> e;
+    private final java.util.List<ABC> c = null;
+    private final java.util.List<java.util.Map<BCD, ABC<java.util.List<BCD>>>> d = null;
+    public java.util.List<? extends java.util.Map<? extends ABC, ? extends BCD>> e;
     public ABC<?> f;
     public java.util.List<?> g;
     public ABC<java.lang.Integer, java.lang.String> h;
-    public Function2<ABC, List<BCD>, CDE> i;
+    public Function2<ABC, java.util.List<BCD>, CDE> i;
     public Function0<CDE> j;
-    public Function2<ABC, List<BCD>, CDE> k;
+    public Function2<ABC, java.util.List<BCD>, CDE> k;
     public ABC.BCD.EFG l;
     private final error.NonExistentClass m = null;
     private final java.lang.String n = "";
+    public java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends java.util.List<? extends error.NonExistentClass>>>>>>>>>> o11;
+    public java.util.List<java.util.List<java.util.List<java.util.List<java.util.List<java.util.List<java.util.List<java.util.List<java.util.List<ABC>>>>>>>>> o10;
+    public java.util.Calendar.Builder p;
 
     public final ABC getA() {
         return null;
