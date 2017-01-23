@@ -107,7 +107,7 @@ private fun Appendable.renderFunctionDeclaration(owner: String, f: GenerateFunct
         append("override ")
     }
     if (f.nativeGetterOrSetter != NativeGetterOrSetter.NONE) {
-        append("inline ")
+        append("inline operator ")
     }
 
     if (f.name in keywords) {
