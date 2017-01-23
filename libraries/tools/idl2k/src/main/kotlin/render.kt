@@ -266,7 +266,6 @@ fun Appendable.renderBuilderFunction(dictionary: GenerateTraitOrClass, allSuperT
             .dynamicIfUnknownType(allTypes)
             .map { if (it.initializer == null && (it.type.nullable || it.type == DynamicType) && !it.required) it.copy(initializer = "null") else it }
 
-    appendln("@Suppress(\"NOTHING_TO_INLINE\")")
     append("public inline fun ${dictionary.name}")
     renderArgumentsDeclaration(fields)
     appendln(": ${dictionary.name} {")
