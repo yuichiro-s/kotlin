@@ -1,21 +1,19 @@
 package kotlin.js
 
 public external val noImpl: Nothing
-    get() = definedExternally
 
 public external val definedExternally: Nothing
-    get() = definedExternally
 
-public external fun eval(expr: String): dynamic = noImpl
+public external fun eval(expr: String): dynamic
 
-public external val undefined: Nothing? = noImpl
+public external val undefined: Nothing?
 
 
-public external fun parseInt(s: String, radix: Int = noImpl): Int
+public external fun parseInt(s: String, radix: Int = definedExternally): Int
 
-public external fun parseFloat(s: String, radix: Int = noImpl): Double
+public external fun parseFloat(s: String, radix: Int = definedExternally): Double
 
-public external fun js(code: String): dynamic = noImpl
+public external fun js(code: String): dynamic
 
 /**
  * Function corresponding to JavaScript's `typeof` operator
