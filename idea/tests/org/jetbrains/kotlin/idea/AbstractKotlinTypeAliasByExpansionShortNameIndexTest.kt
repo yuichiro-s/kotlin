@@ -16,20 +16,15 @@
 
 package org.jetbrains.kotlin.idea
 
-import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.idea.stubindex.KotlinTypeAliasByExpansionShortNameIndex
-import org.jetbrains.kotlin.idea.test.ConfigLibraryUtil
-import org.jetbrains.kotlin.idea.test.KotlinCodeInsightTestCase
-import org.jetbrains.kotlin.idea.test.PluginTestCaseBase
+import org.jetbrains.kotlin.idea.test.KotlinLightCodeInsightFixtureTestCase
 import org.jetbrains.kotlin.test.InTextDirectivesUtils
 import org.jetbrains.kotlin.test.KotlinTestUtils
+import org.junit.Assert
 
-abstract class AbstractKotlinTypeAliasByExpansionShortNameIndexTest : KotlinCodeInsightTestCase() {
+abstract class AbstractKotlinTypeAliasByExpansionShortNameIndexTest : KotlinLightCodeInsightFixtureTestCase() {
 
-    override fun getTestProjectJdk(): Sdk? {
-        return PluginTestCaseBase.mockJdk()
-    }
 
     override fun getTestDataPath(): String {
         return KotlinTestUtils.getHomeDirectory() + "/"
@@ -39,19 +34,14 @@ abstract class AbstractKotlinTypeAliasByExpansionShortNameIndexTest : KotlinCode
 
     override fun setUp() {
         super.setUp()
-        ConfigLibraryUtil.configureKotlinRuntimeAndSdk(myModule, testProjectJdk)
         scope = GlobalSearchScope.allScope(project)
     }
 
-    override fun tearDown() {
-        ConfigLibraryUtil.unConfigureKotlinRuntimeAndSdk(myModule, testProjectJdk)
-        super.tearDown()
-    }
-
+    override fun getProjectDescriptor() = super.getProjectDescriptorFromTestName()
 
     fun doTest(file: String) {
-        configureByFile(file)
-        val fileText = myFile.text
+        myFixture.configureByFile(file)
+        val fileText = myFixture.file.text
         InTextDirectivesUtils.findLinesWithPrefixesRemoved(fileText, "CONTAINS").forEach {
             assertIndexContains(it)
         }
@@ -63,21 +53,18 @@ abstract class AbstractKotlinTypeAliasByExpansionShortNameIndexTest : KotlinCode
         val index = KotlinTypeAliasByExpansionShortNameIndex.INSTANCE
         val (_, key, value) = regex.find(record)!!.groupValues
         val result = index.get(key, project, scope)
-        try {
-            assertContainsElements(result.map { it.name }, value)
+        if (value !in result.map { it.name }) {
+            Assert.fail(buildString {
+                appendln("Record $record not found in index")
+                appendln("Index contents:")
+                index.getAllKeys(project).asSequence().forEach {
+                    appendln("KEY: $it")
+                    index.get(it, project, scope).forEach {
+                        appendln("    ${it.name}")
+                    }
+                }
+            })
         }
-        catch (ae: AssertionError) {
-            System.err.println("Record $record not found in index")
-            System.err.println("Index contents:")
-            index.getAllKeys(project).flatMap {
-                System.err.println(it)
-                index.get(it, project, scope)
-            }.forEach {
-                System.err.println("    ${it.name}")
-            }
-            throw ae
-        }
-
     }
 
 }
