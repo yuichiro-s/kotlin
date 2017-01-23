@@ -187,7 +187,7 @@ public external open class Document : Node, GlobalEventHandlers, DocumentAndElem
     override fun convertRectFromNode(rect: DOMRectReadOnly, from: dynamic, options: ConvertCoordinateOptions /* = noImpl */): DOMQuad
     override fun convertPointFromNode(point: DOMPointInit, from: dynamic, options: ConvertCoordinateOptions /* = noImpl */): DOMPoint
 }
-inline fun Document.get(name: String): dynamic = asDynamic()[name]
+inline operator fun Document.get(name: String): dynamic = asDynamic()[name]
 
 public external abstract class Window : EventTarget, GlobalEventHandlers, WindowEventHandlers, WindowOrWorkerGlobalScope, WindowSessionStorage, WindowLocalStorage, GlobalPerformance, UnionMessagePortOrWindow {
     open val window: Window
@@ -254,20 +254,20 @@ public external abstract class Window : EventTarget, GlobalEventHandlers, Window
     fun scrollBy(x: Double, y: Double): Unit
     fun getComputedStyle(elt: Element, pseudoElt: String? = noImpl): CSSStyleDeclaration
 }
-inline fun Window.get(name: String): dynamic = asDynamic()[name]
+inline operator fun Window.get(name: String): dynamic = asDynamic()[name]
 
 public external abstract class HTMLAllCollection {
     open val length: Int
 //    fun namedItem(name: String): UnionElementOrHTMLCollection?
     fun item(nameOrIndex: String = noImpl): UnionElementOrHTMLCollection?
 }
-//inline fun HTMLAllCollection.get(index: Int): Element? = asDynamic()[index]
-//inline fun HTMLAllCollection.get(name: String): UnionElementOrHTMLCollection? = asDynamic()[name]
+//inline operator fun HTMLAllCollection.get(index: Int): Element? = asDynamic()[index]
+//inline operator fun HTMLAllCollection.get(name: String): UnionElementOrHTMLCollection? = asDynamic()[name]
 
 public external abstract class HTMLFormControlsCollection : HTMLCollection {
 //    override fun namedItem(name: String): UnionElementOrRadioNodeList?
 }
-//override inline fun HTMLFormControlsCollection.get(name: String): UnionElementOrRadioNodeList? = asDynamic()[name]
+//override inline operator fun HTMLFormControlsCollection.get(name: String): UnionElementOrRadioNodeList? = asDynamic()[name]
 
 public external abstract class RadioNodeList : NodeList, UnionElementOrRadioNodeList {
     open var value: String
@@ -279,7 +279,7 @@ public external abstract class HTMLOptionsCollection : HTMLCollection {
     fun add(element: UnionHTMLOptGroupElementOrHTMLOptionElement, before: dynamic = noImpl): Unit
     fun remove(index: Int): Unit
 }
-inline fun HTMLOptionsCollection.set(index: Int, option: HTMLOptionElement?): Unit { asDynamic()[index] = option; }
+inline operator fun HTMLOptionsCollection.set(index: Int, option: HTMLOptionElement?): Unit { asDynamic()[index] = option; }
 
 public external abstract class HTMLElement : Element, ElementCSSInlineStyle, GlobalEventHandlers, DocumentAndElementEventHandlers, ElementContentEditable {
     open var title: String
@@ -312,8 +312,8 @@ public external abstract class HTMLUnknownElement : HTMLElement {
 
 public external abstract class DOMStringMap {
 }
-inline fun DOMStringMap.get(name: String): String? = asDynamic()[name]
-inline fun DOMStringMap.set(name: String, value: String): Unit { asDynamic()[name] = value; }
+inline operator fun DOMStringMap.get(name: String): String? = asDynamic()[name]
+inline operator fun DOMStringMap.set(name: String, value: String): Unit { asDynamic()[name] = value; }
 
 public external abstract class HTMLHtmlElement : HTMLElement {
     open var version: String
@@ -673,7 +673,7 @@ public external abstract class AudioTrackList : EventTarget {
     open var onremovetrack: ((Event) -> dynamic)?
     fun getTrackById(id: String): AudioTrack?
 }
-inline fun AudioTrackList.get(index: Int): AudioTrack? = asDynamic()[index]
+inline operator fun AudioTrackList.get(index: Int): AudioTrack? = asDynamic()[index]
 
 public external abstract class AudioTrack : UnionAudioTrackOrTextTrackOrVideoTrack {
     open val id: String
@@ -691,7 +691,7 @@ public external abstract class VideoTrackList : EventTarget {
     open var onremovetrack: ((Event) -> dynamic)?
     fun getTrackById(id: String): VideoTrack?
 }
-inline fun VideoTrackList.get(index: Int): VideoTrack? = asDynamic()[index]
+inline operator fun VideoTrackList.get(index: Int): VideoTrack? = asDynamic()[index]
 
 public external abstract class VideoTrack : UnionAudioTrackOrTextTrackOrVideoTrack {
     open val id: String
@@ -708,7 +708,7 @@ public external abstract class TextTrackList : EventTarget {
     open var onremovetrack: ((Event) -> dynamic)?
     fun getTrackById(id: String): TextTrack?
 }
-inline fun TextTrackList.get(index: Int): TextTrack? = asDynamic()[index]
+inline operator fun TextTrackList.get(index: Int): TextTrack? = asDynamic()[index]
 
 public external abstract class TextTrack : EventTarget, UnionAudioTrackOrTextTrackOrVideoTrack {
     open val kind: String
@@ -728,7 +728,7 @@ public external abstract class TextTrackCueList {
     open val length: Int
     fun getCueById(id: String): TextTrackCue?
 }
-inline fun TextTrackCueList.get(index: Int): TextTrackCue? = asDynamic()[index]
+inline operator fun TextTrackCueList.get(index: Int): TextTrackCue? = asDynamic()[index]
 
 public external abstract class TextTrackCue : EventTarget {
     open val track: TextTrack?
@@ -883,8 +883,8 @@ public external abstract class HTMLFormElement : HTMLElement {
     fun checkValidity(): Boolean
     fun reportValidity(): Boolean
 }
-inline fun HTMLFormElement.get(index: Int): Element? = asDynamic()[index]
-inline fun HTMLFormElement.get(name: String): UnionElementOrRadioNodeList? = asDynamic()[name]
+inline operator fun HTMLFormElement.get(index: Int): Element? = asDynamic()[index]
+inline operator fun HTMLFormElement.get(name: String): UnionElementOrRadioNodeList? = asDynamic()[name]
 
 public external abstract class HTMLLabelElement : HTMLElement {
     open val form: HTMLFormElement?
@@ -1000,8 +1000,8 @@ public external abstract class HTMLSelectElement : HTMLElement {
     fun reportValidity(): Boolean
     fun setCustomValidity(error: String): Unit
 }
-inline fun HTMLSelectElement.get(index: Int): Element? = asDynamic()[index]
-inline fun HTMLSelectElement.set(index: Int, option: HTMLOptionElement?): Unit { asDynamic()[index] = option; }
+inline operator fun HTMLSelectElement.get(index: Int): Element? = asDynamic()[index]
+inline operator fun HTMLSelectElement.set(index: Int, option: HTMLOptionElement?): Unit { asDynamic()[index] = option; }
 
 public external abstract class HTMLDataListElement : HTMLElement {
     open val options: HTMLCollection
@@ -1545,7 +1545,7 @@ public external abstract class DataTransferItemList {
     fun remove(index: Int): Unit
     fun clear(): Unit
 }
-inline fun DataTransferItemList.get(index: Int): DataTransferItem? = asDynamic()[index]
+inline operator fun DataTransferItemList.get(index: Int): DataTransferItem? = asDynamic()[index]
 
 public external abstract class DataTransferItem {
     open val kind: String
@@ -1953,16 +1953,16 @@ public external abstract class PluginArray {
     fun item(index: Int): Plugin?
     fun namedItem(name: String): Plugin?
 }
-inline fun PluginArray.get(index: Int): Plugin? = asDynamic()[index]
-inline fun PluginArray.get(name: String): Plugin? = asDynamic()[name]
+inline operator fun PluginArray.get(index: Int): Plugin? = asDynamic()[index]
+inline operator fun PluginArray.get(name: String): Plugin? = asDynamic()[name]
 
 public external abstract class MimeTypeArray {
     open val length: Int
     fun item(index: Int): MimeType?
     fun namedItem(name: String): MimeType?
 }
-inline fun MimeTypeArray.get(index: Int): MimeType? = asDynamic()[index]
-inline fun MimeTypeArray.get(name: String): MimeType? = asDynamic()[name]
+inline operator fun MimeTypeArray.get(index: Int): MimeType? = asDynamic()[index]
+inline operator fun MimeTypeArray.get(name: String): MimeType? = asDynamic()[name]
 
 public external abstract class Plugin {
     open val name: String
@@ -1972,8 +1972,8 @@ public external abstract class Plugin {
     fun item(index: Int): MimeType?
     fun namedItem(name: String): MimeType?
 }
-inline fun Plugin.get(index: Int): MimeType? = asDynamic()[index]
-inline fun Plugin.get(name: String): MimeType? = asDynamic()[name]
+inline operator fun Plugin.get(index: Int): MimeType? = asDynamic()[index]
+inline operator fun Plugin.get(name: String): MimeType? = asDynamic()[name]
 
 public external abstract class MimeType {
     open val type: String
@@ -2262,8 +2262,8 @@ public external abstract class Storage {
     fun removeItem(key: String): Unit
     fun clear(): Unit
 }
-inline fun Storage.get(key: String): String? = asDynamic()[key]
-inline fun Storage.set(key: String, value: String): Unit { asDynamic()[key] = value; }
+inline operator fun Storage.get(key: String): String? = asDynamic()[key]
+inline operator fun Storage.set(key: String, value: String): Unit { asDynamic()[key] = value; }
 
 public external interface WindowSessionStorage {
     val sessionStorage: Storage
@@ -2501,15 +2501,15 @@ public external abstract class NodeList {
     open val length: Int
     fun item(index: Int): Node?
 }
-inline fun NodeList.get(index: Int): Node? = asDynamic()[index]
+inline operator fun NodeList.get(index: Int): Node? = asDynamic()[index]
 
 public external abstract class HTMLCollection : UnionElementOrHTMLCollection {
     open val length: Int
     fun item(index: Int): Element?
     fun namedItem(name: String): Element?
 }
-inline fun HTMLCollection.get(index: Int): Element? = asDynamic()[index]
-inline fun HTMLCollection.get(name: String): Element? = asDynamic()[name]
+inline operator fun HTMLCollection.get(index: Int): Element? = asDynamic()[index]
+inline operator fun HTMLCollection.get(name: String): Element? = asDynamic()[name]
 
 public external open class MutationObserver(callback: (Array<MutationRecord>, MutationObserver) -> Unit) {
     fun observe(target: Node, options: MutationObserverInit = noImpl): Unit
@@ -2783,8 +2783,8 @@ public external abstract class NamedNodeMap {
     fun removeNamedItem(qualifiedName: String): Attr
     fun removeNamedItemNS(namespace: String?, localName: String): Attr
 }
-inline fun NamedNodeMap.get(index: Int): Attr? = asDynamic()[index]
-inline fun NamedNodeMap.get(qualifiedName: String): Attr? = asDynamic()[qualifiedName]
+inline operator fun NamedNodeMap.get(index: Int): Attr? = asDynamic()[index]
+inline operator fun NamedNodeMap.get(qualifiedName: String): Attr? = asDynamic()[qualifiedName]
 
 public external abstract class Attr : Node {
     open val namespaceURI: String?
@@ -2944,7 +2944,7 @@ public external abstract class DOMTokenList {
     fun replace(token: String, newToken: String): Unit
     fun supports(token: String): Boolean
 }
-inline fun DOMTokenList.get(index: Int): String? = asDynamic()[index]
+inline operator fun DOMTokenList.get(index: Int): String? = asDynamic()[index]
 
 public external open class DOMPointReadOnly(x: Double, y: Double, z: Double, w: Double) {
     open val x: Double
@@ -3039,7 +3039,7 @@ public external interface DOMRectList {
     val length: Int
     fun item(index: Int): DOMRect?
 }
-inline fun DOMRectList.get(index: Int): DOMRect? = asDynamic()[index]
+inline operator fun DOMRectList.get(index: Int): DOMRect? = asDynamic()[index]
 
 public external open class DOMQuad {
     constructor(p1: DOMPointInit = noImpl, p2: DOMPointInit = noImpl, p3: DOMPointInit = noImpl, p4: DOMPointInit = noImpl)

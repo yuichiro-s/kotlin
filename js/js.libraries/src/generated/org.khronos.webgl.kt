@@ -912,8 +912,8 @@ public external open class Int8Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Int8Array.get(index: Int): Byte = asDynamic()[index]
-inline fun Int8Array.set(index: Int, value: Byte): Unit { asDynamic()[index] = value; }
+inline operator fun Int8Array.get(index: Int): Byte = asDynamic()[index]
+inline operator fun Int8Array.set(index: Int, value: Byte): Unit { asDynamic()[index] = value; }
 
 public external open class Uint8Array : ArrayBufferView {
     constructor(length: Int)
@@ -932,8 +932,8 @@ public external open class Uint8Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Uint8Array.get(index: Int): Byte = asDynamic()[index]
-inline fun Uint8Array.set(index: Int, value: Byte): Unit { asDynamic()[index] = value; }
+inline operator fun Uint8Array.get(index: Int): Byte = asDynamic()[index]
+inline operator fun Uint8Array.set(index: Int, value: Byte): Unit { asDynamic()[index] = value; }
 
 public external open class Uint8ClampedArray : ArrayBufferView {
     constructor(length: Int)
@@ -952,8 +952,8 @@ public external open class Uint8ClampedArray : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Uint8ClampedArray.get(index: Int): Byte = asDynamic()[index]
-inline fun Uint8ClampedArray.set(index: Int, value: Byte): Unit { asDynamic()[index] = value; }
+inline operator fun Uint8ClampedArray.get(index: Int): Byte = asDynamic()[index]
+inline operator fun Uint8ClampedArray.set(index: Int, value: Byte): Unit { asDynamic()[index] = value; }
 
 public external open class Int16Array : ArrayBufferView {
     constructor(length: Int)
@@ -972,8 +972,8 @@ public external open class Int16Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Int16Array.get(index: Int): Short = asDynamic()[index]
-inline fun Int16Array.set(index: Int, value: Short): Unit { asDynamic()[index] = value; }
+inline operator fun Int16Array.get(index: Int): Short = asDynamic()[index]
+inline operator fun Int16Array.set(index: Int, value: Short): Unit { asDynamic()[index] = value; }
 
 public external open class Uint16Array : ArrayBufferView {
     constructor(length: Int)
@@ -992,8 +992,8 @@ public external open class Uint16Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Uint16Array.get(index: Int): Short = asDynamic()[index]
-inline fun Uint16Array.set(index: Int, value: Short): Unit { asDynamic()[index] = value; }
+inline operator fun Uint16Array.get(index: Int): Short = asDynamic()[index]
+inline operator fun Uint16Array.set(index: Int, value: Short): Unit { asDynamic()[index] = value; }
 
 public external open class Int32Array : ArrayBufferView {
     constructor(length: Int)
@@ -1012,8 +1012,8 @@ public external open class Int32Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Int32Array.get(index: Int): Int = asDynamic()[index]
-inline fun Int32Array.set(index: Int, value: Int): Unit { asDynamic()[index] = value; }
+inline operator fun Int32Array.get(index: Int): Int = asDynamic()[index]
+inline operator fun Int32Array.set(index: Int, value: Int): Unit { asDynamic()[index] = value; }
 
 public external open class Uint32Array : ArrayBufferView {
     constructor(length: Int)
@@ -1032,8 +1032,8 @@ public external open class Uint32Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Uint32Array.get(index: Int): Int = asDynamic()[index]
-inline fun Uint32Array.set(index: Int, value: Int): Unit { asDynamic()[index] = value; }
+inline operator fun Uint32Array.get(index: Int): Int = asDynamic()[index]
+inline operator fun Uint32Array.set(index: Int, value: Int): Unit { asDynamic()[index] = value; }
 
 public external open class Float32Array : ArrayBufferView {
     constructor(length: Int)
@@ -1052,8 +1052,8 @@ public external open class Float32Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Float32Array.get(index: Int): Float = asDynamic()[index]
-inline fun Float32Array.set(index: Int, value: Float): Unit { asDynamic()[index] = value; }
+inline operator fun Float32Array.get(index: Int): Float = asDynamic()[index]
+inline operator fun Float32Array.set(index: Int, value: Float): Unit { asDynamic()[index] = value; }
 
 public external open class Float64Array : ArrayBufferView {
     constructor(length: Int)
@@ -1072,8 +1072,8 @@ public external open class Float64Array : ArrayBufferView {
         val BYTES_PER_ELEMENT: Int
     }
 }
-inline fun Float64Array.get(index: Int): Double = asDynamic()[index]
-inline fun Float64Array.set(index: Int, value: Double): Unit { asDynamic()[index] = value; }
+inline operator fun Float64Array.get(index: Int): Double = asDynamic()[index]
+inline operator fun Float64Array.set(index: Int, value: Double): Unit { asDynamic()[index] = value; }
 
 public external open class DataView(buffer: ArrayBuffer, byteOffset: Int = noImpl, byteLength: Int = noImpl) : ArrayBufferView {
     override val buffer: ArrayBuffer

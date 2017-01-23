@@ -68,7 +68,7 @@ public external abstract class FileList {
     open val length: Int
     fun item(index: Int): File?
 }
-inline fun FileList.get(index: Int): File? = asDynamic()[index]
+inline operator fun FileList.get(index: Int): File? = asDynamic()[index]
 
 public external open class FileReader : EventTarget {
     open val readyState: Short
