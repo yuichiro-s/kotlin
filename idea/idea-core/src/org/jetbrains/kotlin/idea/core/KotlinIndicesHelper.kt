@@ -180,13 +180,16 @@ class KotlinIndicesHelper(
     private fun resolveTypeAliasesUsingIndex(type: KotlinType, originalTypeName: String, out: MutableCollection<String>) {
         val index = KotlinTypeAliasByExpansionShortNameIndex.INSTANCE
 
-        fun searchRecursively(typeName: String): Unit =
-                index[typeName, project, scope].asSequence()
-                        .map { it.resolveToDescriptor() as TypeAliasDescriptor }
-                        .filter { it.expandedType == type }
-                        .map { it.name.asString() }
-                        .onEach(::searchRecursively)
-                        .forEach { out.add(it) }
+        fun searchRecursively(typeName: String) {
+            ProgressManager.checkCanceled()
+            index[typeName, project, scope].asSequence()
+                    .map { it.resolveToDescriptorIfAny() as? TypeAliasDescriptor }
+                    .filterNotNull()
+                    .filter { it.expandedType == type }
+                    .map { it.name.asString() }
+                    .onEach(::searchRecursively)
+                    .toCollection(out)
+        }
 
         searchRecursively(originalTypeName)
     }

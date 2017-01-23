@@ -30,12 +30,11 @@ import org.jetbrains.kotlin.load.java.JvmAbi;
 import org.jetbrains.kotlin.load.kotlin.PackagePartClassUtils;
 import org.jetbrains.kotlin.name.FqName;
 import org.jetbrains.kotlin.name.Name;
-import org.jetbrains.kotlin.psi.*;
+import org.jetbrains.kotlin.psi.KtClassOrObject;
+import org.jetbrains.kotlin.psi.KtFile;
 import org.jetbrains.kotlin.psi.stubs.*;
-import org.jetbrains.kotlin.psi.stubs.elements.KtPlaceHolderStubElementType;
 import org.jetbrains.kotlin.psi.stubs.elements.KtStubElementTypes;
 import org.jetbrains.kotlin.psi.stubs.elements.StubIndexService;
-import org.jetbrains.kotlin.psi.stubs.impl.KotlinPlaceHolderStubImpl;
 import org.jetbrains.kotlin.util.TypeIndexUtilKt;
 
 import java.io.IOException;
