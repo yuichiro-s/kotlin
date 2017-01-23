@@ -34,7 +34,6 @@ public external interface BlobPropertyBag {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun BlobPropertyBag(type: String? = ""): BlobPropertyBag {
     val o = js("({})")
 
@@ -54,7 +53,6 @@ public external interface FilePropertyBag : BlobPropertyBag {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun FilePropertyBag(lastModified: Int? = null, type: String? = ""): FilePropertyBag {
     val o = js("({})")
 

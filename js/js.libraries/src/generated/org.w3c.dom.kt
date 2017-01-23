@@ -756,7 +756,6 @@ public external interface TrackEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun TrackEventInit(track: UnionAudioTrackOrTextTrackOrVideoTrack? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): TrackEventInit {
     val o = js("({})")
 
@@ -1172,7 +1171,6 @@ public external interface RelatedEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun RelatedEventInit(relatedTarget: EventTarget? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): RelatedEventInit {
     val o = js("({})")
 
@@ -1220,7 +1218,6 @@ public external interface AssignedNodesOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun AssignedNodesOptions(flatten: Boolean? = false): AssignedNodesOptions {
     val o = js("({})")
 
@@ -1243,7 +1240,6 @@ public external interface CanvasRenderingContext2DSettings {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun CanvasRenderingContext2DSettings(alpha: Boolean? = true): CanvasRenderingContext2DSettings {
     val o = js("({})")
 
@@ -1435,7 +1431,6 @@ public external interface HitRegionOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun HitRegionOptions(path: Path2D? = null, fillRule: String? = "nonzero", id: String? = "", parentID: String? = null, cursor: String? = "inherit", control: Element? = null, label: String? = null, role: String? = null): HitRegionOptions {
     val o = js("({})")
 
@@ -1491,7 +1486,6 @@ public external interface ImageBitmapRenderingContextSettings {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ImageBitmapRenderingContextSettings(alpha: Boolean? = true): ImageBitmapRenderingContextSettings {
     val o = js("({})")
 
@@ -1512,7 +1506,6 @@ public external interface ElementDefinitionOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ElementDefinitionOptions(extends: String? = null): ElementDefinitionOptions {
     val o = js("({})")
 
@@ -1564,7 +1557,6 @@ public external interface DragEventInit : MouseEventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun DragEventInit(dataTransfer: DataTransfer? = null, screenX: Int? = 0, screenY: Int? = 0, clientX: Int? = 0, clientY: Int? = 0, button: Short? = 0, buttons: Short? = 0, relatedTarget: EventTarget? = null, ctrlKey: Boolean? = false, shiftKey: Boolean? = false, altKey: Boolean? = false, metaKey: Boolean? = false, modifierAltGraph: Boolean? = false, modifierCapsLock: Boolean? = false, modifierFn: Boolean? = false, modifierFnLock: Boolean? = false, modifierHyper: Boolean? = false, modifierNumLock: Boolean? = false, modifierScrollLock: Boolean? = false, modifierSuper: Boolean? = false, modifierSymbol: Boolean? = false, modifierSymbolLock: Boolean? = false, view: Window? = null, detail: Int? = 0, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): DragEventInit {
     val o = js("({})")
 
@@ -1640,7 +1632,6 @@ public external interface PopStateEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun PopStateEventInit(state: Any? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): PopStateEventInit {
     val o = js("({})")
 
@@ -1666,7 +1657,6 @@ public external interface HashChangeEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun HashChangeEventInit(oldURL: String? = "", newURL: String? = "", bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): HashChangeEventInit {
     val o = js("({})")
 
@@ -1689,7 +1679,6 @@ public external interface PageTransitionEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun PageTransitionEventInit(persisted: Boolean? = false, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): PageTransitionEventInit {
     val o = js("({})")
 
@@ -1759,7 +1748,6 @@ public external interface ErrorEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ErrorEventInit(message: String? = "", filename: String? = "", lineno: Int? = 0, colno: Int? = 0, error: Any? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): ErrorEventInit {
     val o = js("({})")
 
@@ -1789,7 +1777,6 @@ public external interface PromiseRejectionEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun PromiseRejectionEventInit(promise: dynamic, reason: Any? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): PromiseRejectionEventInit {
     val o = js("({})")
 
@@ -2009,7 +1996,6 @@ public external interface ImageBitmapOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ImageBitmapOptions(imageOrientation: String? = "none", premultiplyAlpha: String? = "default", colorSpaceConversion: String? = "default", resizeWidth: Int? = null, resizeHeight: Int? = null, resizeQuality: String? = "low"): ImageBitmapOptions {
     val o = js("({})")
 
@@ -2050,7 +2036,6 @@ public external interface MessageEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun MessageEventInit(data: Any? = null, origin: String? = "", lastEventId: String? = "", source: UnionMessagePortOrWindow? = null, ports: Array<MessagePort>? = arrayOf(), bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): MessageEventInit {
     val o = js("({})")
 
@@ -2088,7 +2073,6 @@ public external interface EventSourceInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun EventSourceInit(withCredentials: Boolean? = false): EventSourceInit {
     val o = js("({})")
 
@@ -2140,7 +2124,6 @@ public external interface CloseEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun CloseEventInit(wasClean: Boolean? = false, code: Short? = 0, reason: String? = "", bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): CloseEventInit {
     val o = js("({})")
 
@@ -2219,7 +2202,6 @@ public external interface WorkerOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun WorkerOptions(type: String? = "classic", credentials: String? = "omit"): WorkerOptions {
     val o = js("({})")
 
@@ -2299,7 +2281,6 @@ public external interface StorageEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun StorageEventInit(key: String? = null, oldValue: String? = null, newValue: String? = null, url: String? = "", storageArea: Storage? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): StorageEventInit {
     val o = js("({})")
 
@@ -2393,7 +2374,6 @@ public external interface EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun EventInit(bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): EventInit {
     val o = js("({})")
 
@@ -2415,7 +2395,6 @@ public external interface CustomEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun CustomEventInit(detail: Any? = null, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): CustomEventInit {
     val o = js("({})")
 
@@ -2433,7 +2412,6 @@ public external interface EventListenerOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun EventListenerOptions(capture: Boolean? = false): EventListenerOptions {
     val o = js("({})")
 
@@ -2451,7 +2429,6 @@ public external interface AddEventListenerOptions : EventListenerOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun AddEventListenerOptions(passive: Boolean? = false, once: Boolean? = false, capture: Boolean? = false): AddEventListenerOptions {
     val o = js("({})")
 
@@ -2541,7 +2518,6 @@ public external interface MutationObserverInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun MutationObserverInit(childList: Boolean? = false, attributes: Boolean? = null, characterData: Boolean? = null, subtree: Boolean? = false, attributeOldValue: Boolean? = null, characterDataOldValue: Boolean? = null, attributeFilter: Array<String>? = null): MutationObserverInit {
     val o = js("({})")
 
@@ -2627,7 +2603,6 @@ public external interface GetRootNodeOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun GetRootNodeOptions(composed: Boolean? = false): GetRootNodeOptions {
     val o = js("({})")
 
@@ -2654,7 +2629,6 @@ public external interface ElementCreationOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ElementCreationOptions(is_: String? = null): ElementCreationOptions {
     val o = js("({})")
 
@@ -2764,7 +2738,6 @@ public external interface ShadowRootInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ShadowRootInit(mode: String?): ShadowRootInit {
     val o = js("({})")
 
@@ -2978,7 +2951,6 @@ public external interface DOMPointInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun DOMPointInit(x: Double? = 0.0, y: Double? = 0.0, z: Double? = 0.0, w: Double? = 1.0): DOMPointInit {
     val o = js("({})")
 
@@ -3023,7 +2995,6 @@ public external interface DOMRectInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun DOMRectInit(x: Double? = 0.0, y: Double? = 0.0, width: Double? = 0.0, height: Double? = 0.0): DOMRectInit {
     val o = js("({})")
 
@@ -3143,7 +3114,6 @@ public external interface ScrollOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ScrollOptions(behavior: String? = "auto"): ScrollOptions {
     val o = js("({})")
 
@@ -3161,7 +3131,6 @@ public external interface ScrollToOptions : ScrollOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ScrollToOptions(left: Double? = null, top: Double? = null, behavior: String? = "auto"): ScrollToOptions {
     val o = js("({})")
 
@@ -3196,7 +3165,6 @@ public external interface MediaQueryListEventInit : EventInit {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun MediaQueryListEventInit(media: String? = "", matches: Boolean? = false, bubbles: Boolean? = false, cancelable: Boolean? = false, composed: Boolean? = false): MediaQueryListEventInit {
     val o = js("({})")
 
@@ -3233,7 +3201,6 @@ public external interface ScrollIntoViewOptions : ScrollOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ScrollIntoViewOptions(block: String? = "center", inline: String? = "center", behavior: String? = "auto"): ScrollIntoViewOptions {
     val o = js("({})")
 
@@ -3253,7 +3220,6 @@ public external interface BoxQuadOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun BoxQuadOptions(box: String? = "border", relativeTo: dynamic = null): BoxQuadOptions {
     val o = js("({})")
 
@@ -3272,7 +3238,6 @@ public external interface ConvertCoordinateOptions {
         set(value) = noImpl
 }
 
-@Suppress("NOTHING_TO_INLINE")
 public inline fun ConvertCoordinateOptions(fromBox: String? = "border", toBox: String? = "border"): ConvertCoordinateOptions {
     val o = js("({})")
 
