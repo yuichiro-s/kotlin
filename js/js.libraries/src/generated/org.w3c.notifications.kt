@@ -20,7 +20,7 @@ import org.w3c.performance.*
 import org.w3c.workers.*
 import org.w3c.xhr.*
 
-public external open class Notification(title: String, options: NotificationOptions = noImpl) : EventTarget {
+public external open class Notification(title: String, options: NotificationOptions = definedExternally) : EventTarget {
     var onclick: ((Event) -> dynamic)?
     var onerror: ((Event) -> dynamic)?
     open val title: String
@@ -46,62 +46,62 @@ public external open class Notification(title: String, options: NotificationOpti
     companion object {
         var permission: String
         var maxActions: Int
-        fun requestPermission(deprecatedCallback: (String) -> Unit = noImpl): dynamic
+        fun requestPermission(deprecatedCallback: (String) -> Unit = definedExternally): dynamic
     }
 }
 
 public external interface NotificationOptions {
     var dir: String? /* = "auto" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var lang: String? /* = "" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var body: String? /* = "" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var tag: String? /* = "" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var image: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var icon: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var badge: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var sound: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var vibrate: dynamic
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var timestamp: Number?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var renotify: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var silent: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var noscreen: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var requireInteraction: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var sticky: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var data: Any? /* = null */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var actions: Array<NotificationAction>? /* = arrayOf() */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -131,14 +131,14 @@ public inline fun NotificationOptions(dir: String? = "auto", lang: String? = "",
 
 public external interface NotificationAction {
     var action: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var title: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var icon: String?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -154,8 +154,8 @@ public inline fun NotificationAction(action: String?, title: String?, icon: Stri
 
 public external interface GetNotificationOptions {
     var tag: String? /* = "" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -174,11 +174,11 @@ public external open class NotificationEvent(type: String, eventInitDict: Notifi
 
 public external interface NotificationEventInit : ExtendableEventInit {
     var notification: Notification?
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var action: String? /* = "" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 @Suppress("NOTHING_TO_INLINE")

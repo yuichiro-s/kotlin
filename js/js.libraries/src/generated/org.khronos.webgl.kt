@@ -22,29 +22,29 @@ import org.w3c.xhr.*
 
 public external interface WebGLContextAttributes {
     var alpha: Boolean? /* = true */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var depth: Boolean? /* = true */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var stencil: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var antialias: Boolean? /* = true */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var premultipliedAlpha: Boolean? /* = true */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var preserveDrawingBuffer: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var preferLowPowerToHighPerformance: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
     var failIfMajorPerformanceCaveat: Boolean? /* = false */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -858,14 +858,14 @@ public external abstract class WebGLRenderingContext : WebGLRenderingContextBase
     }
 }
 
-public external open class WebGLContextEvent(type: String, eventInit: WebGLContextEventInit = noImpl) : Event {
+public external open class WebGLContextEvent(type: String, eventInit: WebGLContextEventInit = definedExternally) : Event {
     open val statusMessage: String
 }
 
 public external interface WebGLContextEventInit : EventInit {
     var statusMessage: String? /* = "" */
-        get() = noImpl
-        set(value) = noImpl
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -882,7 +882,7 @@ public inline fun WebGLContextEventInit(statusMessage: String? = "", bubbles: Bo
 
 public external open class ArrayBuffer(length: Int) : BufferDataSource {
     open val byteLength: Int
-    fun slice(begin: Int, end: Int = noImpl): ArrayBuffer
+    fun slice(begin: Int, end: Int = definedExternally): ArrayBuffer
 
     companion object {
         fun isView(value: Any?): Boolean
@@ -899,7 +899,7 @@ public external open class Int8Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Int8Array)
     constructor(array: Array<Byte>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -909,8 +909,8 @@ public external open class Int8Array : ArrayBufferView {
     operator fun get(index: Int): Byte
     @nativeSetter
     operator fun set(index: Int, value: Byte): Unit
-    fun set(array: Int8Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Byte>, offset: Int = noImpl): Unit
+    fun set(array: Int8Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Byte>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Int8Array
 
     companion object {
@@ -922,7 +922,7 @@ public external open class Uint8Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Uint8Array)
     constructor(array: Array<Byte>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -932,8 +932,8 @@ public external open class Uint8Array : ArrayBufferView {
     operator fun get(index: Int): Byte
     @nativeSetter
     operator fun set(index: Int, value: Byte): Unit
-    fun set(array: Uint8Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Byte>, offset: Int = noImpl): Unit
+    fun set(array: Uint8Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Byte>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Uint8Array
 
     companion object {
@@ -945,7 +945,7 @@ public external open class Uint8ClampedArray : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Uint8ClampedArray)
     constructor(array: Array<Byte>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -955,8 +955,8 @@ public external open class Uint8ClampedArray : ArrayBufferView {
     operator fun get(index: Int): Byte
     @nativeSetter
     operator fun set(index: Int, value: Byte): Unit
-    fun set(array: Uint8ClampedArray, offset: Int = noImpl): Unit
-    fun set(array: Array<Byte>, offset: Int = noImpl): Unit
+    fun set(array: Uint8ClampedArray, offset: Int = definedExternally): Unit
+    fun set(array: Array<Byte>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Uint8ClampedArray
 
     companion object {
@@ -968,7 +968,7 @@ public external open class Int16Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Int16Array)
     constructor(array: Array<Short>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -978,8 +978,8 @@ public external open class Int16Array : ArrayBufferView {
     operator fun get(index: Int): Short
     @nativeSetter
     operator fun set(index: Int, value: Short): Unit
-    fun set(array: Int16Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Short>, offset: Int = noImpl): Unit
+    fun set(array: Int16Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Short>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Int16Array
 
     companion object {
@@ -991,7 +991,7 @@ public external open class Uint16Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Uint16Array)
     constructor(array: Array<Short>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -1001,8 +1001,8 @@ public external open class Uint16Array : ArrayBufferView {
     operator fun get(index: Int): Short
     @nativeSetter
     operator fun set(index: Int, value: Short): Unit
-    fun set(array: Uint16Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Short>, offset: Int = noImpl): Unit
+    fun set(array: Uint16Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Short>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Uint16Array
 
     companion object {
@@ -1014,7 +1014,7 @@ public external open class Int32Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Int32Array)
     constructor(array: Array<Int>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -1024,8 +1024,8 @@ public external open class Int32Array : ArrayBufferView {
     operator fun get(index: Int): Int
     @nativeSetter
     operator fun set(index: Int, value: Int): Unit
-    fun set(array: Int32Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Int>, offset: Int = noImpl): Unit
+    fun set(array: Int32Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Int>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Int32Array
 
     companion object {
@@ -1037,7 +1037,7 @@ public external open class Uint32Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Uint32Array)
     constructor(array: Array<Int>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -1047,8 +1047,8 @@ public external open class Uint32Array : ArrayBufferView {
     operator fun get(index: Int): Int
     @nativeSetter
     operator fun set(index: Int, value: Int): Unit
-    fun set(array: Uint32Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Int>, offset: Int = noImpl): Unit
+    fun set(array: Uint32Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Int>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Uint32Array
 
     companion object {
@@ -1060,7 +1060,7 @@ public external open class Float32Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Float32Array)
     constructor(array: Array<Float>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -1070,8 +1070,8 @@ public external open class Float32Array : ArrayBufferView {
     operator fun get(index: Int): Float
     @nativeSetter
     operator fun set(index: Int, value: Float): Unit
-    fun set(array: Float32Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Float>, offset: Int = noImpl): Unit
+    fun set(array: Float32Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Float>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Float32Array
 
     companion object {
@@ -1083,7 +1083,7 @@ public external open class Float64Array : ArrayBufferView {
     constructor(length: Int)
     constructor(array: Float64Array)
     constructor(array: Array<Double>)
-    constructor(buffer: ArrayBuffer, byteOffset: Int = noImpl, length: Int = noImpl)
+    constructor(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally)
     open val length: Int
     override val buffer: ArrayBuffer
     override val byteOffset: Int
@@ -1093,8 +1093,8 @@ public external open class Float64Array : ArrayBufferView {
     operator fun get(index: Int): Double
     @nativeSetter
     operator fun set(index: Int, value: Double): Unit
-    fun set(array: Float64Array, offset: Int = noImpl): Unit
-    fun set(array: Array<Double>, offset: Int = noImpl): Unit
+    fun set(array: Float64Array, offset: Int = definedExternally): Unit
+    fun set(array: Array<Double>, offset: Int = definedExternally): Unit
     fun subarray(start: Int, end: Int): Float64Array
 
     companion object {
@@ -1102,26 +1102,26 @@ public external open class Float64Array : ArrayBufferView {
     }
 }
 
-public external open class DataView(buffer: ArrayBuffer, byteOffset: Int = noImpl, byteLength: Int = noImpl) : ArrayBufferView {
+public external open class DataView(buffer: ArrayBuffer, byteOffset: Int = definedExternally, byteLength: Int = definedExternally) : ArrayBufferView {
     override val buffer: ArrayBuffer
     override val byteOffset: Int
     override val byteLength: Int
     fun getInt8(byteOffset: Int): Byte
     fun getUint8(byteOffset: Int): Byte
-    fun getInt16(byteOffset: Int, littleEndian: Boolean = noImpl): Short
-    fun getUint16(byteOffset: Int, littleEndian: Boolean = noImpl): Short
-    fun getInt32(byteOffset: Int, littleEndian: Boolean = noImpl): Int
-    fun getUint32(byteOffset: Int, littleEndian: Boolean = noImpl): Int
-    fun getFloat32(byteOffset: Int, littleEndian: Boolean = noImpl): Float
-    fun getFloat64(byteOffset: Int, littleEndian: Boolean = noImpl): Double
+    fun getInt16(byteOffset: Int, littleEndian: Boolean = definedExternally): Short
+    fun getUint16(byteOffset: Int, littleEndian: Boolean = definedExternally): Short
+    fun getInt32(byteOffset: Int, littleEndian: Boolean = definedExternally): Int
+    fun getUint32(byteOffset: Int, littleEndian: Boolean = definedExternally): Int
+    fun getFloat32(byteOffset: Int, littleEndian: Boolean = definedExternally): Float
+    fun getFloat64(byteOffset: Int, littleEndian: Boolean = definedExternally): Double
     fun setInt8(byteOffset: Int, value: Byte): Unit
     fun setUint8(byteOffset: Int, value: Byte): Unit
-    fun setInt16(byteOffset: Int, value: Short, littleEndian: Boolean = noImpl): Unit
-    fun setUint16(byteOffset: Int, value: Short, littleEndian: Boolean = noImpl): Unit
-    fun setInt32(byteOffset: Int, value: Int, littleEndian: Boolean = noImpl): Unit
-    fun setUint32(byteOffset: Int, value: Int, littleEndian: Boolean = noImpl): Unit
-    fun setFloat32(byteOffset: Int, value: Float, littleEndian: Boolean = noImpl): Unit
-    fun setFloat64(byteOffset: Int, value: Double, littleEndian: Boolean = noImpl): Unit
+    fun setInt16(byteOffset: Int, value: Short, littleEndian: Boolean = definedExternally): Unit
+    fun setUint16(byteOffset: Int, value: Short, littleEndian: Boolean = definedExternally): Unit
+    fun setInt32(byteOffset: Int, value: Int, littleEndian: Boolean = definedExternally): Unit
+    fun setUint32(byteOffset: Int, value: Int, littleEndian: Boolean = definedExternally): Unit
+    fun setFloat32(byteOffset: Int, value: Float, littleEndian: Boolean = definedExternally): Unit
+    fun setFloat64(byteOffset: Int, value: Double, littleEndian: Boolean = definedExternally): Unit
 }
 
 public external @marker interface BufferDataSource {
