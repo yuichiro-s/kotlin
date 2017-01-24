@@ -49,15 +49,16 @@ fun encodeSignature(descriptor: CallableDescriptor): String {
         sig.encodeForSignature(valueParameter.type, typeParameterNamer)
     }
 
-
     var first = true
     for (typeParameter in typeParameterNames.keys.asSequence().filter { it in usedTypeParameters }) {
         val upperBounds = typeParameter.upperBounds.filter { !KotlinBuiltIns.isNullableAny(it) }
+        if (upperBounds.isEmpty() && typeParameter.containingDeclaration != descriptor) continue
+
+        sig.append(if (first) "|" else ",").append(typeParameterNames[typeParameter])
+        first = false
         if (upperBounds.isEmpty()) continue
 
-        sig.append(if (first) "|" else ",").append(typeParameterNames[typeParameter]).append("<:")
-        first = false
-
+        sig.append("<:")
         for ((boundIndex, upperBound) in upperBounds.withIndex()) {
             if (boundIndex > 0) {
                 sig.append("&")

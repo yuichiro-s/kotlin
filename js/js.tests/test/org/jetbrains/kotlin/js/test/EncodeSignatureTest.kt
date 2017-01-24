@@ -82,13 +82,13 @@ class EncodeSignatureTest {
 
     @Test
     fun ownTypeParameters() {
-        assertSignature("0:0,0:1", "fun <S, T> test(x: S, y: T) {}")
-        assertSignature("0:1,0:0", "fun <S, T> test(x: T, y: S) {}")
+        assertSignature("0:0,0:1|0:0,0:1", "fun <S, T> test(x: S, y: T) {}")
+        assertSignature("0:1,0:0|0:0,0:1", "fun <S, T> test(x: T, y: S) {}")
     }
 
     @Test
     fun enclosingTypeParameters() {
-        assertSignature("2:0,1:0,0:0", """
+        assertSignature("2:0,1:0,0:0|0:0", """
             class A<S> {
                 inner class B<T> {
                     fun <U> test(x: S, y: T, z: U) {}
