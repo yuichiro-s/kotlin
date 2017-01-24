@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.backend.common.CodegenUtil
 import org.jetbrains.kotlin.descriptors.*
 import org.jetbrains.kotlin.js.backend.ast.*
 import org.jetbrains.kotlin.js.backend.ast.metadata.SideEffectKind
-import org.jetbrains.kotlin.js.backend.ast.metadata.callableReference
+import org.jetbrains.kotlin.js.backend.ast.metadata.isCallableReference
 import org.jetbrains.kotlin.js.backend.ast.metadata.sideEffects
 import org.jetbrains.kotlin.js.translate.callTranslator.CallTranslator
 import org.jetbrains.kotlin.js.translate.context.Namer
@@ -219,7 +219,7 @@ object CallableReferenceTranslator {
         val invokeFun = JsNameRef(invokeName, Namer.kotlinObject())
         invokeFun.sideEffects = SideEffectKind.PURE
         val invocation = JsInvocation(invokeFun, nameLiteral, function)
-        invocation.callableReference = true
+        invocation.isCallableReference = true
         invocation.sideEffects = SideEffectKind.PURE
         return invocation
     }
