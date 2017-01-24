@@ -52,12 +52,7 @@ object ExceptionPropertyIntrinsicFactory : FunctionIntrinsicFactory {
                     .filterIsInstance<PropertyDescriptor>()
                     .first { it.overriddenDescriptors.any { it == property } }
             val fieldRef = JsAstUtils.pureFqn(context.getNameForBackingField(currentClassProperty), callInfo.dispatchReceiver!!)
-            return if (arguments.isEmpty()) {
-                fieldRef
-            }
-            else {
-                JsAstUtils.assignment(fieldRef, arguments[0])
-            }
+            return fieldRef
         }
     }
 }
