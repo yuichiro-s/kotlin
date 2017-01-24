@@ -187,6 +187,7 @@ class KotlinIndicesHelper(
                     .filterNotNull()
                     .filter { it.expandedType == type }
                     .map { it.name.asString() }
+                    .filter { it !in out }
                     .onEach(::searchRecursively)
                     .toCollection(out)
         }
