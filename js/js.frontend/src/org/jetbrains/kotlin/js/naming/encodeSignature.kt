@@ -28,7 +28,11 @@ fun encodeSignature(descriptor: CallableDescriptor): String {
     val sig = StringBuilder()
 
     val typeParameterNames = nameTypeParameters(descriptor)
-    val typeParameterNamer = { typeParameter: TypeParameterDescriptor -> typeParameterNames[typeParameter.original]!! }
+    val usedTypeParameters = descriptor.typeParameters.filter { !it.isCapturedFromOuterDeclaration }.toMutableSet()
+    val typeParameterNamer = { typeParameter: TypeParameterDescriptor ->
+        usedTypeParameters += typeParameter.original
+        typeParameterNames[typeParameter.original]!!
+    }
 
     val receiverParameter = descriptor.extensionReceiverParameter
     if (receiverParameter != null) {
@@ -47,7 +51,7 @@ fun encodeSignature(descriptor: CallableDescriptor): String {
 
 
     var first = true
-    for (typeParameter in descriptor.typeParameters.filter { !it.isCapturedFromOuterDeclaration }) {
+    for (typeParameter in typeParameterNames.keys.asSequence().filter { it in usedTypeParameters }) {
         val upperBounds = typeParameter.upperBounds.filter { !KotlinBuiltIns.isNullableAny(it) }
         if (upperBounds.isEmpty()) continue
 
@@ -58,7 +62,7 @@ fun encodeSignature(descriptor: CallableDescriptor): String {
             if (boundIndex > 0) {
                 sig.append("&")
             }
-            sig.encodeForSignature(upperBound) { typeParameterNames[it]!! }
+            sig.encodeForSignature(upperBound, typeParameterNamer)
         }
     }
 

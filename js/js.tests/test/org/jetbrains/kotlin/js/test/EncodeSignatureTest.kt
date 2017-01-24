@@ -164,6 +164,25 @@ class EncodeSignatureTest {
         """)
     }
 
+    @Test
+    fun typeParameterUsageInConstraints() {
+        assertSignature("0:0|0:0<:1:0,1:0<:I", """
+            interface I
+            class A<T : I> {
+                fun <S : T> test(x: S)
+            }
+        """)
+    }
+
+    @Test
+    fun recursiveType() {
+        assertSignature("1:0|1:0<:I<1:0>", """
+            interface I<T : I<T>> {
+                fun test(x: T)
+            }
+        """)
+    }
+
     private fun assertSignature(expectedEncoding: String, codeSnippet: String, name: String = "test") {
         val environment = createEnvironment()
         val project = environment.project
