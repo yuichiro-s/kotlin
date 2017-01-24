@@ -1,3 +1,4 @@
+// FILE: a.kt
 // MODULE_KIND: UMD
 // NO_JS_MODULE_SYSTEM
 @file:JsModule("lib")
@@ -21,6 +22,9 @@ external fun foo(y: Int): Int = noImpl
 external val bar: Int = noImpl
 
 external var mbar: Int = noImpl
+
+// FILE: b.kt
+package foo
 
 fun box(): String {
     val a = A(23)
