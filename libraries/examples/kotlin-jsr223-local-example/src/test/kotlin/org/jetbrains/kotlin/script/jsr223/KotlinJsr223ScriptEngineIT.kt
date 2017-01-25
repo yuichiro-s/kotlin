@@ -92,6 +92,23 @@ obj
         val res3 = invocator!!.invokeMethod(res1, "fn1", 3)
         Assert.assertEquals(6, res3)
     }
+
+    @Test
+    fun testEvalWithContext() {
+        val engine = ScriptEngineManager().getEngineByExtension("kts")!!
+
+        engine.put("z", 33)
+
+        engine.eval("""val x = 10 + bindings["z"] as Int""")
+
+        val result = engine.eval("""x + 20""")
+        Assert.assertEquals(63, result)
+
+        val result2 = engine.eval("""x + bindings["boundValue"] as Int""", engine.createBindings().apply {
+            put("boundValue", 100)
+        })
+        Assert.assertEquals(143, result2)
+    }
 }
 
 fun assertThrows(exceptionClass: Class<*>, body: () -> Unit) {
