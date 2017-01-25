@@ -30,7 +30,7 @@ import javax.script.ScriptEngineFactory
 import javax.script.ScriptException
 import kotlin.reflect.KClass
 
-class BasicKotlinJsr223DaemonCompileScriptEngine(
+class KotlinJsr223JvmDaemonCompileScriptEngine(
         disposable: Disposable,
         factory: ScriptEngineFactory,
         compilerJar: File,

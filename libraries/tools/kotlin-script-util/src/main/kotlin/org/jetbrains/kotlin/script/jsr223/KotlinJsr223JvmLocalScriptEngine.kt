@@ -33,7 +33,7 @@ import javax.script.ScriptContext
 import javax.script.ScriptEngineFactory
 import kotlin.reflect.KClass
 
-class BasicKotlinJsr223LocalScriptEngine(
+class KotlinJsr223JvmLocalScriptEngine(
         disposable: Disposable,
         factory: ScriptEngineFactory,
         val templateClasspath: List<File>,

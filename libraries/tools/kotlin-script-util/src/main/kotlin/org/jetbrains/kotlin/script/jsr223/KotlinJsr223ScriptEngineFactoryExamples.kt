@@ -33,10 +33,10 @@ import javax.script.ScriptContext
 import javax.script.ScriptEngine
 import kotlin.script.templates.standard.ScriptTemplateWithArgs
 
-class BasicKotlinJsr223LocalScriptEngineFactory : KotlinJsr223JvmScriptEngineFactoryBase() {
+class KotlinJsr223JvmLocalScriptEngineFactory : KotlinJsr223JvmScriptEngineFactoryBase() {
 
     override fun getScriptEngine(): ScriptEngine =
-            BasicKotlinJsr223LocalScriptEngine(
+            KotlinJsr223JvmLocalScriptEngine(
                     Disposer.newDisposable(),
                     this,
                     scriptCompilationClasspathFromContext(),
@@ -46,10 +46,10 @@ class BasicKotlinJsr223LocalScriptEngineFactory : KotlinJsr223JvmScriptEngineFac
             )
 }
 
-class BasicKotlinJsr223DaemonCompileScriptEngineFactory : KotlinJsr223JvmScriptEngineFactoryBase() {
+class KotlinJsr223JvmDaemonLocalEvalScriptEngineFactory : KotlinJsr223JvmScriptEngineFactoryBase() {
 
     override fun getScriptEngine(): ScriptEngine =
-            BasicKotlinJsr223DaemonCompileScriptEngine(
+            KotlinJsr223JvmDaemonCompileScriptEngine(
                     Disposer.newDisposable(),
                     this,
                     kotlinCompilerJar,
