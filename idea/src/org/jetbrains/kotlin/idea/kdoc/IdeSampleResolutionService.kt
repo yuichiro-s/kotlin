@@ -29,10 +29,10 @@ import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
 class IdeSampleResolutionService(val project: Project) : SampleResolutionService {
 
     override fun resolveSample(context: BindingContext, fromDescriptor: DeclarationDescriptor, resolutionFacade: ResolutionFacade, qualifiedName: List<String>): Collection<DeclarationDescriptor> {
-        val allScope = GlobalSearchScope.allScope(project)
+        val allScope = GlobalSearchScope.projectScope(project)
         val shortName = qualifiedName.lastOrNull() ?: return emptyList()
         val functions = KotlinFunctionShortNameIndex.getInstance().get(shortName, project, allScope)
-        val targetFqName = FqName(qualifiedName.joinToString(separator = "."))
+        val targetFqName = FqName.fromSegments(qualifiedName)
 
 
         val descriptors = functions.asSequence()

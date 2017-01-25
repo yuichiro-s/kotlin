@@ -19,11 +19,8 @@ package org.jetbrains.kotlin.idea.kdoc
 import com.intellij.codeInsight.documentation.DocumentationManager
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.PsiFile
 import com.intellij.rt.execution.junit.FileComparisonFailure
 import org.jetbrains.kotlin.idea.editor.quickDoc.AbstractQuickDocProviderTest.wrapToFileComparisonFailure
-import org.jetbrains.kotlin.idea.project.PluginJetFilesProvider
 import org.jetbrains.kotlin.idea.stubs.AbstractMultiModuleTest
 import org.jetbrains.kotlin.test.InTextDirectivesUtils
 import java.io.File
@@ -31,9 +28,7 @@ import java.io.File
 class KDocSampleTest : AbstractMultiModuleTest() {
 
     override val testPath: String = "${super.testPath}/kdoc/multiModuleSamples/"
-    override fun getTestDataPath(): String {
-        return testPath
-    }
+    override fun getTestDataPath() = testPath
 
     fun testSimple() {
 
@@ -44,7 +39,6 @@ class KDocSampleTest : AbstractMultiModuleTest() {
 
         doTest("simple/code/usage.kt")
     }
-
 
     fun doTest(path: String) {
         val testDataFile = File(testPath, path)
@@ -72,14 +66,10 @@ class KDocSampleTest : AbstractMultiModuleTest() {
                     testDataFile.absolutePath)
         }
         else {
-            val expectedInfoBuilder = StringBuilder()
-            for (directive in directives) {
-                expectedInfoBuilder.append(directive).append("\n")
-            }
-            val expectedInfo = expectedInfoBuilder.toString()
+            val expectedInfo = directives.joinToString("\n", postfix = "\n")
 
             if (expectedInfo.endsWith("...\n")) {
-                if (!info!!.startsWith(StringUtil.trimEnd(expectedInfo, "...\n"))) {
+                if (!info!!.startsWith(expectedInfo.removeSuffix("...\n"))) {
                     wrapToFileComparisonFailure(info, testDataPath, textData)
                 }
             }

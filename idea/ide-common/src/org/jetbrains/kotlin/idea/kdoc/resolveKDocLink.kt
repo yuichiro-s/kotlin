@@ -77,9 +77,15 @@ private fun resolveParamLink(fromDescriptor: DeclarationDescriptor, qualifiedNam
 fun resolveKDocSampleLink(context: BindingContext,
                           resolutionFacade: ResolutionFacade,
                           fromDescriptor: DeclarationDescriptor,
-                          qualifiedName: List<String>): Collection<DeclarationDescriptor>
-        = SampleResolutionService.resolveSample(context, fromDescriptor, resolutionFacade, qualifiedName)
-        .ifEmpty { resolveDefaultKDocLink(context, resolutionFacade, fromDescriptor, qualifiedName) }
+                          qualifiedName: List<String>): Collection<DeclarationDescriptor> {
+
+    val resolvedViaService = SampleResolutionService.resolveSample(context, fromDescriptor, resolutionFacade, qualifiedName)
+    if (resolvedViaService.isNotEmpty()) return resolvedViaService
+
+    return resolveDefaultKDocLink(context, resolutionFacade, fromDescriptor, qualifiedName)
+}
+
+
 
 
 private fun resolveDefaultKDocLink(context: BindingContext,
