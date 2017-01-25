@@ -161,16 +161,24 @@ class CallArgumentTranslator private constructor(
 
         var result = resolvedCall.call.valueArguments.associate { arg ->
             val argumentContext = argumentContexts[arg]!!
-            val argumentExpression = KtPsiUtil.deparenthesize(arg.getArgumentExpression())
+            val parenthisedArgumentExpression = arg.getArgumentExpression()
+            val argumentExpression = KtPsiUtil.deparenthesize(parenthisedArgumentExpression)
 
             val lambdaDescriptor = argumentExpression?.let { argumentContext.extractLambda(it) }
+            val param = argsToParameters[arg]!!
             val jsExpr = if (lambdaDescriptor?.isSuspendLambda == true) {
                 val lambdaExpression = (argumentExpression as KtLambdaExpression).functionLiteral
-                val param = argsToParameters[arg]!!
                 LiteralFunctionTranslator(argumentContext).translate(lambdaExpression, param.type)
             }
             else {
-                Translation.translateAsExpression(arg.getArgumentExpression()!!, argumentContext)
+                val parameterType = param.varargElementType ?: param.type
+                val argType = context.bindingContext().getType(parenthisedArgumentExpression!!)
+                val argJs = Translation.translateAsExpression(parenthisedArgumentExpression, argumentContext)
+                if (argType != null && KotlinBuiltIns.isChar(argType) && !KotlinBuiltIns.isChar(parameterType)) {
+                    JsAstUtils.charToBoxedChar(argJs)
+                } else {
+                    argJs
+                }
             }
 
             arg to jsExpr
