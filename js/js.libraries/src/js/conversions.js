@@ -54,22 +54,22 @@ Kotlin.toBoxedChar = function (a) {
     return new Kotlin.BoxedChar(a);
 };
 
-Kotlin.BoxedChar = function (a) {
-    this.value = a;
-};
-
-Kotlin.BoxedChar.prototype.valueOf = function() {
-    return this.value;
-};
-
-Kotlin.BoxedChar.prototype.toString = function() {
-    return String.fromCharCode(this.value);
-};
-
-Kotlin.BoxedChar.prototype.equals = function(o) {
-    return Kotlin.isChar(o) && this.value === o.value;
-};
-
-Kotlin.BoxedChar.prototype.hashCode = function() {
-    return this.value;
-};
+//Kotlin.BoxedChar = function (a) {
+//    this.value = a;
+//};
+//
+//Kotlin.BoxedChar.prototype.valueOf = function() {
+//    return this.value;
+//};
+//
+//Kotlin.BoxedChar.prototype.toString = function() {
+//    return String.fromCharCode(this.value);
+//};
+//
+//Kotlin.BoxedChar.prototype.equals = function(o) {
+//    return Kotlin.isChar(o) && this.value === o.value;
+//};
+//
+//Kotlin.BoxedChar.prototype.hashCode = function() {
+//    return this.value;
+//};

@@ -160,6 +160,18 @@ public final class TopLevelFIF extends CompositeFIF {
         }
     };
 
+    //@NotNull
+    //public static final FunctionIntrinsic CHAR_TO_INT = new CallParametersAwareFunctionIntrinsic() {
+    //    @NotNull
+    //    @Override
+    //    public JsExpression apply(
+    //            @NotNull CallInfo callInfo, @NotNull List<JsExpression> arguments, @NotNull TranslationContext context
+    //    ) {
+    //        return JsAstUtils.charToString(callInfo.getDispatchReceiver());
+    //    }
+    //};
+
+
     @NotNull
     public static final FunctionIntrinsicFactory INSTANCE = new TopLevelFIF();
 

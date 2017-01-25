@@ -149,7 +149,7 @@ public final class JsAstUtils {
 
     @NotNull
     public static JsExpression charToInt(@NotNull JsExpression expression) {
-        return expression;
+        return toInt32(expression);
     }
 
     @NotNull

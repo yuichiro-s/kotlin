@@ -6,11 +6,15 @@ package foo
 //}
 
 fun foo(c: Any): Boolean {
-    return c is Char
+    return c == 'c'
 }
 
 fun box(): String {
-    val a7: Char? = 'A'.plus(1)
+    val a7: Any = 'A'.plus(1)
+
+    if (a7 is Char && a7 == 'B') return "OK"
+    else return "fail"
+
     if (a7!! != 'B') return "fail 7"
 
     if (!foo('c')) return "fail is"

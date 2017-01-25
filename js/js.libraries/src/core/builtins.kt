@@ -37,3 +37,26 @@ internal class PropertyMetadata(val name: String)
 
 @JsName("noWhenBranchMatched")
 internal fun noWhenBranchMatched(): Nothing = throw NoWhenBranchMatchedException()
+
+public class BoxedChar(val c: Char) : Comparable<Char> {
+    override fun equals(other: Any?): Boolean {
+        return other is BoxedChar && c == other.c
+    }
+
+    override fun hashCode(): Int {
+        return c.toInt()
+    }
+
+    override fun toString(): String {
+        return c.toString()
+    }
+
+    override fun compareTo(other: Char): Int {
+        return c - other
+    }
+
+    @JsName("valueOf")
+    public fun valueOf(): Int {
+        return c.toInt()
+    }
+}
