@@ -93,10 +93,10 @@ object EqualsBOIF : BinaryOperationIntrinsicFactory {
         }
 
         if (result != null && leftType != rightType) {
-            val leftChar = (leftType != null && KotlinBuiltIns.isChar(leftType))
-            val rightChar = (rightType != null && KotlinBuiltIns.isChar(rightType))
+            val leftChar = (leftType != null && KotlinBuiltIns.isCharOrNullableChar(leftType))
+            val rightChar = (rightType != null && KotlinBuiltIns.isCharOrNullableChar(rightType))
 
-            if (leftChar || rightChar) {
+            if (leftChar xor rightChar) {
                 return object : AbstractBinaryOperationIntrinsic() {
                     override fun apply(expression: KtBinaryExpression, left: JsExpression, right: JsExpression, context: TranslationContext): JsExpression {
                         val maybeBoxedLeft = if (leftChar) JsAstUtils.charToBoxedChar(left) else left

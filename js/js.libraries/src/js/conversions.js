@@ -51,6 +51,7 @@ Kotlin.numberToChar = function (a) {
 };
 
 Kotlin.toBoxedChar = function (a) {
+    if (a == null) return a;
     return new Kotlin.BoxedChar(a);
 };
 

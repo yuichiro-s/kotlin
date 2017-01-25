@@ -174,7 +174,7 @@ class CallArgumentTranslator private constructor(
                 val parameterType = param.varargElementType ?: param.type
                 val argType = context.bindingContext().getType(parenthisedArgumentExpression!!)
                 val argJs = Translation.translateAsExpression(parenthisedArgumentExpression, argumentContext)
-                if (argType != null && KotlinBuiltIns.isChar(argType) && !KotlinBuiltIns.isChar(parameterType)) {
+                if (argType != null && KotlinBuiltIns.isCharOrNullableChar(argType) && !KotlinBuiltIns.isCharOrNullableChar(parameterType)) {
                     JsAstUtils.charToBoxedChar(argJs)
                 } else {
                     argJs
