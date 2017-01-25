@@ -41,7 +41,7 @@ object AssignmentBOIF : BinaryOperationIntrinsicFactory {
     override fun getSupportTokens() = ImmutableSet.of(KtTokens.EQ)
 
     override fun getIntrinsic(descriptor: FunctionDescriptor, leftType: KotlinType?, rightType: KotlinType?): BinaryOperationIntrinsic? {
-        if (leftType != null && !KotlinBuiltIns.isChar(leftType) && rightType != null && KotlinBuiltIns.isChar(rightType)) {
+        if (leftType != null && !KotlinBuiltIns.isCharOrNullableChar(leftType) && rightType != null && KotlinBuiltIns.isCharOrNullableChar(rightType)) {
             return CharAssignmentIntrinsic
         }
         return null

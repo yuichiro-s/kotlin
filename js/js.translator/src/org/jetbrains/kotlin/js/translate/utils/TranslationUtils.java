@@ -200,7 +200,7 @@ public final class TranslationUtils {
             KotlinType propertyType = BindingContextUtils.getNotNull(context.bindingContext(), BindingContext.VARIABLE, declaration).getType();
             KotlinType initType = context.bindingContext().getType(initializer);
 
-            if (initType != null && KotlinBuiltIns.isChar(initType) && !KotlinBuiltIns.isChar(propertyType)) {
+            if (initType != null && KotlinBuiltIns.isCharOrNullableChar(initType) && !KotlinBuiltIns.isCharOrNullableChar(propertyType)) {
                 jsInitExpression = JsAstUtils.charToBoxedChar(jsInitExpression);
             }
         }
