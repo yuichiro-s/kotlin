@@ -46,7 +46,7 @@ public external open class Notification(title: String, options: NotificationOpti
     companion object {
         var permission: String
         var maxActions: Int
-        fun requestPermission(deprecatedCallback: (String) -> Unit = definedExternally): dynamic
+        fun requestPermission(deprecatedCallback: (String) -> Unit = definedExternally): Promise<String>
     }
 }
 
