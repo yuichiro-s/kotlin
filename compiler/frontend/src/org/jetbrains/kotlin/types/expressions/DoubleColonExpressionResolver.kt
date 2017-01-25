@@ -138,10 +138,8 @@ class DoubleColonExpressionResolver(
         else if (!result.possiblyBareType.isBare && !isAllowedInClassLiteral(type)) {
             c.trace.report(CLASS_LITERAL_LHS_NOT_A_CLASS.on(expression))
         }
-        else {
-            for (additionalChecker in additionalCheckers) {
-                additionalChecker.check(expression, type, c)
-            }
+        for (additionalChecker in additionalCheckers) {
+            additionalChecker.check(expression, type, c)
         }
     }
 
