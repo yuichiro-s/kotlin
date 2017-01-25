@@ -16,6 +16,7 @@
 
 package org.jetbrains.kotlin.idea.caches.resolve
 
+import com.intellij.injected.editor.VirtualFileWindow
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.JdkOrderEntry
 import com.intellij.openapi.roots.LibraryOrderEntry
@@ -95,7 +96,7 @@ private fun getModuleInfoByVirtualFile(project: Project, virtualFile: VirtualFil
             warnIfDecompiled()
             return module.testSourceInfo()
         }
-        else if (moduleFileIndex.isInSourceContent(virtualFile)) {
+        else if (virtualFile !is VirtualFileWindow && moduleFileIndex.isInSourceContent(virtualFile)) {
             warnIfDecompiled()
             return module.productionSourceInfo()
         }

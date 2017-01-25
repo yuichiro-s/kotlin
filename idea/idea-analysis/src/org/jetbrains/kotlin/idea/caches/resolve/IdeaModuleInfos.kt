@@ -16,6 +16,7 @@
 
 package org.jetbrains.kotlin.idea.caches.resolve
 
+import com.intellij.injected.editor.VirtualFileWindow
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.impl.scopes.LibraryScopeBase
 import com.intellij.openapi.project.Project
@@ -155,7 +156,7 @@ private class ModuleProductionSourceScope(module: Module) : ModuleSourceScope(mo
     // KT-6206
     override fun hashCode(): Int = 31 * module.hashCode()
 
-    override fun contains(file: VirtualFile) = moduleFileIndex.isInSourceContent(file) && !moduleFileIndex.isInTestSourceContent(file)
+    override fun contains(file: VirtualFile) = file !is VirtualFileWindow && moduleFileIndex.isInSourceContent(file) && !moduleFileIndex.isInTestSourceContent(file)
 
     override fun toString() = "ModuleProductionSourceScope($module)"
 }
