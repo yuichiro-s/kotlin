@@ -40,6 +40,7 @@ import org.jetbrains.kotlin.psi.KtClassOrObject;
 import org.jetbrains.kotlin.psi.KtEnumEntry;
 import org.jetbrains.kotlin.psi.KtExpression;
 import org.jetbrains.kotlin.psi.KtParameter;
+import org.jetbrains.kotlin.psi.psiUtil.PsiUtilsKt;
 import org.jetbrains.kotlin.resolve.DescriptorUtils;
 import org.jetbrains.kotlin.resolve.calls.callUtil.CallUtilKt;
 import org.jetbrains.kotlin.resolve.calls.model.DefaultValueArgument;
@@ -143,15 +144,17 @@ public final class ClassInitializerTranslator extends AbstractTranslator {
     @NotNull
     public static JsExpression generateEnumEntryInstanceCreation(
             @NotNull TranslationContext context,
-            @NotNull KtClassOrObject classDeclaration,
+            @NotNull KtEnumEntry enumEntry,
             int ordinal
     ) {
-        ResolvedCall<? extends FunctionDescriptor> resolvedCall = getSuperCall(context.bindingContext(), classDeclaration);
+        ResolvedCall<? extends FunctionDescriptor> resolvedCall = getSuperCall(context.bindingContext(), enumEntry);
         if (resolvedCall == null) {
-            resolvedCall = CallUtilKt.getFunctionResolvedCallWithAssert(classDeclaration, context.bindingContext());
+            assert enumEntry.getInitializerList() == null : "Super call is missing on an enum entry with explicit initializer list " +
+                                                            PsiUtilsKt.getTextWithLocation(enumEntry);
+            resolvedCall = CallUtilKt.getFunctionResolvedCallWithAssert(enumEntry, context.bindingContext());
         }
 
-        JsExpression nameArg = context.program().getStringLiteral(classDeclaration.getName());
+        JsExpression nameArg = context.program().getStringLiteral(enumEntry.getName());
         JsExpression ordinalArg = context.program().getNumberLiteral(ordinal);
         List<JsExpression> additionalArgs = Arrays.asList(nameArg, ordinalArg);
 
