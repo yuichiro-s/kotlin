@@ -59,6 +59,11 @@ fun Type.dynamicIfUnknownType(allTypes: Set<String>, standardTypes: Set<Type> = 
     this is DynamicType || this is UnitType -> this
 
     this is SimpleType && this.type in allTypes -> this
+    this is SimpleType && this.type.startsWith("Promise<") -> {
+        val typeParameter = SimpleType(type.removePrefix("Promise<").removeSuffix(">"), false)
+                .dynamicIfUnknownType(allTypes, standardTypes)
+        if (typeParameter is DynamicType) SimpleType("Promise<dynamic>", nullable) else this
+    }
     this.dropNullable() in standardTypes -> this
     this is ArrayType -> copy(memberType = this.memberType.dynamicIfUnknownType(allTypes, standardTypes))
     this is UnionType -> if (this.name !in allTypes) DynamicType else this
@@ -82,7 +87,10 @@ internal fun mapType(repository: Repository, type: Type): Type = when (type) {
             typeName in repository.interfaces -> type
             typeName in repository.typeDefs -> mapTypedef(repository, type)
             typeName in repository.enums -> SimpleType("String", type.nullable)
-            typeName.startsWith("Promise<") -> DynamicType
+            typeName.startsWith("Promise<") -> {
+                val typeParam = mapType(repository, SimpleType(typeName.removePrefix("Promise<").removeSuffix(">"), nullable = false))
+                SimpleType("Promise<" + typeParam.render() + ">", type.nullable)
+            }
 
             else -> type
         }
