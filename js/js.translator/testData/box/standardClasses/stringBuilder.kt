@@ -9,7 +9,16 @@ fun foo(c: Any): Boolean {
     return c == 'c'
 }
 
+
+fun bar(c: Char): Any {
+    return c
+}
+
 fun box(): String {
+    if (!'a'.equals('b')) return "fail"
+
+    val aa = bar('f')
+
     val a7: Any = 'A'.plus(1)
 
     if (a7 is Char && a7 == 'B') return "OK"

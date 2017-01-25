@@ -49,6 +49,7 @@ import org.jetbrains.kotlin.resolve.constants.CompileTimeConstant;
 import org.jetbrains.kotlin.resolve.constants.evaluate.ConstantExpressionEvaluator;
 import org.jetbrains.kotlin.resolve.descriptorUtil.DescriptorUtilsKt;
 import org.jetbrains.kotlin.resolve.inline.InlineUtil;
+import org.jetbrains.kotlin.types.KotlinType;
 import org.jetbrains.kotlin.types.expressions.DoubleColonLHS;
 
 import java.util.ArrayList;
@@ -132,6 +133,8 @@ public final class ExpressionVisitor extends TranslatorVisitor<JsNode> {
             jsReturn = new JsReturn(null);
         }
         else {
+            KotlinType returnedType = context.bindingContext().getType(returned);
+
             JsExpression jsReturnExpression = translateAsExpression(returned, context);
 
             jsReturn = new JsReturn(jsReturnExpression);
