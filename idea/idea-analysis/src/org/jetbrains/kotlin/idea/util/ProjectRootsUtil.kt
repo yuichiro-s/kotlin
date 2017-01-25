@@ -18,6 +18,7 @@ package org.jetbrains.kotlin.idea.util
 
 import com.intellij.ide.highlighter.ArchiveFileType
 import com.intellij.ide.highlighter.JavaClassFileType
+import com.intellij.injected.editor.VirtualFileWindow
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.openapi.util.Ref
@@ -39,7 +40,7 @@ object ProjectRootsUtil {
                                fileIndex: ProjectFileIndex = ProjectFileIndex.SERVICE.getInstance(project),
                                isJsProjectRef: Ref<Boolean?>? = null): Boolean {
 
-        if (includeProjectSource && fileIndex.isInSourceContent(file)) return true
+        if (includeProjectSource && file !is VirtualFileWindow && fileIndex.isInSourceContent(file)) return true
 
         if (!includeLibraryClasses && !includeLibrarySource) return false
 
