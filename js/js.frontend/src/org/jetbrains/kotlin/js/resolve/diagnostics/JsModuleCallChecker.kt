@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.resolve.scopes.receivers.ClassValueReceiver
 
 object JsModuleCallChecker : CallChecker {
     override fun check(resolvedCall: ResolvedCall<*>, reportOn: PsiElement, context: CallCheckerContext) {
-        checkRefieidTypeParameters(resolvedCall, reportOn, context)
+        checkReifieidTypeParameters(resolvedCall, reportOn, context)
 
         val callee = extractModuleCallee(resolvedCall) ?: return
         val bindingContext = context.trace.bindingContext
@@ -45,7 +45,7 @@ object JsModuleCallChecker : CallChecker {
         return null
     }
 
-    private fun checkRefieidTypeParameters(call: ResolvedCall<*>, reportOn: PsiElement, context: CallCheckerContext) {
+    private fun checkReifieidTypeParameters(call: ResolvedCall<*>, reportOn: PsiElement, context: CallCheckerContext) {
         val containingDescriptor = context.scope.ownerDescriptor
         val typeParams = call.candidateDescriptor.typeParameters.map { it.original }.withIndex().filter { (_, param) -> param.isReified }
         val typeArguments = call.call.typeArgumentList
